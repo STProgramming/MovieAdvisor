@@ -1,0 +1,14 @@
+D:\STCorp-cartella utenti\Documenti\Repository\MovieAdvisorApp\MAModels\bin\Debug\net7.0\MAModels.deps.json
+D:\STCorp-cartella utenti\Documenti\Repository\MovieAdvisorApp\MAModels\bin\Debug\net7.0\MAModels.runtimeconfig.json
+D:\STCorp-cartella utenti\Documenti\Repository\MovieAdvisorApp\MAModels\bin\Debug\net7.0\MAModels.dll
+D:\STCorp-cartella utenti\Documenti\Repository\MovieAdvisorApp\MAModels\bin\Debug\net7.0\MAModels.pdb
+D:\STCorp-cartella utenti\Documenti\Repository\MovieAdvisorApp\MAModels\obj\Debug\net7.0\MAModels.csproj.AssemblyReference.cache
+D:\STCorp-cartella utenti\Documenti\Repository\MovieAdvisorApp\MAModels\obj\Debug\net7.0\MAModels.GeneratedMSBuildEditorConfig.editorconfig
+D:\STCorp-cartella utenti\Documenti\Repository\MovieAdvisorApp\MAModels\obj\Debug\net7.0\MAModels.AssemblyInfoInputs.cache
+D:\STCorp-cartella utenti\Documenti\Repository\MovieAdvisorApp\MAModels\obj\Debug\net7.0\MAModels.AssemblyInfo.cs
+D:\STCorp-cartella utenti\Documenti\Repository\MovieAdvisorApp\MAModels\obj\Debug\net7.0\MAModels.csproj.CoreCompileInputs.cache
+D:\STCorp-cartella utenti\Documenti\Repository\MovieAdvisorApp\MAModels\obj\Debug\net7.0\MAModels.dll
+D:\STCorp-cartella utenti\Documenti\Repository\MovieAdvisorApp\MAModels\obj\Debug\net7.0\refint\MAModels.dll
+D:\STCorp-cartella utenti\Documenti\Repository\MovieAdvisorApp\MAModels\obj\Debug\net7.0\MAModels.pdb
+D:\STCorp-cartella utenti\Documenti\Repository\MovieAdvisorApp\MAModels\obj\Debug\net7.0\MAModels.genruntimeconfig.cache
+D:\STCorp-cartella utenti\Documenti\Repository\MovieAdvisorApp\MAModels\obj\Debug\net7.0\ref\MAModels.dll
