@@ -15,5 +15,10 @@ namespace MAModels.EntityFrameworkModels
         public DbSet<Review> Reviews { get; set; }
 
         public DbSet<User> Users { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Movie>().Property(p => p.MovieImage).HasColumnType("varbinary").HasMaxLength(4000);
+        }
     }
 }

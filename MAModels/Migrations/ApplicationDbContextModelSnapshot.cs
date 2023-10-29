@@ -17,7 +17,7 @@ namespace MAModels.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.11")
+                .HasAnnotation("ProductVersion", "7.0.13")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -36,6 +36,10 @@ namespace MAModels.Migrations
                     b.Property<string>("MovieDescription")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<byte[]>("MovieImage")
+                        .HasMaxLength(4000)
+                        .HasColumnType("varbinary");
 
                     b.Property<string>("MovieMaker")
                         .IsRequired()
