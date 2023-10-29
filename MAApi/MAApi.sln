@@ -18,11 +18,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MAServices", "..\MAServices
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MAAI", "..\MAAI\MAAI.csproj", "{5919E923-C388-4C9C-98B5-54F4B524FAB5}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MAUI", "..\MAUI\MAUI.csproj", "{E63909CC-BBED-4D76-8738-EB7B1B2E1106}"
-	ProjectSection(ProjectDependencies) = postProject
-		{CD934D3E-C968-402F-A3C3-C6339654954C} = {CD934D3E-C968-402F-A3C3-C6339654954C}
-	EndProjectSection
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,12 +40,6 @@ Global
 		{5919E923-C388-4C9C-98B5-54F4B524FAB5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5919E923-C388-4C9C-98B5-54F4B524FAB5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5919E923-C388-4C9C-98B5-54F4B524FAB5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E63909CC-BBED-4D76-8738-EB7B1B2E1106}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E63909CC-BBED-4D76-8738-EB7B1B2E1106}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E63909CC-BBED-4D76-8738-EB7B1B2E1106}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
-		{E63909CC-BBED-4D76-8738-EB7B1B2E1106}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E63909CC-BBED-4D76-8738-EB7B1B2E1106}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E63909CC-BBED-4D76-8738-EB7B1B2E1106}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
