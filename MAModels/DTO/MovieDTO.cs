@@ -6,7 +6,7 @@ namespace MAModels.DTO
     {
         public List<int>? MovieTagsId { get; set; }
 
-        public string? PathFile { get; set; }
+        public string? FileName { get; set; }
 
         public MovieDTO(string MovieTitle, short MovieYearProduction, string MovieDescription, string MovieMaker, bool IsForAdult) : base() 
         {
@@ -36,9 +36,10 @@ namespace MAModels.DTO
 
         public void InsertPhoto()
         {
-            if (!string.IsNullOrEmpty(this.PathFile))
+            if (!string.IsNullOrEmpty(this.FileName))
             {
-                this.MovieImage = File.ReadAllBytes(this.PathFile);
+                string PathFile = Path.Combine("D:\\STCorp - cartella utenti\\Immagini\\Foto progetto", this.FileName);
+                this.MovieImage = File.ReadAllBytes(PathFile);
             }
         }
     }

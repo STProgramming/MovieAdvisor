@@ -1,17 +1,18 @@
 export interface IMovieView{
-    MovieId: number,
-    MovieTitle: string,
-    MovieYearProduction: number,
-    MovieDescription: string,
-    IsForAdult: boolean,
-    MovieImage: any
+    movieId: number,
+    movieTitle: string,
+    movieYearProduction: number,
+    movieDescription: string,
+    isForAdult: boolean,
+    movieImage: any
 }
 
 export interface IMovieModel{
-    MovieTitle: string, 
-    MovieYearProduction: number,
-    MovieDescription: string,
-    IsForAdult: boolean,
-    MovieTagsId: number[],
-    PathFile: string
+    movieTitle: string, 
+    movieYearProduction: number,
+    movieDescription: string,
+    movieMaker: string,
+    isForAdult: boolean,
+    movieTagsId: number[],
+    fileName: string
 }

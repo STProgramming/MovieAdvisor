@@ -3,6 +3,7 @@ using MAModels.Enumerables;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection.Metadata.Ecma335;
 
 namespace MAApi.Controllers
 {
@@ -23,21 +24,23 @@ namespace MAApi.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateAllMovieTag(string emailUser)
+        public async Task<IActionResult> CreateMovieTag(string emailUser)
         {
             if (string.IsNullOrEmpty(emailUser) || !_emailController.IsValid(emailUser) || !string.Equals(_configuration["EmailAdmin"], emailUser)) return StatusCode(401);
 
             foreach (string name in Enum.GetNames(typeof(EMovieTags)))
             {
-                MovieTag tag = new MovieTag
+                if(!_database.MoviesTags.Any(m => string.Equals(name, m.MovieTags)))
                 {
-                    MovieTags = name,
-                    MovieTagsDescriptionsList = null
-                };
+                    MovieTag tag = new MovieTag
+                    {
+                        MovieTags = name,
+                        MovieTagsDescriptionsList = null
+                    };
                     
-                await _database.MoviesTags.AddAsync(tag);
-                await _database.SaveChangesAsync();
-             
+                    await _database.MoviesTags.AddAsync(tag);
+                    await _database.SaveChangesAsync();             
+                }
             }     
             
             var allTags = await _database.MoviesTags.ToListAsync();
@@ -45,9 +48,24 @@ namespace MAApi.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetMovieTags()
+        public async Task<IActionResult> GetAllMovieTags()
         {
-            return Ok(await _database.MoviesTags.ToListAsync());
+            return Ok(await _database.MoviesTags.OrderBy(x => x).ToListAsync());
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetMoviesFromMovieTag(int idMovieTag)
+        {
+            if (!_database.MoviesTags.Any(m => m.MovieTagsId == idMovieTag)) return NotFound();
+            var moviesIds = await _database.MoviesDescriptions.Where(d => d.MovieTagId == idMovieTag).ToListAsync();
+            var movies = new List<Movie>();
+            foreach (var id in moviesIds)
+            {                
+                if (!_database.Movies.Any(m => m.MovieId == id.MovieId)) return NotFound();
+                Movie movie = (Movie)_database.Movies.Where(m => m.MovieId == id.MovieId);
+                movies.Add(movie);
+            }
+            return Ok(movies);
         }
     }
 }
