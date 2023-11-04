@@ -54,7 +54,7 @@ namespace MAModels.Migrations
 
                     b.HasKey("MovieId");
 
-                    b.ToTable("Movies");
+                    b.ToTable("Movies", (string)null);
                 });
 
             modelBuilder.Entity("MAModels.EntityFrameworkModels.MovieDescription", b =>
@@ -77,7 +77,7 @@ namespace MAModels.Migrations
 
                     b.HasIndex("MovieTagId");
 
-                    b.ToTable("MovieDescriptions");
+                    b.ToTable("MovieDescriptions", (string)null);
                 });
 
             modelBuilder.Entity("MAModels.EntityFrameworkModels.MovieTag", b =>
@@ -94,7 +94,7 @@ namespace MAModels.Migrations
 
                     b.HasKey("MovieTagsId");
 
-                    b.ToTable("MovieTags");
+                    b.ToTable("MovieTags", (string)null);
                 });
 
             modelBuilder.Entity("MAModels.EntityFrameworkModels.Review", b =>
@@ -126,7 +126,7 @@ namespace MAModels.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Reviews");
+                    b.ToTable("Reviews", (string)null);
                 });
 
             modelBuilder.Entity("MAModels.EntityFrameworkModels.User", b =>
@@ -158,7 +158,7 @@ namespace MAModels.Migrations
 
                     b.HasKey("UserId");
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
                 });
 
             modelBuilder.Entity("MAModels.EntityFrameworkModels.MovieDescription", b =>

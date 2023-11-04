@@ -33,4 +33,8 @@
     <ProjectReference Include="..\MAServices\MAServices.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\uploads\" />
+  </ItemGroup>
+
 </Project>

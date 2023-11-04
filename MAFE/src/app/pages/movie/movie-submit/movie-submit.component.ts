@@ -1,3 +1,4 @@
+import { HttpStatusCode } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { IMovieModel } from 'src/app/interfaces/IMovieDTO';
@@ -36,7 +37,7 @@ export class MovieSubmitComponent {
       MovieDescription: new FormControl('', Validators.required),
       MovieMaker: new FormControl('', Validators.required),
       IsForAdult: new FormControl(),
-      MovieTagsId: new FormControl(Validators.required),
+      MovieTagsId: new FormControl([],Validators.required),
     });
   }
 
@@ -62,8 +63,7 @@ export class MovieSubmitComponent {
       let description: string = newMovieForm.get('MovieDescription').value;
       let movieMaker: string = newMovieForm.get('MovieMaker').value;
       let isAdult: boolean = newMovieForm.get('IsForAdult').value === null ? false : true;
-      let movieTags: number[] = newMovieForm.get('MovieTagsId').value;
-      let path: string = this.file.name;
+      let movieTags: number[] = newMovieForm.get('MovieTagsId').value;      
       let newMovie: IMovieModel = {
         movieTitle: title,
         movieYearProduction: year.getFullYear(),
@@ -71,7 +71,7 @@ export class MovieSubmitComponent {
         movieMaker: movieMaker,
         isForAdult:  isAdult,      
         movieTagsId: movieTags,
-        fileName: path
+        fileName: this.file.name
       };   
       this.PostMovie(newMovie);
     }   
@@ -79,8 +79,8 @@ export class MovieSubmitComponent {
 
   private PostMovie(newMovie: IMovieModel){
     this.movieApi.PostNewMovie(newMovie).subscribe(
-      (status: any) => {
-        if(status == 201){
+      (response: HttpStatusCode) => {
+        if(response == 201){
           this.successMessage = true;
           this.movieTitle = newMovie.movieTitle;
           this.errorGenericForm = false;

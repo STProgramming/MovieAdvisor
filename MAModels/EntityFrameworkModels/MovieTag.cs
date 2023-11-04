@@ -14,7 +14,7 @@ namespace MAModels.EntityFrameworkModels
         [Required]
         public string MovieTags { get; set; }
         
-        public List<MovieDescription>? MovieTagsDescriptionsList { get; set; }
+        internal List<MovieDescription>? MovieTagsDescriptionsList { get; set; }
 
         public MovieTag() { }
     }

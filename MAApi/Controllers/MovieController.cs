@@ -10,16 +10,21 @@ namespace MAApi.Controllers
     [ApiController]
     public class MovieController : ControllerBase
     {
+        private readonly IWebHostEnvironment _webHostEnvironment;
+
         private readonly IMovieServices _movieServices;
 
         private readonly IConfiguration _config;
 
         private readonly EmailAddressAttribute _emailController = new EmailAddressAttribute();
 
-        public MovieController(IMovieServices movieServices, IConfiguration config)
+        public MovieController(IMovieServices movieServices, 
+            IConfiguration config,
+            IWebHostEnvironment webHostEnvironment)
         {
             _movieServices = movieServices;
             _config = config;   
+            _webHostEnvironment = webHostEnvironment;
         }
 
         [HttpGet]
@@ -42,6 +47,6 @@ namespace MAApi.Controllers
             if (movie != null && movie.Count > 0) return BadRequest();
             await _movieServices.CreateNewMovie(newMovie);
             return StatusCode(201);
-        }        
+        }
     }
 }

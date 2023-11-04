@@ -29,6 +29,8 @@ builder.Services.AddTransient<IMovieServices, MovieServices>();
 
 builder.Services.AddTransient<IReviewServices, ReviewServices>();
 
+builder.Services.AddTransient<IMovieTagServices, MovieTagServices>();
+
 builder.Services.AddScoped<IUserServices, UserServices>();
 
 #endregion

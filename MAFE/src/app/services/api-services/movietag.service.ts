@@ -16,6 +16,7 @@ export class MovietagService {
     return this.httpClient.get(environment._apiServer+this.endPoint+action).pipe(
       take(1),
       catchError((error) => {
+        alert(error);
         throw error;
       })
     );

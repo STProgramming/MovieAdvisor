@@ -1,11 +1,19 @@
 {
   "Version": 1,
-  "Hash": "Ee0Ye7iWehGZfEfYkB/vEiHY+lkoTC235cdhR15Uifs=",
+  "Hash": "7fQ2tEzL7C5IiiYuBpiwPPrx8qesLB4Q46VKsrDkr3Y=",
   "Source": "MAApi",
   "BasePath": "_content/MAApi",
   "Mode": "Default",
   "ManifestType": "Build",
   "ReferencedProjectsConfiguration": [],
-  "DiscoveryPatterns": [],
+  "DiscoveryPatterns": [
+    {
+      "Name": "MAApi\\wwwroot",
+      "Source": "MAApi",
+      "ContentRoot": "D:\\STCorp-cartella utenti\\Documenti\\Repository\\MovieAdvisorApp\\MAApi\\wwwroot\\",
+      "BasePath": "_content/MAApi",
+      "Pattern": "**"
+    }
+  ],
   "Assets": []
 }
