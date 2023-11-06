@@ -88,3 +88,4 @@ D:\STCorp-cartella utenti\Documenti\Repository\MovieAdvisorApp\MAApi\obj\Debug\n
 D:\STCorp-cartella utenti\Documenti\Repository\MovieAdvisorApp\MAApi\obj\Debug\net7.0\MAApi.pdb
 D:\STCorp-cartella utenti\Documenti\Repository\MovieAdvisorApp\MAApi\obj\Debug\net7.0\MAApi.genruntimeconfig.cache
 D:\STCorp-cartella utenti\Documenti\Repository\MovieAdvisorApp\MAApi\obj\Debug\net7.0\ref\MAApi.dll
+D:\STCorp-cartella utenti\Documenti\Repository\MovieAdvisorApp\MAApi\bin\Debug\net7.0\Microsoft.Extensions.Configuration.Binder.dll

@@ -35,8 +35,6 @@ builder.Services.AddTransient<IUploadFileServices, UploadFileServices>();
 
 builder.Services.AddScoped<IUserServices, UserServices>();
 
-builder.Services.AddSingleton<IWebHostEnvironment>();
-
 #endregion
 
 #region CONFIGURE CORS
