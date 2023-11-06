@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection.Metadata.Ecma335;
+using MAModels.DTO;
 
 namespace MAApi.Controllers
 {
@@ -32,10 +33,10 @@ namespace MAApi.Controllers
             {
                 if(!_database.MoviesTags.Any(m => string.Equals(name, m.MovieTags)))
                 {
-                    MovieTag tag = new MovieTag
+                    MovieTagDTO tag = new MovieTagDTO
                     {
                         MovieTags = name,
-                        MovieTagsDescriptionsList = null
+                        MovieDescriptions = null
                     };
                     
                     await _database.MoviesTags.AddAsync(tag);

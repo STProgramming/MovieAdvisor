@@ -31,7 +31,11 @@ builder.Services.AddTransient<IReviewServices, ReviewServices>();
 
 builder.Services.AddTransient<IMovieTagServices, MovieTagServices>();
 
+builder.Services.AddTransient<IUploadFileServices, UploadFileServices>();
+
 builder.Services.AddScoped<IUserServices, UserServices>();
+
+builder.Services.AddSingleton<IWebHostEnvironment>();
 
 #endregion
 

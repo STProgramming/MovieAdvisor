@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "ULzKV+04cbLRU51ESAgM76J6Xg9Mn7gATOlKMbPFy2JabBiM1/pD5ZQr3/fmtrRi7S9O5kwHXRoCdNd0Tm/Z3w==",
+  "dgSpecHash": "ow3yIWaiir0jqX0LRAQmlrwwdMtp8OJt84TdnlLWd9QUDOH+eMa6jCY+O8weh2DXg6Oss8Avurn1B7jvp3PYMA==",
   "success": true,
   "projectFilePath": "D:\\STCorp-cartella utenti\\Documenti\\Repository\\MovieAdvisorApp\\MAApi\\MAApi.csproj",
   "expectedPackageFiles": [
@@ -25,6 +25,7 @@
     "C:\\Users\\STCor\\.nuget\\packages\\microsoft.extensions.caching.abstractions\\7.0.0\\microsoft.extensions.caching.abstractions.7.0.0.nupkg.sha512",
     "C:\\Users\\STCor\\.nuget\\packages\\microsoft.extensions.caching.memory\\7.0.0\\microsoft.extensions.caching.memory.7.0.0.nupkg.sha512",
     "C:\\Users\\STCor\\.nuget\\packages\\microsoft.extensions.configuration.abstractions\\7.0.0\\microsoft.extensions.configuration.abstractions.7.0.0.nupkg.sha512",
+    "C:\\Users\\STCor\\.nuget\\packages\\microsoft.extensions.configuration.binder\\7.0.4\\microsoft.extensions.configuration.binder.7.0.4.nupkg.sha512",
     "C:\\Users\\STCor\\.nuget\\packages\\microsoft.extensions.dependencyinjection\\7.0.0\\microsoft.extensions.dependencyinjection.7.0.0.nupkg.sha512",
     "C:\\Users\\STCor\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\7.0.0\\microsoft.extensions.dependencyinjection.abstractions.7.0.0.nupkg.sha512",
     "C:\\Users\\STCor\\.nuget\\packages\\microsoft.extensions.dependencymodel\\7.0.0\\microsoft.extensions.dependencymodel.7.0.0.nupkg.sha512",

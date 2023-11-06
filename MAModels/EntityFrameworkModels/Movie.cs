@@ -26,12 +26,11 @@ namespace MAModels.EntityFrameworkModels
         [Required, NotNull]
         public bool IsForAdult { get; set; }
 
-        [Column(TypeName = "image")]
-        internal byte[]? MovieImage { get; set; }
-
         internal List<MovieDescription>? MovieTagsList { get; set; }
 
         internal List<Review>? ReviewsList {  get; set; }
+
+        public List<MovieImage> MovieImages { get; set; }
 
         public Movie() { }        
     }

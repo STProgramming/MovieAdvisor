@@ -16,15 +16,20 @@ namespace MAApi.Controllers
 
         private readonly IConfiguration _config;
 
+        private readonly IUploadFileServices _uploadFileServices;
+
         private readonly EmailAddressAttribute _emailController = new EmailAddressAttribute();
 
         public MovieController(IMovieServices movieServices, 
             IConfiguration config,
-            IWebHostEnvironment webHostEnvironment)
+            IWebHostEnvironment webHostEnvironment,
+            IUploadFileServices uploadFileServices
+            )
         {
             _movieServices = movieServices;
             _config = config;   
             _webHostEnvironment = webHostEnvironment;
+            _uploadFileServices = uploadFileServices;
         }
 
         [HttpGet]
@@ -47,6 +52,26 @@ namespace MAApi.Controllers
             if (movie != null && movie.Count > 0) return BadRequest();
             await _movieServices.CreateNewMovie(newMovie);
             return StatusCode(201);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddImageToMovie([FromQuery]int MovieId)
+        {            
+            if(HttpContext.Request.Form.Files.Count > 0)
+            {
+                try
+                {
+                    string contentRootPath = _webHostEnvironment.ContentRootPath;
+                    _uploadFileServices.SaveImage(HttpContext.Request.Form.Files);
+                    await _movieServices.AddNewMovieImage(HttpContext.Request.Form.Files, MovieId, contentRootPath);
+                    return Ok();
+                }
+                catch (Exception ex)
+                {
+                    return StatusCode(500, ex.Message);
+                }
+            }
+            return BadRequest();
         }
     }
 }

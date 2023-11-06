@@ -1,5 +1,6 @@
 ﻿using MAModels.DTO;
 using MAModels.EntityFrameworkModels;
+using Microsoft.AspNetCore.Http;
 
 namespace MAServices.Interfaces
 {
@@ -14,5 +15,7 @@ namespace MAServices.Interfaces
         Task CreateNewMovie(MovieDTO newMovie);
 
         Task<Movie?> GetMovieData(int movieId);
+
+        Task AddNewMovieImage(IFormFileCollection ImageList, int movieId, string pathServer);
     }
 }

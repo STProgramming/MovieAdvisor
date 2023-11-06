@@ -1,7 +1,4 @@
 ﻿using MAModels.EntityFrameworkModels;
-using Microsoft.AspNetCore.Http;
-using Newtonsoft.Json;
-using System.Text.Json.Serialization;
 
 namespace MAModels.DTO
 {
@@ -21,6 +18,16 @@ namespace MAModels.DTO
             this.IsForAdult = IsForAdult;
         }
 
+        public MovieDTO(Movie movie, List<MovieImage> movieImages) : base()
+        {
+            this.MovieTitle = movie.MovieTitle;
+            this.MovieYearProduction = movie.MovieYearProduction;
+            this.MovieDescription = movie.MovieDescription;
+            this.MovieMaker = movie.MovieMaker;
+            this.IsForAdult = movie.IsForAdult;
+            this.MovieImages = movieImages;
+        }
+
         public MovieDTO() { }
 
         public void InsertMovieTagsId()
@@ -37,16 +44,6 @@ namespace MAModels.DTO
                     };
                     this.MovieTagsList.Add(tag);
                 }
-            }
-        }
-
-        public void InsertPhoto()
-        {
-            if (!string.IsNullOrEmpty(this.FileName))
-            {                
-                string pathDir = @"D:\\STCorp-cartella utenti\\Immagini\\Foto progetto";
-                string path = Path.Combine(pathDir, this.FileName);
-                this.MovieImage = System.IO.File.ReadAllBytes(path);
             }
         }
     }

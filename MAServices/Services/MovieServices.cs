@@ -1,7 +1,9 @@
 ﻿using MAModels.DTO;
 using MAModels.EntityFrameworkModels;
 using MAServices.Interfaces;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection;
 
 namespace MAServices.MovieServices
 {
@@ -11,9 +13,11 @@ namespace MAServices.MovieServices
 
         private readonly IMovieTagServices _movieTagServices;
 
-        public MovieServices(ApplicationDbContext database)
+        public MovieServices(ApplicationDbContext database,
+            IMovieTagServices movieTagServices)
         {
             _database = database;
+            _movieTagServices = movieTagServices;
         }
 
         public async Task<ICollection<Movie>> GetAllMoviesFilteredByUser(string? EmailUser)
@@ -41,7 +45,6 @@ namespace MAServices.MovieServices
 
         public async Task CreateNewMovie(MovieDTO newMovie)
         {
-            newMovie.InsertPhoto();
             await _database.Movies.AddAsync(newMovie);
             await _database.SaveChangesAsync();
             newMovie.InsertMovieTagsId();
@@ -74,5 +77,23 @@ namespace MAServices.MovieServices
             }
             return movieDesc;
         }
+
+        public async Task AddNewMovieImage(IFormFileCollection ImageList, int movieId, string pathServer) 
+        {
+            List<MovieImage> imageList = new List<MovieImage>();
+            var movie = await GetMovieData(movieId);
+            if (movie == null) throw new ArgumentNullException();
+            foreach (var image in ImageList)
+            {
+                MovieImage MovieImage = new MovieImage(image.FileName, pathServer, movieId, movie);
+                await _database.MoviesImage.AddAsync(MovieImage);
+                await _database.SaveChangesAsync();
+                imageList.Add(MovieImage);
+            }
+            movie.MovieImages = imageList;
+            _database.Movies.Update(movie);
+            await _database.SaveChangesAsync();
+        }
+
     }
 }

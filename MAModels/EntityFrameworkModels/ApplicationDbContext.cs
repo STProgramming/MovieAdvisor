@@ -8,6 +8,8 @@ namespace MAModels.EntityFrameworkModels
 
         public DbSet<Movie> Movies { get; set; }
 
+        public DbSet<MovieImage> MoviesImage { get; set; }
+
         public DbSet<MovieDescription> MoviesDescriptions { get; set; }
 
         public DbSet<MovieTag> MoviesTags { get; set; }

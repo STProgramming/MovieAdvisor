@@ -9,7 +9,7 @@ namespace MAModels.DTO
             int MovieTagId, 
             string MovieTag,
             List<MovieDescription> MovieDescription
-            ) 
+            ) : base()
         {
             this.MovieTagsId = MovieTagId;
             this.MovieTags = MovieTag;
@@ -18,13 +18,13 @@ namespace MAModels.DTO
 
         public MovieTagDTO(
             MovieTag movieTag
-            ) 
+            ) : base()
         {
             this.MovieTagsId = movieTag.MovieTagsId;
             this.MovieTags = movieTag.MovieTags;
             this.MovieTagsDescriptionsList = movieTag.MovieTagsDescriptionsList == null || movieTag.MovieTagsDescriptionsList.Count > 0 ? new List<MovieDescription>() : movieTag.MovieTagsDescriptionsList;
         }
 
-        public MovieTagDTO() { }
+        public MovieTagDTO() : base(){ }
     }
 }
