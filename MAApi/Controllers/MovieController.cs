@@ -55,7 +55,7 @@ namespace MAApi.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddImageToMovie([FromQuery]int MovieId)
+        public async Task<IActionResult> AddImagesToMovie([FromQuery]int MovieId)
         {            
             if(HttpContext.Request.Form.Files.Count > 0)
             {

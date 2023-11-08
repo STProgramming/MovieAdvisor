@@ -37,10 +37,6 @@ namespace MAModels.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<byte[]>("MovieImage")
-                        .HasMaxLength(4000)
-                        .HasColumnType("varbinary");
-
                     b.Property<string>("MovieMaker")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -54,7 +50,7 @@ namespace MAModels.Migrations
 
                     b.HasKey("MovieId");
 
-                    b.ToTable("Movies", (string)null);
+                    b.ToTable("Movies");
                 });
 
             modelBuilder.Entity("MAModels.EntityFrameworkModels.MovieDescription", b =>
@@ -77,7 +73,37 @@ namespace MAModels.Migrations
 
                     b.HasIndex("MovieTagId");
 
-                    b.ToTable("MovieDescriptions", (string)null);
+                    b.ToTable("MovieDescriptions");
+                });
+
+            modelBuilder.Entity("MAModels.EntityFrameworkModels.MovieImage", b =>
+                {
+                    b.Property<int>("MovieImageId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MovieImageId"));
+
+                    b.Property<int>("MovieId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("MovieImageExtension")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("MovieImageName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("MovieImagePath")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("MovieImageId");
+
+                    b.HasIndex("MovieId");
+
+                    b.ToTable("MoviesImage");
                 });
 
             modelBuilder.Entity("MAModels.EntityFrameworkModels.MovieTag", b =>
@@ -94,7 +120,7 @@ namespace MAModels.Migrations
 
                     b.HasKey("MovieTagsId");
 
-                    b.ToTable("MovieTags", (string)null);
+                    b.ToTable("MovieTags");
                 });
 
             modelBuilder.Entity("MAModels.EntityFrameworkModels.Review", b =>
@@ -126,7 +152,7 @@ namespace MAModels.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Reviews", (string)null);
+                    b.ToTable("Reviews");
                 });
 
             modelBuilder.Entity("MAModels.EntityFrameworkModels.User", b =>
@@ -158,7 +184,7 @@ namespace MAModels.Migrations
 
                     b.HasKey("UserId");
 
-                    b.ToTable("Users", (string)null);
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("MAModels.EntityFrameworkModels.MovieDescription", b =>
@@ -170,7 +196,7 @@ namespace MAModels.Migrations
                         .IsRequired();
 
                     b.HasOne("MAModels.EntityFrameworkModels.MovieTag", "MovieTag")
-                        .WithMany("MovieTagsDescriptionsList")
+                        .WithMany()
                         .HasForeignKey("MovieTagId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -178,6 +204,17 @@ namespace MAModels.Migrations
                     b.Navigation("Movie");
 
                     b.Navigation("MovieTag");
+                });
+
+            modelBuilder.Entity("MAModels.EntityFrameworkModels.MovieImage", b =>
+                {
+                    b.HasOne("MAModels.EntityFrameworkModels.Movie", "Movie")
+                        .WithMany("MovieImages")
+                        .HasForeignKey("MovieId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Movie");
                 });
 
             modelBuilder.Entity("MAModels.EntityFrameworkModels.Review", b =>
@@ -199,9 +236,9 @@ namespace MAModels.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("MAModels.EntityFrameworkModels.MovieTag", b =>
+            modelBuilder.Entity("MAModels.EntityFrameworkModels.Movie", b =>
                 {
-                    b.Navigation("MovieTagsDescriptionsList");
+                    b.Navigation("MovieImages");
                 });
 
             modelBuilder.Entity("MAModels.EntityFrameworkModels.User", b =>

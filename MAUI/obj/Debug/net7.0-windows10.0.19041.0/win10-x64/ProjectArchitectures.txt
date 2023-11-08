@@ -1,0 +1,1 @@
+D:\STCorp-cartella utenti\Documenti\Repository\MovieAdvisorApp\MAUI\MAUI.csproj;x64

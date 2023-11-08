@@ -85,7 +85,7 @@ namespace MAServices.MovieServices
             if (movie == null) throw new ArgumentNullException();
             foreach (var image in ImageList)
             {
-                MovieImage MovieImage = new MovieImage(image.FileName, pathServer, movieId, movie);
+                MovieImageDTO MovieImage = new MovieImageDTO(image.FileName, pathServer, movieId, movie);
                 await _database.MoviesImage.AddAsync(MovieImage);
                 await _database.SaveChangesAsync();
                 imageList.Add(MovieImage);

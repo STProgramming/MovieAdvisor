@@ -20,28 +20,6 @@ namespace MAModels.EntityFrameworkModels
 
         public Movie Movie { get; set; }
 
-        public MovieImage(
-            string ImageName,
-            string pathServer,
-            int movieId,
-            Movie movie
-        ) 
-        {
-            MovieImageName = ImageName;
-            MovieImageExtension = Path.GetExtension(MovieImageName);
-            MovieImagePath = Path.Combine(pathServer, MovieImageName);
-            MovieId = movieId;
-            Movie = movie;
-        }
-
-        public MovieImage(MovieImage im)
-        {
-            MovieImageName = im.MovieImageName;
-            MovieImageExtension = im.MovieImageName;
-            MovieImagePath = im.MovieImagePath;
-            MovieId = im.MovieId;
-            Movie = im.Movie;
-        }
-
+        public MovieImage() { }
     }
 }
