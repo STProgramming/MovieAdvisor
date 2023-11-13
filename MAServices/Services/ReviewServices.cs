@@ -17,8 +17,8 @@ namespace MAServices.Services
         {
             Review newReview = new Review 
             { 
-                UserId = user.Id, 
-                MovieId = movie.Id, 
+                UserId = user.UserId, 
+                MovieId = movie.MovieId, 
                 Movie = movie,
                 User = user, 
                 Vote = vote, 

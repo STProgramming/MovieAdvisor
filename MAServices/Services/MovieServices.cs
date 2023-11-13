@@ -34,7 +34,7 @@ namespace MAServices.MovieServices
 
         public async Task<Movie?> GetMovieData(int movieId)
         {
-            return await _database.Movies.Where(m => m.Id == movieId).FirstOrDefaultAsync();
+            return await _database.Movies.Where(m => m.MovieId == movieId).FirstOrDefaultAsync();
         }
 
         public async Task<ICollection<Movie>> IsThisMovieAlreadyInDB(string movieTitle, short movieYearProduction, string movieMaker)
@@ -56,7 +56,7 @@ namespace MAServices.MovieServices
                     if (tagObj == null) throw new ArgumentNullException();
                     tagsInserted.Add(tagObj);
                     MovieTag? movieTagObj = new MovieTag();
-                    movieTagObj = await _tagServices.AssociateTagToMovie(newMovie.Id, newMovie, tagObj.Id);
+                    movieTagObj = await _tagServices.AssociateTagToMovie(newMovie.MovieId, newMovie, tagObj.TagId);
                     if (movieTagObj == null) throw new ArgumentNullException();
                     moviesTags.Add(movieTagObj);
                 }

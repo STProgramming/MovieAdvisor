@@ -40,8 +40,8 @@ namespace MAModels.EntityFrameworkModels
                 .HasMany(m => m.TagsList)
                 .WithMany(t => t.MoviesList)
                 .UsingEntity("MovieTag",
-                m => m.HasOne(typeof(Movie)).WithMany().HasForeignKey("MovieId").HasPrincipalKey(nameof(Movie.Id)),
-                t => t.HasOne(typeof(Tag)).WithMany().HasForeignKey("MovieTagId").HasPrincipalKey(nameof(MovieTag.Id)),
+                m => m.HasOne(typeof(Movie)).WithMany().HasForeignKey("MovieId").HasPrincipalKey(nameof(Movie.MovieId)),
+                t => t.HasOne(typeof(Tag)).WithMany().HasForeignKey("MovieTagId").HasPrincipalKey(nameof(Tag.TagId)),
                 u => u.HasKey("MovieId", "MovieTagId"));
 
             #endregion
@@ -52,8 +52,8 @@ namespace MAModels.EntityFrameworkModels
                 .HasMany(m => m.UsersList)
                 .WithMany(u => u.MoviesList)
                 .UsingEntity("MovieUser",
-                m => m.HasOne(typeof(User)).WithMany().HasForeignKey("UserId").HasPrincipalKey(nameof(User.Id)),
-                u => u.HasOne(typeof(Movie)).WithMany().HasForeignKey("MovieId").HasPrincipalKey(nameof(Movie.Id)),
+                m => m.HasOne(typeof(User)).WithMany().HasForeignKey("UserId").HasPrincipalKey(nameof(User.UserId)),
+                u => u.HasOne(typeof(Movie)).WithMany().HasForeignKey("MovieId").HasPrincipalKey(nameof(Movie.MovieId)),
                 u => u.HasKey("MovieId", "UserId"));
 
             #endregion

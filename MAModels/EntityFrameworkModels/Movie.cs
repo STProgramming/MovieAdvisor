@@ -9,7 +9,7 @@ namespace MAModels.EntityFrameworkModels
     {
         [Key]
         [Required]
-        public int Id { get; set; }
+        public int MovieId { get; set; }
 
         [Required, NotNull]
         public string MovieTitle { get; set; } = null!;

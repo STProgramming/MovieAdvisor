@@ -8,7 +8,7 @@ namespace MAModels.EntityFrameworkModels
     {
         [Key]
         [Required]
-        public int Id { get; set; }
+        public int TagId { get; set; }
 
         [Required]
         public string TagName { get; set; } = null!;

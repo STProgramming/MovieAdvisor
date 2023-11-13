@@ -7,7 +7,7 @@ namespace MAModels.EntityFrameworkModels
     public class Image
     {
         [Key]
-        public int Id { get; set; }
+        public int ImageId { get; set; }
 
         [Required]
         public string ImageName { get; set; } = null!;

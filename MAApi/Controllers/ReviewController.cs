@@ -43,12 +43,12 @@ namespace MAApi.Controllers
             else if (!string.IsNullOrEmpty(emailUser) && _emailController.IsValid(emailUser) && movieId == null)
             {
                 var user = await _userServices.GetUserData(emailUser);
-                if (user != null) return Ok(await _reviewServices.GetReviewsOfUser(user.Id));
+                if (user != null) return Ok(await _reviewServices.GetReviewsOfUser(user.UserId));
             }
             else
             {
                 var user = await _userServices.GetUserData(emailUser);
-                if (user != null) return Ok(await _reviewServices.GetYourRiviewOfMovie(user.Id, Convert.ToInt32(movieId)));
+                if (user != null) return Ok(await _reviewServices.GetYourRiviewOfMovie(user.UserId, Convert.ToInt32(movieId)));
             }
             return BadRequest();
         }

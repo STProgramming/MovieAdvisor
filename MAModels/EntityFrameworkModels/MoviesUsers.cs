@@ -8,7 +8,7 @@ namespace MAModels.EntityFrameworkModels
     {
         [Key]
         [Required]
-        public int Id { get; set; }
+        public int MovieUserId { get; set; }
 
         [Required]
         public int UserId { get; set; }

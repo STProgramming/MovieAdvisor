@@ -24,13 +24,13 @@ namespace MAApi.Controllers
         [HttpGet]
         public async Task<IActionResult> GetMoviesFromMovieTag(int idMovieTag)
         {
-            if (!_database.MoviesTags.Any(m => m.Id == idMovieTag)) return NotFound();
+            if (!_database.MoviesTags.Any(m => m.MovieTagId == idMovieTag)) return NotFound();
             var moviesIds = await _database.MoviesTags.Where(d => d.TagId == idMovieTag).ToListAsync();
             var movies = new List<Movie>();
             foreach (var id in moviesIds)
             {                
-                if (!_database.Movies.Any(m => m.Id == id.MovieId)) return NotFound();
-                Movie movie = (Movie)_database.Movies.Where(m => m.Id == id.MovieId);
+                if (!_database.Movies.Any(m => m.MovieId == id.MovieId)) return NotFound();
+                Movie movie = (Movie)_database.Movies.Where(m => m.MovieId == id.MovieId);
                 movies.Add(movie);
             }
             return Ok(movies);

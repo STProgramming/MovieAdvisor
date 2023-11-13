@@ -9,7 +9,7 @@ namespace MAModels.EntityFrameworkModels
     {
         [Key]
         [Required]
-        public int Id { get; set; }
+        public int ReviewId { get; set; }
 
         [Required, NotNull]
         public short Vote { get; set; }
