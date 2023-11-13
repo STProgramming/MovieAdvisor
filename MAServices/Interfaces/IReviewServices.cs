@@ -4,7 +4,7 @@ namespace MAServices.Interfaces
 {
     public interface IReviewServices
     {
-        Task PostNewReview(User user, Movie movie, string? descriptionVote, int vote);
+        Task PostNewReview(User user, Movie movie, string? descriptionVote, short vote);
 
         Task<ICollection<Review>> GetReviews();
 

@@ -9,26 +9,26 @@ namespace MAModels.EntityFrameworkModels
     {
         [Key]
         [Required]
-        public int UserId { get; set; }
+        public int Id { get; set; }
 
         [Required, NotNull]
-        public string Name { get; set; }
+        public string Name { get; set; } = null!;
 
         [Required, NotNull]
-        public string LastName { get; set; }
+        public string LastName { get; set; } = null!;
 
         [Required, NotNull]
-        public string UserName { get; set; }
+        public string UserName { get; set; } = null!;
 
         [Required, NotNull]
         [EmailAddress]
-        public string EmailAddress { get; set; }
+        public string EmailAddress { get; set; } = null!;
 
         [Required, NotNull]
         public DateTime BirthDate { get; set; }
 
-        public List<Review>? Reviews { get; set; }
+        public ICollection<Movie>? MoviesList { get; set; } = new List<Movie>();
 
-        public User() { }
+        public ICollection<Review> ReviewsList { get; set; } = new List<Review>();
     }
 }

@@ -14,23 +14,23 @@ namespace MAServices.Services
             _configuration = configuration;
         }
 
-        public void SaveImage(IFormFileCollection Files)
+        public List<string> SaveImage(ICollection<IFormFile> Files)
         {
-            if(Files.Count > 0)
+            List<string> pathsImage = new List<string>();
+            string DirectoryUpload = Path.Combine(_configuration["ServerDirectory:Upload:root"], _configuration["ServerDirectory:Upload:image"]);
+            string PathToSave = Path.Combine(Directory.GetCurrentDirectory(), DirectoryUpload);
+            foreach(var file in Files)
             {
-                string DirectoryUpload = Path.Combine(_configuration["ServerDirectory:Upload:root"], _configuration["ServerDirectory:Upload:image"]);
-                string PathToSave = Path.Combine(Directory.GetCurrentDirectory(), DirectoryUpload);
-                foreach(var file in Files)
-                {
-                    var FileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
-                    var FullPath = Path.Combine(PathToSave, FileName);
+                var FileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
+                var FullPath = Path.Combine(PathToSave, FileName);
 
-                    using (var stream = new FileStream(FullPath, FileMode.Create))
-                    {
-                        file.CopyTo(stream);
-                    }
+                using (var stream = new FileStream(FullPath, FileMode.Create))
+                {
+                    file.CopyTo(stream);
                 }
+                pathsImage.Add(FullPath);
             }
+            return pathsImage;
         }
     }
 }

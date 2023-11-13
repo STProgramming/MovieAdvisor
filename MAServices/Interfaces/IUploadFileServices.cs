@@ -4,6 +4,6 @@ namespace MAServices.Interfaces
 {
     public interface IUploadFileServices
     {
-        void SaveImage(IFormFileCollection Files);
+        List<string> SaveImage(ICollection<IFormFile> Files);
     }
 }

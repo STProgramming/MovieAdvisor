@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "7fQ2tEzL7C5IiiYuBpiwPPrx8qesLB4Q46VKsrDkr3Y=",
+  "Hash": "BdUBjyZWueUzTb30DNMPkL7A2XaN4NwEzCc8Js0iPik=",
   "Source": "MAApi",
   "BasePath": "_content/MAApi",
   "Mode": "Default",
@@ -15,5 +15,23 @@
       "Pattern": "**"
     }
   ],
-  "Assets": []
+  "Assets": [
+    {
+      "Identity": "D:\\STCorp-cartella utenti\\Documenti\\Repository\\MovieAdvisorApp\\MAApi\\wwwroot\\uploads\\GITS95.png",
+      "SourceId": "MAApi",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\STCorp-cartella utenti\\Documenti\\Repository\\MovieAdvisorApp\\MAApi\\wwwroot\\",
+      "BasePath": "_content/MAApi",
+      "RelativePath": "uploads/GITS95.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\uploads\\GITS95.png"
+    }
+  ]
 }

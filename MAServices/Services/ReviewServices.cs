@@ -13,12 +13,12 @@ namespace MAServices.Services
             _database = database;
         }
 
-        public async Task PostNewReview(User user, Movie movie, string? descriptionVote, int vote)
+        public async Task PostNewReview(User user, Movie movie, string? descriptionVote, short vote)
         {
             Review newReview = new Review 
             { 
-                UserId = user.UserId, 
-                MovieId = movie.MovieId, 
+                UserId = user.Id, 
+                MovieId = movie.Id, 
                 Movie = movie,
                 User = user, 
                 Vote = vote, 

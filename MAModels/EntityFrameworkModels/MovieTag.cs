@@ -1,21 +1,23 @@
-﻿using MAModels.Enumerables;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MAModels.EntityFrameworkModels
 {
-    [Table("MovieTags")]
+    [Table("MoviesTags")]
     public class MovieTag
     {
         [Key]
         [Required]
-        public int MovieTagsId { get; set; }
+        public int Id { get; set; }
 
         [Required]
-        public string MovieTags { get; set; }
-        
-        internal List<MovieDescription>? MovieTagsDescriptionsList { get; set; }
+        public int MovieId { get; set; }
 
-        public MovieTag() { }
+        [Required]
+        public int TagId { get; set; }
+
+        public Movie Movie { get; set; } = null!;
+
+        public Tag Tag { get; set; } = null!;
     }
 }

@@ -55,23 +55,19 @@ namespace MAApi.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddImagesToMovie([FromQuery]int MovieId)
+        public async Task<IActionResult> AddImagesToMovie([FromQuery]int MovieId, ICollection<IFormFile> Files)
         {            
-            if(HttpContext.Request.Form.Files.Count > 0)
+            if(Files.Count == 0) return BadRequest();
+            try
             {
-                try
-                {
-                    string contentRootPath = _webHostEnvironment.ContentRootPath;
-                    _uploadFileServices.SaveImage(HttpContext.Request.Form.Files);
-                    await _movieServices.AddNewMovieImage(HttpContext.Request.Form.Files, MovieId, contentRootPath);
-                    return Ok();
-                }
-                catch (Exception ex)
-                {
-                    return StatusCode(500, ex.Message);
-                }
+                string contentRootPath = _webHostEnvironment.ContentRootPath;
+                await _movieServices.AddNewMovieImage(Files, MovieId, _uploadFileServices.SaveImage(Files));
+                return StatusCode(201);
             }
-            return BadRequest();
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
         }
     }
 }

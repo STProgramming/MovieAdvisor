@@ -24,7 +24,7 @@ namespace MAApi.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> PostNewReview(string emailUser, int movieId, string? descriptionVote, int vote)
+        public async Task<IActionResult> PostNewReview(string emailUser, int movieId, string? descriptionVote, short vote)
         {
             if (string.IsNullOrEmpty(emailUser) || !_emailController.IsValid(emailUser)) return StatusCode(406);
             var user = await _userServices.GetUserData(emailUser);
@@ -43,12 +43,12 @@ namespace MAApi.Controllers
             else if (!string.IsNullOrEmpty(emailUser) && _emailController.IsValid(emailUser) && movieId == null)
             {
                 var user = await _userServices.GetUserData(emailUser);
-                if (user != null) return Ok(await _reviewServices.GetReviewsOfUser(user.UserId));
+                if (user != null) return Ok(await _reviewServices.GetReviewsOfUser(user.Id));
             }
             else
             {
                 var user = await _userServices.GetUserData(emailUser);
-                if (user != null) return Ok(await _reviewServices.GetYourRiviewOfMovie(user.UserId, Convert.ToInt32(movieId)));
+                if (user != null) return Ok(await _reviewServices.GetYourRiviewOfMovie(user.Id, Convert.ToInt32(movieId)));
             }
             return BadRequest();
         }

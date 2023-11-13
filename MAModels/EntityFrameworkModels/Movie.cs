@@ -9,29 +9,27 @@ namespace MAModels.EntityFrameworkModels
     {
         [Key]
         [Required]
-        public int MovieId { get; set; }
+        public int Id { get; set; }
 
         [Required, NotNull]
-        public string MovieTitle { get; set; }
+        public string MovieTitle { get; set; } = null!;
 
         [Required, NotNull]
         public short MovieYearProduction { get; set; }
 
         [Required, NotNull]
-        public string MovieDescription { get; set; }
+        public string MovieDescription { get; set; } = null!;
 
         [Required, NotNull]
-        public string MovieMaker { get; set; }
+        public string MovieMaker { get; set; } = null!;
 
         [Required, NotNull]
         public bool IsForAdult { get; set; }
 
-        internal List<MovieDescription>? MovieTagsList { get; set; }
+        public ICollection<User>? UsersList {  get; set; } = new List<User>();
 
-        internal List<Review>? ReviewsList {  get; set; }
+        public ICollection<Image> ImagesList { get; set; } = new List<Image>();
 
-        public List<MovieImage> MovieImages { get; set; }
-
-        public Movie() { }        
+        internal ICollection<Tag> TagsList { get; set; } = new List<Tag>();
     }
 }

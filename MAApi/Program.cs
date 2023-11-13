@@ -29,7 +29,7 @@ builder.Services.AddTransient<IMovieServices, MovieServices>();
 
 builder.Services.AddTransient<IReviewServices, ReviewServices>();
 
-builder.Services.AddTransient<IMovieTagServices, MovieTagServices>();
+builder.Services.AddTransient<ITagServices, TagServices>();
 
 builder.Services.AddTransient<IUploadFileServices, UploadFileServices>();
 
