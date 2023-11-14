@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MAModels.EntityFrameworkModels;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
@@ -24,5 +25,15 @@ namespace MAModels.DTO
 
         [Required, NotNull]
         public DateTime BirthDate { get; set; }
+
+        public UserDTO ConvertToUserDTO(User user)
+        {
+            this.Name = user.Name;
+            this.LastName = user.LastName;
+            this.UserName = user.UserName;
+            this.BirthDate = user.BirthDate;
+            this.EmailAddress = user.EmailAddress;
+            return this;
+        }
     }
 }

@@ -23,6 +23,14 @@ namespace MAModels.DTO
 
         public List<int> TagsId { get; set; } = new List<int>();
 
-        public MovieDTO() { }
+        public MovieDTO ConvertToMovieDTO(Movie movie)
+        {
+            this.MovieTitle = movie.MovieTitle;
+            this.MovieYearProduction = movie.MovieYearProduction;
+            this.MovieDescription = movie.MovieDescription;
+            this.MovieMaker = movie.MovieMaker;
+            this.IsForAdult = movie.IsForAdult;
+            return this;
+        }
     }
 }

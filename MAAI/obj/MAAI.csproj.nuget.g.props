@@ -14,4 +14,20 @@
     <SourceRoot Include="C:\Program Files (x86)\Microsoft Visual Studio\Shared\NuGetPackages\" />
     <SourceRoot Include="C:\Program Files\dotnet\sdk\NuGetFallbackFolder\" />
   </ItemGroup>
+  <ImportGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
+    <Import Project="$(NuGetPackageRoot)torchsharp\0.98.1\buildTransitive\net5.0\TorchSharp.props" Condition="Exists('$(NuGetPackageRoot)torchsharp\0.98.1\buildTransitive\net5.0\TorchSharp.props')" />
+    <Import Project="$(NuGetPackageRoot)microsoft.ml.cpumath\2.0.1\build\netstandard2.0\Microsoft.ML.CpuMath.props" Condition="Exists('$(NuGetPackageRoot)microsoft.ml.cpumath\2.0.1\build\netstandard2.0\Microsoft.ML.CpuMath.props')" />
+    <Import Project="$(NuGetPackageRoot)microsoft.ml\2.0.1\build\netstandard2.0\Microsoft.ML.props" Condition="Exists('$(NuGetPackageRoot)microsoft.ml\2.0.1\build\netstandard2.0\Microsoft.ML.props')" />
+    <Import Project="$(NuGetPackageRoot)microsoft.ml.recommender\0.20.1\build\netstandard2.0\Microsoft.ML.Recommender.props" Condition="Exists('$(NuGetPackageRoot)microsoft.ml.recommender\0.20.1\build\netstandard2.0\Microsoft.ML.Recommender.props')" />
+    <Import Project="$(NuGetPackageRoot)microsoft.entityframeworkcore\7.0.13\buildTransitive\net6.0\Microsoft.EntityFrameworkCore.props" Condition="Exists('$(NuGetPackageRoot)microsoft.entityframeworkcore\7.0.13\buildTransitive\net6.0\Microsoft.EntityFrameworkCore.props')" />
+    <Import Project="$(NuGetPackageRoot)entityframework\6.4.4\buildTransitive\netcoreapp3.0\EntityFramework.props" Condition="Exists('$(NuGetPackageRoot)entityframework\6.4.4\buildTransitive\netcoreapp3.0\EntityFramework.props')" />
+  </ImportGroup>
+  <PropertyGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
+    <PkgMicrosoft_ML_DnnImageFeaturizer_ResNet50 Condition=" '$(PkgMicrosoft_ML_DnnImageFeaturizer_ResNet50)' == '' ">C:\Users\STCor\.nuget\packages\microsoft.ml.dnnimagefeaturizer.resnet50\0.20.1</PkgMicrosoft_ML_DnnImageFeaturizer_ResNet50>
+    <PkgMicrosoft_ML_DnnImageFeaturizer_ResNet18 Condition=" '$(PkgMicrosoft_ML_DnnImageFeaturizer_ResNet18)' == '' ">C:\Users\STCor\.nuget\packages\microsoft.ml.dnnimagefeaturizer.resnet18\0.20.1</PkgMicrosoft_ML_DnnImageFeaturizer_ResNet18>
+    <PkgMicrosoft_ML_DnnImageFeaturizer_ResNet101 Condition=" '$(PkgMicrosoft_ML_DnnImageFeaturizer_ResNet101)' == '' ">C:\Users\STCor\.nuget\packages\microsoft.ml.dnnimagefeaturizer.resnet101\0.20.1</PkgMicrosoft_ML_DnnImageFeaturizer_ResNet101>
+    <PkgMicrosoft_ML_DnnImageFeaturizer_AlexNet Condition=" '$(PkgMicrosoft_ML_DnnImageFeaturizer_AlexNet)' == '' ">C:\Users\STCor\.nuget\packages\microsoft.ml.dnnimagefeaturizer.alexnet\0.20.1</PkgMicrosoft_ML_DnnImageFeaturizer_AlexNet>
+    <PkgMicrosoft_CodeAnalysis_Analyzers Condition=" '$(PkgMicrosoft_CodeAnalysis_Analyzers)' == '' ">C:\Users\STCor\.nuget\packages\microsoft.codeanalysis.analyzers\3.0.0</PkgMicrosoft_CodeAnalysis_Analyzers>
+    <PkgEntityFramework Condition=" '$(PkgEntityFramework)' == '' ">C:\Users\STCor\.nuget\packages\entityframework\6.4.4</PkgEntityFramework>
+  </PropertyGroup>
 </Project>

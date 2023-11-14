@@ -1,4 +1,5 @@
-﻿using MAServices.Interfaces;
+﻿using MAModels.EntityFrameworkModels;
+using MAServices.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 
@@ -24,10 +25,10 @@ namespace MAApi.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> PostNewReview(string emailUser, int movieId, string? descriptionVote, short vote)
+        public async Task<IActionResult> PostNewReview(string emailUser, int movieId, string? descriptionVote, short vote, DateTime? when)
         {
             if (string.IsNullOrEmpty(emailUser) || !_emailController.IsValid(emailUser)) return StatusCode(406);
-            var user = await _userServices.GetUserData(emailUser);
+            var user = await _userServices.GetUserFromEmail(emailUser);
             if (user == null) return StatusCode(401);
             var movie = await _movieServices.GetMovieData(movieId);
             if (movie == null) return NotFound();
@@ -38,19 +39,10 @@ namespace MAApi.Controllers
         [HttpGet]
         public async Task<IActionResult> GetReviews(string? emailUser, int? movieId)
         {
-            if (string.IsNullOrEmpty(emailUser) && movieId == null) return Ok(await _reviewServices.GetReviews());
-            else if (string.IsNullOrEmpty(emailUser) && movieId != null && movieId > 0) return Ok(await _reviewServices.GetReviewsOfMovie(Convert.ToInt32(movieId)));
-            else if (!string.IsNullOrEmpty(emailUser) && _emailController.IsValid(emailUser) && movieId == null)
-            {
-                var user = await _userServices.GetUserData(emailUser);
-                if (user != null) return Ok(await _reviewServices.GetReviewsOfUser(user.UserId));
-            }
-            else
-            {
-                var user = await _userServices.GetUserData(emailUser);
-                if (user != null) return Ok(await _reviewServices.GetYourRiviewOfMovie(user.UserId, Convert.ToInt32(movieId)));
-            }
-            return BadRequest();
+            User? user = await _userServices.GetUserFromEmail(emailUser);
+            Movie? movie = await _movieServices.GetMovieData(Convert.ToInt32(movieId));
+            var results = await _reviewServices.SearchEngineReviews(user, movie);
+            return results != null && results.Count > 0 ? Ok(results) : NotFound();
         }
     }
 }

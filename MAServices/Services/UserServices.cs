@@ -23,10 +23,14 @@ namespace MAServices.Services
             return await _database.Users.ToListAsync();
         }
 
-        public async Task<User?> GetUserData(string emailUser)
+        public async Task<User?> GetUserFromEmail(string emailUser)
         {
-            var user = new User();
-            return user = _database.Users.Any(u => string.Equals(emailUser, u.EmailAddress)) ? await _database.Users.Where(u => string.Equals(emailUser, u.EmailAddress)).FirstOrDefaultAsync() : null;
+            return await _database.Users.Where(u => string.Equals(emailUser, u.EmailAddress)).FirstOrDefaultAsync();
+        }
+
+        public async Task<User?> GetUserFromId(int userId)
+        {
+            return await _database.Users.Where(u => u.UserId == userId).FirstOrDefaultAsync();
         }
 
         public async Task CreateNewUser(UserDTO newUserModel)

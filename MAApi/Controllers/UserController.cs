@@ -27,14 +27,14 @@ namespace MAApi.Controllers
         {
             if (string.IsNullOrEmpty(emailUser) || !(_emailController.IsValid(emailUser))) return StatusCode(406);
             if (string.Equals(_configuration["EmailAdmin"], emailUser)) return Ok(await _userServices.GetAllUsers());
-            else return Ok (await _userServices.GetUserData(emailUser));
+            else return Ok (await _userServices.GetUserFromEmail(emailUser));
         }
 
         [HttpPost]
         public async Task<IActionResult> CreateNewUser(UserDTO newUserModel)
         {
-            if(!ModelState.IsValid) return BadRequest(ModelState);
-            var user = await _userServices.GetUserData(newUserModel.EmailAddress);            
+            if(!ModelState.IsValid) return StatusCode(406);
+            var user = await _userServices.GetUserFromEmail(newUserModel.EmailAddress);            
             if (user == null) await _userServices.CreateNewUser(newUserModel);
             return StatusCode(201);
         }
@@ -42,12 +42,12 @@ namespace MAApi.Controllers
         [HttpPut]
         public async Task<IActionResult> ModifyUserData([FromQuery] string userEmail, string? userEmailChange, string? userName)
         {
-            if (!string.IsNullOrEmpty(userEmail) || !_emailController.IsValid(userEmail)) return StatusCode(401);
-            var user = await _userServices.GetUserData(userEmail);
+            if (!string.IsNullOrEmpty(userEmail) || !_emailController.IsValid(userEmail)) return StatusCode(406);
+            var user = await _userServices.GetUserFromEmail(userEmail);
             if (user == null) return NotFound();
             if (!string.IsNullOrEmpty(userEmailChange) && _emailController.IsValid(userEmailChange))
             {
-                var userCheck = await _userServices.GetUserData(userEmailChange);
+                var userCheck = await _userServices.GetUserFromEmail(userEmailChange);
                 if (userCheck != null) return StatusCode(401);
                 await _userServices.ModifyUserData(user, userEmailChange, userName);
                 return Ok(new { message = "User is saved" });

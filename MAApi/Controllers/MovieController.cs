@@ -39,8 +39,8 @@ namespace MAApi.Controllers
         [HttpGet]
         public async Task<ActionResult<ICollection<Movie>>> GetAllMoviesOfUser(string emailUser)
         {
-            if(string.IsNullOrEmpty(emailUser) || !_emailAddressAttribute.IsValid(emailUser)) return BadRequest();
-            var user = await _userServices.GetUserData(emailUser);
+            if(string.IsNullOrEmpty(emailUser) || !_emailAddressAttribute.IsValid(emailUser)) return StatusCode(406);
+            var user = await _userServices.GetUserFromEmail(emailUser);
             if (user == null) return NotFound();
             return Ok(await _movieServices.GetAllMoviesFilteredByUser(user));
         }
@@ -55,7 +55,7 @@ namespace MAApi.Controllers
         public async Task<IActionResult> PostNewMovie([FromBody] MovieDTO newMovie)
         {
             var movie = await _movieServices.IsThisMovieAlreadyInDB(newMovie.MovieTitle, newMovie.MovieYearProduction, newMovie.MovieMaker);
-            if (movie != null && movie.Count > 0) return BadRequest();
+            if (movie != null && movie.Count > 0) return StatusCode(406);
             await _movieServices.CreateNewMovie(newMovie);
             return StatusCode(201);
         }

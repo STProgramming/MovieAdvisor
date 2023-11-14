@@ -7,7 +7,9 @@ namespace MAServices.Interfaces
     {
         Task<ICollection<User>> GetAllUsers();
 
-        Task<User?> GetUserData(string emailUser);
+        Task<User?> GetUserFromEmail(string emailUser);
+
+        Task<User?> GetUserFromId(int userId);
 
         Task CreateNewUser(UserDTO newUserModel);
 

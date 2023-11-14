@@ -1,4 +1,5 @@
-﻿using MAModels.EntityFrameworkModels;
+﻿using MAModels.DTO;
+using MAModels.EntityFrameworkModels;
 
 namespace MAServices.Interfaces
 {
@@ -6,12 +7,6 @@ namespace MAServices.Interfaces
     {
         Task PostNewReview(User user, Movie movie, string? descriptionVote, short vote);
 
-        Task<ICollection<Review>> GetReviews();
-
-        Task<ICollection<Review>> GetReviewsOfUser(int userId);
-
-        Task<ICollection<Review>> GetReviewsOfMovie(int movieId);
-
-        Task<Review> GetYourRiviewOfMovie(int userId, int movieId);
+        Task<List<ReviewDTO>?> SearchEngineReviews(User? user, Movie? movie);
     }
 }
