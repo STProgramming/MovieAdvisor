@@ -7,6 +7,7 @@ namespace MAModels.EntityFrameworkModels
     public class Image
     {
         [Key]
+        [Required]
         public int ImageId { get; set; }
 
         [Required]
@@ -21,5 +22,7 @@ namespace MAModels.EntityFrameworkModels
         public int MovieId { get; set; }
 
         public Movie Movie { get; set; } = null!;
+
+        public Image() { }
     }
 }

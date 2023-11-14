@@ -1,6 +1,10 @@
 {
   "Files": [
     {
+      "Id": "D:\\STCorp-cartella utenti\\Documenti\\Repository\\MovieAdvisorApp\\MAApi\\wwwroot\\uploads\\A.jpg",
+      "PackagePath": "staticwebassets\\uploads\\A.jpg"
+    },
+    {
       "Id": "D:\\STCorp-cartella utenti\\Documenti\\Repository\\MovieAdvisorApp\\MAApi\\wwwroot\\uploads\\GITS95.png",
       "PackagePath": "staticwebassets\\uploads\\GITS95.png"
     },

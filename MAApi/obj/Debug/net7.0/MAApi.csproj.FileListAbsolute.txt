@@ -1,3 +1,9 @@
+D:\STCorp-cartella utenti\Documenti\Repository\MovieAdvisorApp\MAApi\obj\Debug\net7.0\MAApi.csproj.AssemblyReference.cache
+D:\STCorp-cartella utenti\Documenti\Repository\MovieAdvisorApp\MAApi\obj\Debug\net7.0\MAApi.GeneratedMSBuildEditorConfig.editorconfig
+D:\STCorp-cartella utenti\Documenti\Repository\MovieAdvisorApp\MAApi\obj\Debug\net7.0\MAApi.AssemblyInfoInputs.cache
+D:\STCorp-cartella utenti\Documenti\Repository\MovieAdvisorApp\MAApi\obj\Debug\net7.0\MAApi.AssemblyInfo.cs
+D:\STCorp-cartella utenti\Documenti\Repository\MovieAdvisorApp\MAApi\obj\Debug\net7.0\MAApi.csproj.CoreCompileInputs.cache
+D:\STCorp-cartella utenti\Documenti\Repository\MovieAdvisorApp\MAApi\obj\Debug\net7.0\MAApi.MvcApplicationPartsAssemblyInfo.cache
 D:\STCorp-cartella utenti\Documenti\Repository\MovieAdvisorApp\MAApi\bin\Debug\net7.0\appsettings.Development.json
 D:\STCorp-cartella utenti\Documenti\Repository\MovieAdvisorApp\MAApi\bin\Debug\net7.0\appsettings.json
 D:\STCorp-cartella utenti\Documenti\Repository\MovieAdvisorApp\MAApi\bin\Debug\net7.0\MAApi.staticwebassets.runtime.json
@@ -19,6 +25,7 @@ D:\STCorp-cartella utenti\Documenti\Repository\MovieAdvisorApp\MAApi\bin\Debug\n
 D:\STCorp-cartella utenti\Documenti\Repository\MovieAdvisorApp\MAApi\bin\Debug\net7.0\Microsoft.EntityFrameworkCore.Design.dll
 D:\STCorp-cartella utenti\Documenti\Repository\MovieAdvisorApp\MAApi\bin\Debug\net7.0\Microsoft.EntityFrameworkCore.Relational.dll
 D:\STCorp-cartella utenti\Documenti\Repository\MovieAdvisorApp\MAApi\bin\Debug\net7.0\Microsoft.EntityFrameworkCore.SqlServer.dll
+D:\STCorp-cartella utenti\Documenti\Repository\MovieAdvisorApp\MAApi\bin\Debug\net7.0\Microsoft.Extensions.Configuration.Binder.dll
 D:\STCorp-cartella utenti\Documenti\Repository\MovieAdvisorApp\MAApi\bin\Debug\net7.0\Microsoft.Extensions.DependencyModel.dll
 D:\STCorp-cartella utenti\Documenti\Repository\MovieAdvisorApp\MAApi\bin\Debug\net7.0\Microsoft.Identity.Client.dll
 D:\STCorp-cartella utenti\Documenti\Repository\MovieAdvisorApp\MAApi\bin\Debug\net7.0\Microsoft.Identity.Client.Extensions.Msal.dll
@@ -67,13 +74,7 @@ D:\STCorp-cartella utenti\Documenti\Repository\MovieAdvisorApp\MAApi\bin\Debug\n
 D:\STCorp-cartella utenti\Documenti\Repository\MovieAdvisorApp\MAApi\bin\Debug\net7.0\MAServices.dll
 D:\STCorp-cartella utenti\Documenti\Repository\MovieAdvisorApp\MAApi\bin\Debug\net7.0\MAModels.pdb
 D:\STCorp-cartella utenti\Documenti\Repository\MovieAdvisorApp\MAApi\bin\Debug\net7.0\MAServices.pdb
-D:\STCorp-cartella utenti\Documenti\Repository\MovieAdvisorApp\MAApi\obj\Debug\net7.0\MAApi.csproj.AssemblyReference.cache
-D:\STCorp-cartella utenti\Documenti\Repository\MovieAdvisorApp\MAApi\obj\Debug\net7.0\MAApi.GeneratedMSBuildEditorConfig.editorconfig
-D:\STCorp-cartella utenti\Documenti\Repository\MovieAdvisorApp\MAApi\obj\Debug\net7.0\MAApi.AssemblyInfoInputs.cache
-D:\STCorp-cartella utenti\Documenti\Repository\MovieAdvisorApp\MAApi\obj\Debug\net7.0\MAApi.AssemblyInfo.cs
-D:\STCorp-cartella utenti\Documenti\Repository\MovieAdvisorApp\MAApi\obj\Debug\net7.0\MAApi.csproj.CoreCompileInputs.cache
 D:\STCorp-cartella utenti\Documenti\Repository\MovieAdvisorApp\MAApi\obj\Debug\net7.0\MAApi.MvcApplicationPartsAssemblyInfo.cs
-D:\STCorp-cartella utenti\Documenti\Repository\MovieAdvisorApp\MAApi\obj\Debug\net7.0\MAApi.MvcApplicationPartsAssemblyInfo.cache
 D:\STCorp-cartella utenti\Documenti\Repository\MovieAdvisorApp\MAApi\obj\Debug\net7.0\staticwebassets\msbuild.MAApi.Microsoft.AspNetCore.StaticWebAssets.props
 D:\STCorp-cartella utenti\Documenti\Repository\MovieAdvisorApp\MAApi\obj\Debug\net7.0\staticwebassets\msbuild.build.MAApi.props
 D:\STCorp-cartella utenti\Documenti\Repository\MovieAdvisorApp\MAApi\obj\Debug\net7.0\staticwebassets\msbuild.buildMultiTargeting.MAApi.props
@@ -88,4 +89,3 @@ D:\STCorp-cartella utenti\Documenti\Repository\MovieAdvisorApp\MAApi\obj\Debug\n
 D:\STCorp-cartella utenti\Documenti\Repository\MovieAdvisorApp\MAApi\obj\Debug\net7.0\MAApi.pdb
 D:\STCorp-cartella utenti\Documenti\Repository\MovieAdvisorApp\MAApi\obj\Debug\net7.0\MAApi.genruntimeconfig.cache
 D:\STCorp-cartella utenti\Documenti\Repository\MovieAdvisorApp\MAApi\obj\Debug\net7.0\ref\MAApi.dll
-D:\STCorp-cartella utenti\Documenti\Repository\MovieAdvisorApp\MAApi\bin\Debug\net7.0\Microsoft.Extensions.Configuration.Binder.dll

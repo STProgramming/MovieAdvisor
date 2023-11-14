@@ -1,4 +1,5 @@
-﻿using MAModels.EntityFrameworkModels;
+﻿using MAModels.DTO;
+using MAModels.EntityFrameworkModels;
 using MAServices.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
@@ -30,11 +31,11 @@ namespace MAApi.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateNewUser(User newUser)
+        public async Task<IActionResult> CreateNewUser(UserDTO newUserModel)
         {
             if(!ModelState.IsValid) return BadRequest(ModelState);
-            var user = await _userServices.GetUserData(newUser.EmailAddress);
-            if (user == null) await _userServices.CreateNewUser(newUser);
+            var user = await _userServices.GetUserData(newUserModel.EmailAddress);            
+            if (user == null) await _userServices.CreateNewUser(newUserModel);
             return StatusCode(201);
         }
 

@@ -17,7 +17,7 @@ namespace MAModels.EntityFrameworkModels
         public string? DescriptionVote { get; set; }
 
         [Required]
-        public DateTime DateTimeVote { get { return this.DateTimeVote; } set { this.DateTimeVote = DateTime.Now; } }
+        public DateTime DateTimeVote { get; set; }
 
         [Required]
         public int UserId { get; set; }
@@ -28,5 +28,7 @@ namespace MAModels.EntityFrameworkModels
         public int MovieId { get; set; }
 
         public Movie Movie { get; set; } = null!;
+
+        public Review() { }
     }
 }

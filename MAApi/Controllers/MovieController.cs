@@ -18,24 +18,31 @@ namespace MAApi.Controllers
 
         private readonly IUploadFileServices _uploadFileServices;
 
-        private readonly EmailAddressAttribute _emailController = new EmailAddressAttribute();
+        private readonly IUserServices _userServices;
+
+        private readonly EmailAddressAttribute _emailAddressAttribute = new EmailAddressAttribute(); 
 
         public MovieController(IMovieServices movieServices, 
             IConfiguration config,
             IWebHostEnvironment webHostEnvironment,
-            IUploadFileServices uploadFileServices
+            IUploadFileServices uploadFileServices,
+            IUserServices userServices
             )
         {
             _movieServices = movieServices;
             _config = config;   
             _webHostEnvironment = webHostEnvironment;
             _uploadFileServices = uploadFileServices;
+            _userServices = userServices;
         }
 
         [HttpGet]
         public async Task<ActionResult<ICollection<Movie>>> GetAllMoviesOfUser(string emailUser)
         {
-            return Ok(await _movieServices.GetAllMoviesFilteredByUser(emailUser));
+            if(string.IsNullOrEmpty(emailUser) || !_emailAddressAttribute.IsValid(emailUser)) return BadRequest();
+            var user = await _userServices.GetUserData(emailUser);
+            if (user == null) return NotFound();
+            return Ok(await _movieServices.GetAllMoviesFilteredByUser(user));
         }
 
         [HttpGet]
@@ -45,9 +52,8 @@ namespace MAApi.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> PostNewMovie(string emailUser, [FromBody] MovieDTO newMovie)
+        public async Task<IActionResult> PostNewMovie([FromBody] MovieDTO newMovie)
         {
-            if (string.IsNullOrEmpty(emailUser) || !_emailController.IsValid(emailUser) || string.Equals(emailUser, _config["EmailAddress"]) || !ModelState.IsValid) return StatusCode(400);
             var movie = await _movieServices.IsThisMovieAlreadyInDB(newMovie.MovieTitle, newMovie.MovieYearProduction, newMovie.MovieMaker);
             if (movie != null && movie.Count > 0) return BadRequest();
             await _movieServices.CreateNewMovie(newMovie);

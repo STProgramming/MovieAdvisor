@@ -19,9 +19,8 @@ namespace MAServices.MovieServices
             _tagServices = tagServices;
         }
 
-        public async Task<ICollection<Movie>> GetAllMoviesFilteredByUser(string? emailUser)
+        public async Task<ICollection<Movie>> GetAllMoviesFilteredByUser(User user)
         {
-            var user = emailUser != null && _database.Users.Any(x => string.Equals(x.EmailAddress, emailUser)) ? await _database.Users.Where(x => string.Equals(x.EmailAddress, emailUser)).FirstOrDefaultAsync() : null;
             //TODO return MovieAdvisorAI 
             var movies = new List<Movie>();
             return movies;
@@ -44,7 +43,14 @@ namespace MAServices.MovieServices
 
         public async Task CreateNewMovie(MovieDTO newMovie)
         {
-            await _database.Movies.AddAsync(newMovie);
+            Movie newMovieObj = new Movie
+            {
+                MovieTitle = newMovie.MovieTitle,
+                MovieYearProduction = newMovie.MovieYearProduction,
+                MovieMaker = newMovie.MovieMaker,
+                MovieDescription = newMovie.MovieDescription,
+            };
+            await _database.Movies.AddAsync(newMovieObj);
             await _database.SaveChangesAsync();
             List<Tag> tagsInserted = new List<Tag>();
             List<MovieTag> moviesTags = new List<MovieTag>(); 
@@ -56,13 +62,13 @@ namespace MAServices.MovieServices
                     if (tagObj == null) throw new ArgumentNullException();
                     tagsInserted.Add(tagObj);
                     MovieTag? movieTagObj = new MovieTag();
-                    movieTagObj = await _tagServices.AssociateTagToMovie(newMovie.MovieId, newMovie, tagObj.TagId);
+                    movieTagObj = await _tagServices.AssociateTagToMovie(newMovieObj.MovieId, newMovieObj, tagObj.TagId);
                     if (movieTagObj == null) throw new ArgumentNullException();
                     moviesTags.Add(movieTagObj);
                 }
             }
-            newMovie.InsertTagsList(tagsInserted);
-            _database.Movies.Update(newMovie);
+            newMovieObj.TagsList = tagsInserted;
+            _database.Movies.Update(newMovieObj);
             await _tagServices.AssociateMovieToTag(moviesTags);
         }
 

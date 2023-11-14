@@ -26,10 +26,12 @@ namespace MAModels.EntityFrameworkModels
         [Required, NotNull]
         public bool IsForAdult { get; set; }
 
-        public ICollection<User>? UsersList {  get; set; } = new List<User>();
+        public List<User> UsersList {  get; set; } = new List<User>();
 
-        public ICollection<Image> ImagesList { get; set; } = new List<Image>();
+        public List<Image> ImagesList { get; set; } = new List<Image>();
 
-        internal ICollection<Tag> TagsList { get; set; } = new List<Tag>();
+        public List<Tag> TagsList { get; set; } = new List<Tag>();
+
+        public Movie() { }
     }
 }

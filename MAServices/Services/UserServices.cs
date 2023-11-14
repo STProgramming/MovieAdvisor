@@ -1,4 +1,5 @@
-﻿using MAModels.EntityFrameworkModels;
+﻿using MAModels.DTO;
+using MAModels.EntityFrameworkModels;
 using MAServices.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -28,8 +29,16 @@ namespace MAServices.Services
             return user = _database.Users.Any(u => string.Equals(emailUser, u.EmailAddress)) ? await _database.Users.Where(u => string.Equals(emailUser, u.EmailAddress)).FirstOrDefaultAsync() : null;
         }
 
-        public async Task CreateNewUser(User newUser)
+        public async Task CreateNewUser(UserDTO newUserModel)
         {
+            User newUser = new User
+            {
+                Name = newUserModel.Name,
+                LastName = newUserModel.LastName,
+                UserName = newUserModel.UserName,
+                EmailAddress = newUserModel.EmailAddress,
+                BirthDate = newUserModel.BirthDate,
+            };
             await _database.Users.AddAsync(newUser);
             await _database.SaveChangesAsync();
         }

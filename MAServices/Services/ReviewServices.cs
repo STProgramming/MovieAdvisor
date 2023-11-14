@@ -22,11 +22,25 @@ namespace MAServices.Services
                 Movie = movie,
                 User = user, 
                 Vote = vote, 
-                DescriptionVote = descriptionVote 
+                DescriptionVote = descriptionVote,
+                DateTimeVote = DateTime.Now
             };
-            
             await _database.Reviews.AddAsync(newReview);
-            await _database.SaveChangesAsync();            
+            await _database.SaveChangesAsync();
+            MovieUser userSeenMovie = new MovieUser
+            {
+                User = user,
+                UserId = user.UserId,
+                MovieId = movie.MovieId,
+                Movie = movie,
+            };
+            user.ReviewsList.Add(newReview);
+            user.MoviesList.Add(movie);
+            movie.UsersList.Add(user);            
+            _database.Users.Update(user);
+            _database.Movies.Update(movie);
+            await _database.MoviesUsers.AddAsync(userSeenMovie);
+            await _database.SaveChangesAsync();
         }
 
         public async Task<ICollection<Review>> GetReviews()

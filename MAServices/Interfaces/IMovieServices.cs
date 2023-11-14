@@ -6,7 +6,7 @@ namespace MAServices.Interfaces
 {
     public interface IMovieServices
     {
-        Task<ICollection<Movie>> GetAllMoviesFilteredByUser(string? EmailUser);
+        Task<ICollection<Movie>> GetAllMoviesFilteredByUser(User user);
 
         Task<ICollection<Movie>> IsThisMovieAlreadyInDB(string movieTitle, short movieYearProduction, string movieMaker);
 

@@ -24,11 +24,11 @@ namespace MAModels.Migrations
 
             modelBuilder.Entity("MAModels.EntityFrameworkModels.Image", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("ImageId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ImageId"));
 
                     b.Property<string>("ImageExtension")
                         .IsRequired()
@@ -45,7 +45,7 @@ namespace MAModels.Migrations
                     b.Property<int>("MovieId")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.HasKey("ImageId");
 
                     b.HasIndex("MovieId");
 
@@ -54,11 +54,11 @@ namespace MAModels.Migrations
 
             modelBuilder.Entity("MAModels.EntityFrameworkModels.Movie", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("MovieId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MovieId"));
 
                     b.Property<bool>("IsForAdult")
                         .HasColumnType("bit");
@@ -78,18 +78,18 @@ namespace MAModels.Migrations
                     b.Property<short>("MovieYearProduction")
                         .HasColumnType("smallint");
 
-                    b.HasKey("Id");
+                    b.HasKey("MovieId");
 
                     b.ToTable("Movies");
                 });
 
             modelBuilder.Entity("MAModels.EntityFrameworkModels.MovieTag", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("MovieTagId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MovieTagId"));
 
                     b.Property<int>("MovieId")
                         .HasColumnType("int");
@@ -97,7 +97,7 @@ namespace MAModels.Migrations
                     b.Property<int>("TagId")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.HasKey("MovieTagId");
 
                     b.HasIndex("MovieId");
 
@@ -108,11 +108,11 @@ namespace MAModels.Migrations
 
             modelBuilder.Entity("MAModels.EntityFrameworkModels.MovieUser", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("MovieUserId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MovieUserId"));
 
                     b.Property<int>("MovieId")
                         .HasColumnType("int");
@@ -120,7 +120,7 @@ namespace MAModels.Migrations
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.HasKey("MovieUserId");
 
                     b.HasIndex("MovieId");
 
@@ -131,11 +131,11 @@ namespace MAModels.Migrations
 
             modelBuilder.Entity("MAModels.EntityFrameworkModels.Review", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("ReviewId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ReviewId"));
 
                     b.Property<DateTime>("DateTimeVote")
                         .HasColumnType("datetime2");
@@ -152,7 +152,7 @@ namespace MAModels.Migrations
                     b.Property<short>("Vote")
                         .HasColumnType("smallint");
 
-                    b.HasKey("Id");
+                    b.HasKey("ReviewId");
 
                     b.HasIndex("MovieId");
 
@@ -163,28 +163,28 @@ namespace MAModels.Migrations
 
             modelBuilder.Entity("MAModels.EntityFrameworkModels.Tag", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("TagId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TagId"));
 
                     b.Property<string>("TagName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("TagId");
 
                     b.ToTable("Tags");
                 });
 
             modelBuilder.Entity("MAModels.EntityFrameworkModels.User", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("UserId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserId"));
 
                     b.Property<DateTime>("BirthDate")
                         .HasColumnType("datetime2");
@@ -205,47 +205,37 @@ namespace MAModels.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("UserId");
 
                     b.ToTable("Users");
                 });
 
             modelBuilder.Entity("MovieTag", b =>
                 {
-                    b.Property<int>("MovieId")
+                    b.Property<int>("MoviesListMovieId")
                         .HasColumnType("int");
 
-                    b.Property<int>("MovieTagId")
+                    b.Property<int>("TagsListTagId")
                         .HasColumnType("int");
 
-                    b.Property<int>("MoviesListId")
-                        .HasColumnType("int");
+                    b.HasKey("MoviesListMovieId", "TagsListTagId");
 
-                    b.Property<int>("TagsListId")
-                        .HasColumnType("int");
-
-                    b.HasKey("MovieId", "MovieTagId");
-
-                    b.HasIndex("MovieTagId");
-
-                    b.HasIndex("MoviesListId");
-
-                    b.HasIndex("TagsListId");
+                    b.HasIndex("TagsListTagId");
 
                     b.ToTable("MovieTag");
                 });
 
             modelBuilder.Entity("MovieUser", b =>
                 {
-                    b.Property<int>("MovieId")
+                    b.Property<int>("MoviesListMovieId")
                         .HasColumnType("int");
 
-                    b.Property<int>("UserId")
+                    b.Property<int>("UsersListUserId")
                         .HasColumnType("int");
 
-                    b.HasKey("MovieId", "UserId");
+                    b.HasKey("MoviesListMovieId", "UsersListUserId");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UsersListUserId");
 
                     b.ToTable("MovieUser");
                 });
@@ -322,25 +312,13 @@ namespace MAModels.Migrations
                 {
                     b.HasOne("MAModels.EntityFrameworkModels.Movie", null)
                         .WithMany()
-                        .HasForeignKey("MovieId")
+                        .HasForeignKey("MoviesListMovieId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("MAModels.EntityFrameworkModels.Tag", null)
                         .WithMany()
-                        .HasForeignKey("MovieTagId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("MAModels.EntityFrameworkModels.Movie", null)
-                        .WithMany()
-                        .HasForeignKey("MoviesListId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("MAModels.EntityFrameworkModels.Tag", null)
-                        .WithMany()
-                        .HasForeignKey("TagsListId")
+                        .HasForeignKey("TagsListTagId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -349,13 +327,13 @@ namespace MAModels.Migrations
                 {
                     b.HasOne("MAModels.EntityFrameworkModels.Movie", null)
                         .WithMany()
-                        .HasForeignKey("MovieId")
+                        .HasForeignKey("MoviesListMovieId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("MAModels.EntityFrameworkModels.User", null)
                         .WithMany()
-                        .HasForeignKey("UserId")
+                        .HasForeignKey("UsersListUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

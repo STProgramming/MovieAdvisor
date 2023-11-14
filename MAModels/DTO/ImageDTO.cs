@@ -13,7 +13,7 @@ namespace MAModels.DTO
         {
             this.ImageName = ImageName;
             ImageExtension = Path.GetExtension(ImageName);
-            ImagePath = Path.Combine(pathServer, ImageName);
+            ImagePath = pathServer;
             MovieId = movieId;
             Movie = movie;
         }

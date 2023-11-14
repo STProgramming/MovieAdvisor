@@ -1,4 +1,5 @@
-﻿using MAModels.EntityFrameworkModels;
+﻿using MAModels.DTO;
+using MAModels.EntityFrameworkModels;
 
 namespace MAServices.Interfaces
 {
@@ -8,7 +9,7 @@ namespace MAServices.Interfaces
 
         Task<User?> GetUserData(string emailUser);
 
-        Task CreateNewUser(User newUser);
+        Task CreateNewUser(UserDTO newUserModel);
 
         Task ModifyUserData(User userData, string? email, string? userName);
     }

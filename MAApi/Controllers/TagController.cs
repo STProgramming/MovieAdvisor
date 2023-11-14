@@ -1,4 +1,5 @@
 ﻿using MAModels.EntityFrameworkModels;
+using MAModels.Enumerables;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -16,16 +17,16 @@ namespace MAApi.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllMovieTags()
+        public async Task<IActionResult> GetAllTags()
         {
-            return Ok(await _database.MoviesTags.OrderBy(x => x).ToListAsync());
+            return Ok(await _database.Tags.OrderBy(x => x).ToListAsync());
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetMoviesFromMovieTag(int idMovieTag)
+        public async Task<IActionResult> GetMoviesFromTag(int idTag)
         {
-            if (!_database.MoviesTags.Any(m => m.MovieTagId == idMovieTag)) return NotFound();
-            var moviesIds = await _database.MoviesTags.Where(d => d.TagId == idMovieTag).ToListAsync();
+            if (!_database.MoviesTags.Any(m => m.MovieTagId == idTag)) return NotFound();
+            var moviesIds = await _database.MoviesTags.Where(d => d.TagId == idTag).ToListAsync();
             var movies = new List<Movie>();
             foreach (var id in moviesIds)
             {                
@@ -34,6 +35,25 @@ namespace MAApi.Controllers
                 movies.Add(movie);
             }
             return Ok(movies);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateAllTags()
+        {
+            foreach (string name in Enum.GetNames(typeof(EMovieTags)))
+            {
+                Tag tag = new Tag
+                {
+                    TagName = name,
+                };
+
+                await _database.Tags.AddAsync(tag);
+                await _database.SaveChangesAsync();
+
+            }
+
+            var allTags = await _database.Tags.ToListAsync();
+            return StatusCode(201, allTags);
         }
     }
 }

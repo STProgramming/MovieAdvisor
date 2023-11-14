@@ -1,23 +1,27 @@
 ﻿using MAModels.EntityFrameworkModels;
+using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 
 namespace MAModels.DTO
 {
-    public class MovieDTO : Movie
+    public class MovieDTO
     {
-        public List<int> TagsId { get; set; } = new List<int>();
-        public MovieDTO(string MovieTitle, short MovieYearProduction, string MovieDescription, string MovieMaker, bool IsForAdult, List<int> TagsId) : base() 
-        {
-            this.MovieTitle = MovieTitle;
-            this.MovieYearProduction = MovieYearProduction;
-            this.MovieDescription = MovieDescription;
-            this.MovieMaker = MovieMaker;
-            this.IsForAdult = IsForAdult;            
-        }
+        [Required, NotNull]
+        public string MovieTitle { get; set; } = null!;
 
-        public void InsertTagsList(List<Tag> tags)
-        {
-            this.TagsList = tags;
-        }
+        [Required, NotNull]
+        public short MovieYearProduction { get; set; }
+
+        [Required, NotNull]
+        public string MovieDescription { get; set; } = null!;
+
+        [Required, NotNull]
+        public string MovieMaker { get; set; } = null!;
+
+        [Required, NotNull]
+        public bool IsForAdult { get; set; }
+
+        public List<int> TagsId { get; set; } = new List<int>();
 
         public MovieDTO() { }
     }

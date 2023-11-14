@@ -27,8 +27,10 @@ namespace MAModels.EntityFrameworkModels
         [Required, NotNull]
         public DateTime BirthDate { get; set; }
 
-        public ICollection<Movie>? MoviesList { get; set; } = new List<Movie>();
+        public List<Movie> MoviesList { get; set; } = new List<Movie>();
 
-        public ICollection<Review> ReviewsList { get; set; } = new List<Review>();
+        public List<Review> ReviewsList { get; set; } = new List<Review>();
+
+        public User() { }
     }
 }

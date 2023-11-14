@@ -13,6 +13,8 @@ namespace MAModels.EntityFrameworkModels
         [Required]
         public string TagName { get; set; } = null!;
 
-        public ICollection<Movie> MoviesList { get; set; } = new List<Movie>();
+        public List<Movie> MoviesList { get; set; } = new List<Movie>();
+
+        public Tag() { }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Diagnostics.Contracts;
 
 namespace MAModels.EntityFrameworkModels
 {
@@ -22,57 +23,6 @@ namespace MAModels.EntityFrameworkModels
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            #region RELAZIONI MOVIES
-
-            #region RELAZIONE UNO A MOLTI CON MOVIE IMAGES
-
-            modelBuilder.Entity<Movie>()
-                .HasMany(m => m.ImagesList)
-                .WithOne(m => m.Movie)
-                .HasForeignKey("MovieId")
-                .IsRequired();
-
-            #endregion
-
-            #region RELAZIONE MOLTI A MOLTI CON TAGS, MOVIES TAGS
-
-            modelBuilder.Entity<Movie>()
-                .HasMany(m => m.TagsList)
-                .WithMany(t => t.MoviesList)
-                .UsingEntity("MovieTag",
-                m => m.HasOne(typeof(Movie)).WithMany().HasForeignKey("MovieId").HasPrincipalKey(nameof(Movie.MovieId)),
-                t => t.HasOne(typeof(Tag)).WithMany().HasForeignKey("MovieTagId").HasPrincipalKey(nameof(Tag.TagId)),
-                u => u.HasKey("MovieId", "MovieTagId"));
-
-            #endregion
-
-            #region RELAZIONE MOLTI A MOLTI CON USERS, MOVIES USERS
-
-            modelBuilder.Entity<Movie>()
-                .HasMany(m => m.UsersList)
-                .WithMany(u => u.MoviesList)
-                .UsingEntity("MovieUser",
-                m => m.HasOne(typeof(User)).WithMany().HasForeignKey("UserId").HasPrincipalKey(nameof(User.UserId)),
-                u => u.HasOne(typeof(Movie)).WithMany().HasForeignKey("MovieId").HasPrincipalKey(nameof(Movie.MovieId)),
-                u => u.HasKey("MovieId", "UserId"));
-
-            #endregion
-
-            #endregion
-
-            #region RELAZIONI USERS
-
-            #region RELAZIONE UNO A MOLTI CON REVIEWS
-
-            modelBuilder.Entity<User>()
-                .HasMany(u => u.ReviewsList)
-                .WithOne(r => r.User)
-                .HasForeignKey("UserId")
-                .IsRequired();
-
-            #endregion
-
-            #endregion
         }
     }
 }

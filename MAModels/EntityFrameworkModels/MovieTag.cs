@@ -19,5 +19,7 @@ namespace MAModels.EntityFrameworkModels
         public Movie Movie { get; set; } = null!;
 
         public Tag Tag { get; set; } = null!;
+
+        public MovieTag() { }
     }
 }

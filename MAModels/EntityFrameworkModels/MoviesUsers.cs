@@ -16,8 +16,10 @@ namespace MAModels.EntityFrameworkModels
         [Required]
         public int MovieId { get; set; }
 
-        public Movie Movie { get; set; } = null!;
+        public virtual Movie Movie { get; set; } = null!;
 
-        public User User { get; set; } = null!;      
+        public virtual User User { get; set; } = null!;      
+
+        public MovieUser() { }
     }
 }
