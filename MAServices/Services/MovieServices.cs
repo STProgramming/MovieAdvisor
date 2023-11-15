@@ -1,4 +1,5 @@
-﻿using MAModels.DTO;
+﻿using MAAI;
+using MAModels.DTO;
 using MAModels.EntityFrameworkModels;
 using MAServices.Interfaces;
 using Microsoft.AspNetCore.Http;
@@ -12,21 +13,23 @@ namespace MAServices.MovieServices
 
         private readonly ITagServices _tagServices;
 
+        private readonly INMovieAdvisor _aiServices;
+
         public MovieServices(ApplicationDbContext database,
-            ITagServices tagServices)
+            ITagServices tagServices,
+            INMovieAdvisor aiServices)
         {
             _database = database;
             _tagServices = tagServices;
+            _aiServices = aiServices;
         }
 
-        public async Task<ICollection<Movie>> GetAllMoviesFilteredByUser(User user)
+        public async Task<List<MovieDTO>> NSuggestedMoviesByUser(User user)
         {
-            //TODO return MovieAdvisorAI 
-            var movies = new List<Movie>();
-            return movies;
-        }
+            return await _aiServices.NMoviesSuggestedByUser(user);
+        }        
 
-        public async Task<ICollection<Movie>> GetAllMovies()
+        public async Task<List<Movie>> GetAllMovies()
         {
             return await _database.Movies.ToListAsync();
         }
@@ -36,7 +39,7 @@ namespace MAServices.MovieServices
             return await _database.Movies.Where(m => m.MovieId == movieId).FirstOrDefaultAsync();
         }
 
-        public async Task<ICollection<Movie>> IsThisMovieAlreadyInDB(string movieTitle, short movieYearProduction, string movieMaker)
+        public async Task<List<Movie>> IsThisMovieAlreadyInDB(string movieTitle, short movieYearProduction, string movieMaker)
         {
             return await _database.Movies.Where(m => string.Equals(movieTitle.ToLower().Trim(), m.MovieTitle.ToLower().Trim()) && movieYearProduction == m.MovieYearProduction && string.Equals(movieMaker.Trim().ToLower(), m.MovieMaker.Trim().ToLower())).ToListAsync();
         }
@@ -72,7 +75,7 @@ namespace MAServices.MovieServices
             await _tagServices.AssociateMovieToTag(moviesTags);
         }
 
-        public async Task AddNewMovieImage(ICollection<IFormFile> ImageList, int movieId, List<string> serverPathsImage) 
+        public async Task AddNewMovieImage(List<IFormFile> ImageList, int movieId, List<string> serverPathsImage) 
         {
             List<Image> imageList = new List<Image>();
             var movie = await GetMovieData(movieId);

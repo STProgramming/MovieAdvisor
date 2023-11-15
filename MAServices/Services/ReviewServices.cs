@@ -22,17 +22,17 @@ namespace MAServices.Services
             _movieServices = movieServices;
         }
 
-        public async Task PostNewReview(User user, Movie movie, string? descriptionVote, short vote)
+        public async Task PostNewReview(User user, Movie movie, string? descriptionVote, short vote, string? when)
         {
-            Review newReview = new Review 
-            { 
-                UserId = user.UserId, 
-                MovieId = movie.MovieId, 
+            Review newReview = new Review
+            {
+                UserId = user.UserId,
+                MovieId = movie.MovieId,
                 Movie = movie,
-                User = user, 
-                Vote = vote, 
+                User = user,
+                Vote = vote,
                 DescriptionVote = descriptionVote,
-                DateTimeVote = DateTime.Now
+                DateTimeVote = string.IsNullOrEmpty(when) ? DateTime.Now : Convert.ToDateTime(when)
             };
             await _database.Reviews.AddAsync(newReview);
             await _database.SaveChangesAsync();

@@ -985,6 +985,22 @@
           "build/netstandard2.0/_._": {}
         }
       },
+      "Microsoft.ML.Experimental/0.20.1": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.ML": "2.0.1"
+        },
+        "compile": {
+          "lib/netstandard2.0/Microsoft.ML.Experimental.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/netstandard2.0/Microsoft.ML.Experimental.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "Microsoft.ML.FastTree/2.0.1": {
         "type": "package",
         "dependencies": {
@@ -2285,19 +2301,6 @@
         "runtime": {
           "bin/placeholder/MAModels.dll": {}
         }
-      },
-      "MAServices/1.0.0": {
-        "type": "project",
-        "framework": ".NETCoreApp,Version=v7.0",
-        "dependencies": {
-          "MAModels": "1.0.0"
-        },
-        "compile": {
-          "bin/placeholder/MAServices.dll": {}
-        },
-        "runtime": {
-          "bin/placeholder/MAServices.dll": {}
-        }
       }
     }
   },
@@ -3544,6 +3547,22 @@
         "mlnetlogo.png",
         "tools/DnnImageModels/ResNet50Onnx/ResNet50.onnx",
         "tools/DnnImageModels/ResNetPrepOnnx/ResNetPreprocess.onnx"
+      ]
+    },
+    "Microsoft.ML.Experimental/0.20.1": {
+      "sha512": "UA6Nlk1qe5PI03M1dlDIZYIpaMjVB4X8bIXHMmU2lZtnzOsUAmbMyT2rgEaob//j1xOLIFfPy9khdeBXtqnSnw==",
+      "type": "package",
+      "path": "microsoft.ml.experimental/0.20.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE",
+        "THIRD-PARTY-NOTICES.TXT",
+        "lib/netstandard2.0/Microsoft.ML.Experimental.dll",
+        "lib/netstandard2.0/Microsoft.ML.Experimental.xml",
+        "microsoft.ml.experimental.0.20.1.nupkg.sha512",
+        "microsoft.ml.experimental.nuspec",
+        "mlnetlogo.png"
       ]
     },
     "Microsoft.ML.FastTree/2.0.1": {
@@ -5829,21 +5848,16 @@
       "type": "project",
       "path": "../MAModels/MAModels.csproj",
       "msbuildProject": "../MAModels/MAModels.csproj"
-    },
-    "MAServices/1.0.0": {
-      "type": "project",
-      "path": "../MAServices/MAServices.csproj",
-      "msbuildProject": "../MAServices/MAServices.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net7.0": [
       "MAModels >= 1.0.0",
-      "MAServices >= 1.0.0",
       "Microsoft.ML >= 2.0.1",
       "Microsoft.ML.AutoML >= 0.20.1",
       "Microsoft.ML.CpuMath >= 2.0.1",
       "Microsoft.ML.DataView >= 2.0.1",
+      "Microsoft.ML.Experimental >= 0.20.1",
       "Microsoft.ML.Recommender >= 0.20.1"
     ]
   },
@@ -5884,9 +5898,6 @@
           "projectReferences": {
             "D:\\STCorp-cartella utenti\\Documenti\\Repository\\MovieAdvisorApp\\MAModels\\MAModels.csproj": {
               "projectPath": "D:\\STCorp-cartella utenti\\Documenti\\Repository\\MovieAdvisorApp\\MAModels\\MAModels.csproj"
-            },
-            "D:\\STCorp-cartella utenti\\Documenti\\Repository\\MovieAdvisorApp\\MAServices\\MAServices.csproj": {
-              "projectPath": "D:\\STCorp-cartella utenti\\Documenti\\Repository\\MovieAdvisorApp\\MAServices\\MAServices.csproj"
             }
           }
         }
@@ -5916,6 +5927,10 @@
           "Microsoft.ML.DataView": {
             "target": "Package",
             "version": "[2.0.1, )"
+          },
+          "Microsoft.ML.Experimental": {
+            "target": "Package",
+            "version": "[0.20.1, )"
           },
           "Microsoft.ML.Recommender": {
             "target": "Package",

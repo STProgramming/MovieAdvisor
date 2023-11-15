@@ -1,3 +1,4 @@
+using MAAI;
 using MAModels.EntityFrameworkModels;
 using MAServices.Interfaces;
 using MAServices.MovieServices;
@@ -34,6 +35,8 @@ builder.Services.AddTransient<ITagServices, TagServices>();
 builder.Services.AddTransient<IUploadFileServices, UploadFileServices>();
 
 builder.Services.AddScoped<IUserServices, UserServices>();
+
+builder.Services.AddScoped<INMovieAdvisor, NMovieAdvisor>();
 
 #endregion
 

@@ -15,3 +15,5 @@ D:\STCorp-cartella utenti\Documenti\Repository\MovieAdvisorApp\MAServices\obj\De
 D:\STCorp-cartella utenti\Documenti\Repository\MovieAdvisorApp\MAServices\obj\Debug\net7.0\MAServices.pdb
 D:\STCorp-cartella utenti\Documenti\Repository\MovieAdvisorApp\MAServices\obj\Debug\net7.0\MAServices.genruntimeconfig.cache
 D:\STCorp-cartella utenti\Documenti\Repository\MovieAdvisorApp\MAServices\obj\Debug\net7.0\ref\MAServices.dll
+D:\STCorp-cartella utenti\Documenti\Repository\MovieAdvisorApp\MAServices\bin\Debug\net7.0\MAAI.dll
+D:\STCorp-cartella utenti\Documenti\Repository\MovieAdvisorApp\MAServices\bin\Debug\net7.0\MAAI.pdb

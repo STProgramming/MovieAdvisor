@@ -9,6 +9,10 @@
       "PackagePath": "staticwebassets\\uploads\\GITS95.png"
     },
     {
+      "Id": "D:\\STCorp-cartella utenti\\Documenti\\Repository\\MovieAdvisorApp\\MAApi\\wwwroot\\uploads\\LSC.jpg",
+      "PackagePath": "staticwebassets\\uploads\\LSC.jpg"
+    },
+    {
       "Id": "obj\\Debug\\net7.0\\staticwebassets\\msbuild.MAApi.Microsoft.AspNetCore.StaticWebAssets.props",
       "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
     },

@@ -37,12 +37,12 @@ namespace MAApi.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<ICollection<Movie>>> GetAllMoviesOfUser(string emailUser)
+        public async Task<ActionResult<ICollection<MovieDTO>>> GetSuggestionMovieForUser(string emailUser)
         {
             if(string.IsNullOrEmpty(emailUser) || !_emailAddressAttribute.IsValid(emailUser)) return StatusCode(406);
             var user = await _userServices.GetUserFromEmail(emailUser);
             if (user == null) return NotFound();
-            return Ok(await _movieServices.GetAllMoviesFilteredByUser(user));
+            return Ok(await _movieServices.NSuggestedMoviesByUser(user));
         }
 
         [HttpGet]
@@ -54,6 +54,7 @@ namespace MAApi.Controllers
         [HttpPost]
         public async Task<IActionResult> PostNewMovie([FromBody] MovieDTO newMovie)
         {
+            if (!ModelState.IsValid) return StatusCode(406);
             var movie = await _movieServices.IsThisMovieAlreadyInDB(newMovie.MovieTitle, newMovie.MovieYearProduction, newMovie.MovieMaker);
             if (movie != null && movie.Count > 0) return StatusCode(406);
             await _movieServices.CreateNewMovie(newMovie);
@@ -61,7 +62,7 @@ namespace MAApi.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddImagesToMovie([FromQuery]int MovieId, ICollection<IFormFile> Files)
+        public async Task<IActionResult> AddImagesToMovie([FromQuery]int MovieId, List<IFormFile> Files)
         {            
             if(Files.Count == 0) return BadRequest();
             try

@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "IUh7pAP1PFbqOqfDDVNovqZtJ5o5Bvp/ltkDLVJhy9moJ6Y0c8qn0eQ2RE9OxWXHo5L9laZnLA7p0uUmfBINVg==",
+  "dgSpecHash": "JxqonQdfIum8YJM20gjig8OOiXB4AbNBGu2t+6h4EsFzZpqGjbAXeMlPa2Qlfy0PEvBvpK4cgpzr32nk52+PfA==",
   "success": true,
   "projectFilePath": "D:\\STCorp-cartella utenti\\Documenti\\Repository\\MovieAdvisorApp\\MAAI\\MAAI.csproj",
   "expectedPackageFiles": [
@@ -47,6 +47,7 @@
     "C:\\Users\\STCor\\.nuget\\packages\\microsoft.ml.dnnimagefeaturizer.resnet101\\0.20.1\\microsoft.ml.dnnimagefeaturizer.resnet101.0.20.1.nupkg.sha512",
     "C:\\Users\\STCor\\.nuget\\packages\\microsoft.ml.dnnimagefeaturizer.resnet18\\0.20.1\\microsoft.ml.dnnimagefeaturizer.resnet18.0.20.1.nupkg.sha512",
     "C:\\Users\\STCor\\.nuget\\packages\\microsoft.ml.dnnimagefeaturizer.resnet50\\0.20.1\\microsoft.ml.dnnimagefeaturizer.resnet50.0.20.1.nupkg.sha512",
+    "C:\\Users\\STCor\\.nuget\\packages\\microsoft.ml.experimental\\0.20.1\\microsoft.ml.experimental.0.20.1.nupkg.sha512",
     "C:\\Users\\STCor\\.nuget\\packages\\microsoft.ml.fasttree\\2.0.1\\microsoft.ml.fasttree.2.0.1.nupkg.sha512",
     "C:\\Users\\STCor\\.nuget\\packages\\microsoft.ml.imageanalytics\\2.0.1\\microsoft.ml.imageanalytics.2.0.1.nupkg.sha512",
     "C:\\Users\\STCor\\.nuget\\packages\\microsoft.ml.lightgbm\\2.0.1\\microsoft.ml.lightgbm.2.0.1.nupkg.sha512",

@@ -30,6 +30,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\MAAI\MAAI.csproj" />
     <ProjectReference Include="..\MAModels\MAModels.csproj" />
     <ProjectReference Include="..\MAServices\MAServices.csproj" />
   </ItemGroup>

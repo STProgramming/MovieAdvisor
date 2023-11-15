@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "QDqvMqlbt17pX9qEBuG6qqZa21T7tq7T0HudpzoO9mc=",
+  "Hash": "wFzzwtct9jLaRvnwboHqPNb60sCkT+jy/SJDHn9c44M=",
   "Source": "MAApi",
   "BasePath": "_content/MAApi",
   "Mode": "Default",
@@ -49,6 +49,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\uploads\\GITS95.png"
+    },
+    {
+      "Identity": "D:\\STCorp-cartella utenti\\Documenti\\Repository\\MovieAdvisorApp\\MAApi\\wwwroot\\uploads\\LSC.jpg",
+      "SourceId": "MAApi",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\STCorp-cartella utenti\\Documenti\\Repository\\MovieAdvisorApp\\MAApi\\wwwroot\\",
+      "BasePath": "_content/MAApi",
+      "RelativePath": "uploads/LSC.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\uploads\\LSC.jpg"
     }
   ]
 }

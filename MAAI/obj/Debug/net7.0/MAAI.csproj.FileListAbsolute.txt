@@ -9,3 +9,9 @@ D:\STCorp-cartella utenti\Documenti\Repository\MovieAdvisorApp\MAAI\obj\Debug\ne
 D:\STCorp-cartella utenti\Documenti\Repository\MovieAdvisorApp\MAAI\obj\Debug\net7.0\refint\MAAI.dll
 D:\STCorp-cartella utenti\Documenti\Repository\MovieAdvisorApp\MAAI\obj\Debug\net7.0\MAAI.pdb
 D:\STCorp-cartella utenti\Documenti\Repository\MovieAdvisorApp\MAAI\obj\Debug\net7.0\ref\MAAI.dll
+D:\STCorp-cartella utenti\Documenti\Repository\MovieAdvisorApp\MAAI\bin\Debug\net7.0\MAAI.runtimeconfig.json
+D:\STCorp-cartella utenti\Documenti\Repository\MovieAdvisorApp\MAAI\bin\Debug\net7.0\MAModels.dll
+D:\STCorp-cartella utenti\Documenti\Repository\MovieAdvisorApp\MAAI\bin\Debug\net7.0\MAModels.pdb
+D:\STCorp-cartella utenti\Documenti\Repository\MovieAdvisorApp\MAAI\obj\Debug\net7.0\MAAI.csproj.AssemblyReference.cache
+D:\STCorp-cartella utenti\Documenti\Repository\MovieAdvisorApp\MAAI\obj\Debug\net7.0\MAAI.csproj.CopyComplete
+D:\STCorp-cartella utenti\Documenti\Repository\MovieAdvisorApp\MAAI\obj\Debug\net7.0\MAAI.genruntimeconfig.cache
