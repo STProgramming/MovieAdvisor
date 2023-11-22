@@ -12,7 +12,7 @@ namespace MAModels.EntityFrameworkModels
         public int ReviewId { get; set; }
 
         [Required, NotNull]
-        public short Vote { get; set; }
+        public float Vote { get; set; }
 
         public string? DescriptionVote { get; set; }
 

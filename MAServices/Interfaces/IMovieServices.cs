@@ -1,12 +1,13 @@
 ﻿using MAModels.DTO;
 using MAModels.EntityFrameworkModels;
+using MAModels.Models;
 using Microsoft.AspNetCore.Http;
 
 namespace MAServices.Interfaces
 {
     public interface IMovieServices
     {
-        Task<List<MovieDTO>> NSuggestedMoviesByUser(User user);
+        Task<List<MovieSuggested>> NSuggestedMoviesByUser(User user);
 
         Task<List<Movie>> IsThisMovieAlreadyInDB(string movieTitle, short movieYearProduction, string movieMaker);
 

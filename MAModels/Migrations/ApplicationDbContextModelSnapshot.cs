@@ -83,50 +83,68 @@ namespace MAModels.Migrations
                     b.ToTable("Movies");
                 });
 
-            modelBuilder.Entity("MAModels.EntityFrameworkModels.MovieTag", b =>
+            modelBuilder.Entity("MAModels.EntityFrameworkModels.Preference", b =>
                 {
-                    b.Property<int>("MovieTagId")
+                    b.Property<int>("ModelTrainId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MovieTagId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ModelTrainId"));
+
+                    b.Property<DateTime>("DateTimeCreation")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("DescriptionVote")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("MovieDescription")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("MovieGenres")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("MovieId")
                         .HasColumnType("int");
 
-                    b.Property<int>("TagId")
-                        .HasColumnType("int");
+                    b.Property<string>("MovieMaker")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("MovieTagId");
+                    b.Property<string>("MovieTitle")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.HasIndex("MovieId");
+                    b.Property<short>("MovieYear")
+                        .HasColumnType("smallint");
 
-                    b.HasIndex("TagId");
-
-                    b.ToTable("MoviesTags");
-                });
-
-            modelBuilder.Entity("MAModels.EntityFrameworkModels.MovieUser", b =>
-                {
-                    b.Property<int>("MovieUserId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MovieUserId"));
-
-                    b.Property<int>("MovieId")
-                        .HasColumnType("int");
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
-                    b.HasKey("MovieUserId");
+                    b.Property<string>("UserName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.HasIndex("MovieId");
+                    b.Property<float>("Vote")
+                        .HasColumnType("real");
 
-                    b.HasIndex("UserId");
+                    b.HasKey("ModelTrainId");
 
-                    b.ToTable("MoviesUsers");
+                    b.ToTable("Preferencies");
                 });
 
             modelBuilder.Entity("MAModels.EntityFrameworkModels.Review", b =>
@@ -149,8 +167,8 @@ namespace MAModels.Migrations
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
-                    b.Property<short>("Vote")
-                        .HasColumnType("smallint");
+                    b.Property<float>("Vote")
+                        .HasColumnType("real");
 
                     b.HasKey("ReviewId");
 
@@ -249,44 +267,6 @@ namespace MAModels.Migrations
                         .IsRequired();
 
                     b.Navigation("Movie");
-                });
-
-            modelBuilder.Entity("MAModels.EntityFrameworkModels.MovieTag", b =>
-                {
-                    b.HasOne("MAModels.EntityFrameworkModels.Movie", "Movie")
-                        .WithMany()
-                        .HasForeignKey("MovieId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("MAModels.EntityFrameworkModels.Tag", "Tag")
-                        .WithMany()
-                        .HasForeignKey("TagId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Movie");
-
-                    b.Navigation("Tag");
-                });
-
-            modelBuilder.Entity("MAModels.EntityFrameworkModels.MovieUser", b =>
-                {
-                    b.HasOne("MAModels.EntityFrameworkModels.Movie", "Movie")
-                        .WithMany()
-                        .HasForeignKey("MovieId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("MAModels.EntityFrameworkModels.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Movie");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("MAModels.EntityFrameworkModels.Review", b =>

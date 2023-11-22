@@ -25,7 +25,7 @@ namespace MAApi.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> PostNewReview(string emailUser, int movieId, string? descriptionVote, short vote, string? when)
+        public async Task<IActionResult> PostNewReview(string emailUser, int movieId, string? descriptionVote, float vote, string? when)
         {
             if (string.IsNullOrEmpty(emailUser) || !_emailController.IsValid(emailUser)) return StatusCode(406);
             var user = await _userServices.GetUserFromEmail(emailUser);

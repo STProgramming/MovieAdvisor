@@ -1,10 +1,14 @@
 ﻿using MAAI;
+using MAAI.Interfaces;
 using MAModels.DTO;
 using MAModels.EntityFrameworkModels;
+using MAModels.Models;
 using MAServices.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
- 
+using Microsoft.ML.AutoML;
+using Microsoft.ML.Data;
+
 namespace MAServices.MovieServices
 {
     public class MovieServices : IMovieServices
@@ -24,7 +28,7 @@ namespace MAServices.MovieServices
             _aiServices = aiServices;
         }
 
-        public async Task<List<MovieDTO>> NSuggestedMoviesByUser(User user)
+        public async Task<List<MovieSuggested>> NSuggestedMoviesByUser(User user)
         {
             return await _aiServices.NMoviesSuggestedByUser(user);
         }        
@@ -56,7 +60,6 @@ namespace MAServices.MovieServices
             await _database.Movies.AddAsync(newMovieObj);
             await _database.SaveChangesAsync();
             List<Tag> tagsInserted = new List<Tag>();
-            List<MovieTag> moviesTags = new List<MovieTag>(); 
             if (newMovie.TagsId != null && newMovie.TagsId.Count > 0)
             {
                 foreach(int tag in newMovie.TagsId)
@@ -64,15 +67,11 @@ namespace MAServices.MovieServices
                     var tagObj = await _tagServices.GetTag(tag);
                     if (tagObj == null) throw new ArgumentNullException();
                     tagsInserted.Add(tagObj);
-                    MovieTag? movieTagObj = new MovieTag();
-                    movieTagObj = await _tagServices.AssociateTagToMovie(newMovieObj.MovieId, newMovieObj, tagObj.TagId);
-                    if (movieTagObj == null) throw new ArgumentNullException();
-                    moviesTags.Add(movieTagObj);
                 }
             }
             newMovieObj.TagsList = tagsInserted;
             _database.Movies.Update(newMovieObj);
-            await _tagServices.AssociateMovieToTag(moviesTags);
+            await _database.SaveChangesAsync();
         }
 
         public async Task AddNewMovieImage(List<IFormFile> ImageList, int movieId, List<string> serverPathsImage) 

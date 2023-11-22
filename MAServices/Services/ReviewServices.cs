@@ -22,7 +22,7 @@ namespace MAServices.Services
             _movieServices = movieServices;
         }
 
-        public async Task PostNewReview(User user, Movie movie, string? descriptionVote, short vote, string? when)
+        public async Task PostNewReview(User user, Movie movie, string? descriptionVote, float vote, string? when)
         {
             Review newReview = new Review
             {
@@ -36,19 +36,10 @@ namespace MAServices.Services
             };
             await _database.Reviews.AddAsync(newReview);
             await _database.SaveChangesAsync();
-            MovieUser userSeenMovie = new MovieUser
-            {
-                User = user,
-                UserId = user.UserId,
-                MovieId = movie.MovieId,
-                Movie = movie,
-            };
             user.ReviewsList.Add(newReview);
             user.MoviesList.Add(movie);
-            movie.UsersList.Add(user);            
             _database.Users.Update(user);
             _database.Movies.Update(movie);
-            await _database.MoviesUsers.AddAsync(userSeenMovie);
             await _database.SaveChangesAsync();
         }
 

@@ -11,15 +11,13 @@ namespace MAModels.EntityFrameworkModels
 
         public DbSet<Image> Images { get; set; }
 
-        public DbSet<MovieTag> MoviesTags { get; set; }
-
         public DbSet<Tag> Tags { get; set; }
 
         public DbSet<Review> Reviews { get; set; }
 
         public DbSet<User> Users { get; set; }
 
-        public DbSet<MovieUser> MoviesUsers { get; set; }
+        public DbSet<Preference> ModelsTrain { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

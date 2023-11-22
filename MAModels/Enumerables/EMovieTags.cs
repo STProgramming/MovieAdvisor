@@ -35,5 +35,6 @@
         Spionaggio =31,
         Sportivo =32,
         SpaceOpera =33,
+        Gangster =34
     }
 }

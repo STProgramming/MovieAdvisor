@@ -1,4 +1,5 @@
-﻿using MAModels.EntityFrameworkModels;
+﻿using MAModels.DTO;
+using MAModels.EntityFrameworkModels;
 
 namespace MAServices.Interfaces
 {
@@ -6,8 +7,10 @@ namespace MAServices.Interfaces
     {
         Task<Tag?> GetTag(int tagId);
 
-        Task AssociateMovieToTag(List<MovieTag> movieTagsAssociation);
+        Task<List<Tag>> GetAllTags();
 
-        Task<MovieTag?> AssociateTagToMovie(int movieId, Movie movie, int tagId);
+        Task<List<MovieDTO>> GetMoviesFromTag(int tagId);
+
+        Task CreateAllTags();
     }
 }
