@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\STCorp-cartella utenti\\Documenti\\Repository\\MovieAdvisorApp\\MAModels\\MAModels.csproj": {}
+    "C:\\Users\\STCor\\OneDrive\\Documenti\\Repository\\MovieAdvisorApp\\MAModels\\MAModels.csproj": {}
   },
   "projects": {
-    "D:\\STCorp-cartella utenti\\Documenti\\Repository\\MovieAdvisorApp\\MAModels\\MAModels.csproj": {
+    "C:\\Users\\STCor\\OneDrive\\Documenti\\Repository\\MovieAdvisorApp\\MAModels\\MAModels.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\STCorp-cartella utenti\\Documenti\\Repository\\MovieAdvisorApp\\MAModels\\MAModels.csproj",
+        "projectUniqueName": "C:\\Users\\STCor\\OneDrive\\Documenti\\Repository\\MovieAdvisorApp\\MAModels\\MAModels.csproj",
         "projectName": "MAModels",
-        "projectPath": "D:\\STCorp-cartella utenti\\Documenti\\Repository\\MovieAdvisorApp\\MAModels\\MAModels.csproj",
+        "projectPath": "C:\\Users\\STCor\\OneDrive\\Documenti\\Repository\\MovieAdvisorApp\\MAModels\\MAModels.csproj",
         "packagesPath": "C:\\Users\\STCor\\.nuget\\packages\\",
-        "outputPath": "D:\\STCorp-cartella utenti\\Documenti\\Repository\\MovieAdvisorApp\\MAModels\\obj\\",
+        "outputPath": "C:\\Users\\STCor\\OneDrive\\Documenti\\Repository\\MovieAdvisorApp\\MAModels\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
@@ -107,7 +107,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.403\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100\\RuntimeIdentifierGraph.json"
         }
       }
     }

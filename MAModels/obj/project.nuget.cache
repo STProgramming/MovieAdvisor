@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "uFDGD2DJj75OwtgbLbxaZv+hBKyUKV69yfBsTF+3wrFCLKr+9I6W2UkBqcwpSELx6h29yxteh0G9NVIbbLULAA==",
+  "dgSpecHash": "WZCNys4iSyMw6JkuDJEXfoVlwqxYiJVtGLINY84nYEyVdguBiK7NMhCvIiQ8iIKp0/fVx756ahQa/DaIpUZRgg==",
   "success": true,
-  "projectFilePath": "D:\\STCorp-cartella utenti\\Documenti\\Repository\\MovieAdvisorApp\\MAModels\\MAModels.csproj",
+  "projectFilePath": "C:\\Users\\STCor\\OneDrive\\Documenti\\Repository\\MovieAdvisorApp\\MAModels\\MAModels.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\STCor\\.nuget\\packages\\azure.core\\1.25.0\\azure.core.1.25.0.nupkg.sha512",
     "C:\\Users\\STCor\\.nuget\\packages\\azure.identity\\1.7.0\\azure.identity.1.7.0.nupkg.sha512",

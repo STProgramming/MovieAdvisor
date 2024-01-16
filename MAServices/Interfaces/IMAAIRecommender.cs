@@ -4,7 +4,7 @@ using MAModels.Models;
 
 namespace MAAI.Interfaces
 {
-    public interface INMovieAdvisor
+    public interface IMAAIRecommender
     {
         Task<List<MovieSuggested>> NMoviesSuggestedByUser(User user);
     }

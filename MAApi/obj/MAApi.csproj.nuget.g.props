@@ -7,7 +7,7 @@
     <NuGetPackageRoot Condition=" '$(NuGetPackageRoot)' == '' ">$(UserProfile)\.nuget\packages\</NuGetPackageRoot>
     <NuGetPackageFolders Condition=" '$(NuGetPackageFolders)' == '' ">C:\Users\STCor\.nuget\packages\;C:\Program Files (x86)\Microsoft Visual Studio\Shared\NuGetPackages;C:\Program Files\dotnet\sdk\NuGetFallbackFolder</NuGetPackageFolders>
     <NuGetProjectStyle Condition=" '$(NuGetProjectStyle)' == '' ">PackageReference</NuGetProjectStyle>
-    <NuGetToolVersion Condition=" '$(NuGetToolVersion)' == '' ">6.7.0</NuGetToolVersion>
+    <NuGetToolVersion Condition=" '$(NuGetToolVersion)' == '' ">6.8.0</NuGetToolVersion>
   </PropertyGroup>
   <ItemGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
     <SourceRoot Include="C:\Users\STCor\.nuget\packages\" />
@@ -15,7 +15,7 @@
     <SourceRoot Include="C:\Program Files\dotnet\sdk\NuGetFallbackFolder\" />
   </ItemGroup>
   <ImportGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
-    <Import Project="$(NuGetPackageRoot)torchsharp\0.98.1\buildTransitive\net5.0\TorchSharp.props" Condition="Exists('$(NuGetPackageRoot)torchsharp\0.98.1\buildTransitive\net5.0\TorchSharp.props')" />
+    <Import Project="$(NuGetPackageRoot)torchsharp\0.99.5\buildTransitive\net6.0\TorchSharp.props" Condition="Exists('$(NuGetPackageRoot)torchsharp\0.99.5\buildTransitive\net6.0\TorchSharp.props')" />
     <Import Project="$(NuGetPackageRoot)microsoft.extensions.apidescription.server\6.0.5\build\Microsoft.Extensions.ApiDescription.Server.props" Condition="Exists('$(NuGetPackageRoot)microsoft.extensions.apidescription.server\6.0.5\build\Microsoft.Extensions.ApiDescription.Server.props')" />
     <Import Project="$(NuGetPackageRoot)swashbuckle.aspnetcore\6.5.0\build\Swashbuckle.AspNetCore.props" Condition="Exists('$(NuGetPackageRoot)swashbuckle.aspnetcore\6.5.0\build\Swashbuckle.AspNetCore.props')" />
     <Import Project="$(NuGetPackageRoot)microsoft.entityframeworkcore\7.0.13\buildTransitive\net6.0\Microsoft.EntityFrameworkCore.props" Condition="Exists('$(NuGetPackageRoot)microsoft.entityframeworkcore\7.0.13\buildTransitive\net6.0\Microsoft.EntityFrameworkCore.props')" />
@@ -24,11 +24,10 @@
   </ImportGroup>
   <PropertyGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
     <PkgMicrosoft_Extensions_ApiDescription_Server Condition=" '$(PkgMicrosoft_Extensions_ApiDescription_Server)' == '' ">C:\Users\STCor\.nuget\packages\microsoft.extensions.apidescription.server\6.0.5</PkgMicrosoft_Extensions_ApiDescription_Server>
-    <PkgMicrosoft_ML_DnnImageFeaturizer_ResNet50 Condition=" '$(PkgMicrosoft_ML_DnnImageFeaturizer_ResNet50)' == '' ">C:\Users\STCor\.nuget\packages\microsoft.ml.dnnimagefeaturizer.resnet50\0.20.1</PkgMicrosoft_ML_DnnImageFeaturizer_ResNet50>
-    <PkgMicrosoft_ML_DnnImageFeaturizer_ResNet18 Condition=" '$(PkgMicrosoft_ML_DnnImageFeaturizer_ResNet18)' == '' ">C:\Users\STCor\.nuget\packages\microsoft.ml.dnnimagefeaturizer.resnet18\0.20.1</PkgMicrosoft_ML_DnnImageFeaturizer_ResNet18>
-    <PkgMicrosoft_ML_DnnImageFeaturizer_ResNet101 Condition=" '$(PkgMicrosoft_ML_DnnImageFeaturizer_ResNet101)' == '' ">C:\Users\STCor\.nuget\packages\microsoft.ml.dnnimagefeaturizer.resnet101\0.20.1</PkgMicrosoft_ML_DnnImageFeaturizer_ResNet101>
-    <PkgMicrosoft_ML_DnnImageFeaturizer_AlexNet Condition=" '$(PkgMicrosoft_ML_DnnImageFeaturizer_AlexNet)' == '' ">C:\Users\STCor\.nuget\packages\microsoft.ml.dnnimagefeaturizer.alexnet\0.20.1</PkgMicrosoft_ML_DnnImageFeaturizer_AlexNet>
-    <PkgMicrosoft_CodeAnalysis_Analyzers Condition=" '$(PkgMicrosoft_CodeAnalysis_Analyzers)' == '' ">C:\Users\STCor\.nuget\packages\microsoft.codeanalysis.analyzers\3.0.0</PkgMicrosoft_CodeAnalysis_Analyzers>
+    <PkgMicrosoft_ML_DnnImageFeaturizer_ResNet50 Condition=" '$(PkgMicrosoft_ML_DnnImageFeaturizer_ResNet50)' == '' ">C:\Users\STCor\.nuget\packages\microsoft.ml.dnnimagefeaturizer.resnet50\0.21.0</PkgMicrosoft_ML_DnnImageFeaturizer_ResNet50>
+    <PkgMicrosoft_ML_DnnImageFeaturizer_ResNet18 Condition=" '$(PkgMicrosoft_ML_DnnImageFeaturizer_ResNet18)' == '' ">C:\Users\STCor\.nuget\packages\microsoft.ml.dnnimagefeaturizer.resnet18\0.21.0</PkgMicrosoft_ML_DnnImageFeaturizer_ResNet18>
+    <PkgMicrosoft_ML_DnnImageFeaturizer_ResNet101 Condition=" '$(PkgMicrosoft_ML_DnnImageFeaturizer_ResNet101)' == '' ">C:\Users\STCor\.nuget\packages\microsoft.ml.dnnimagefeaturizer.resnet101\0.21.0</PkgMicrosoft_ML_DnnImageFeaturizer_ResNet101>
+    <PkgMicrosoft_ML_DnnImageFeaturizer_AlexNet Condition=" '$(PkgMicrosoft_ML_DnnImageFeaturizer_AlexNet)' == '' ">C:\Users\STCor\.nuget\packages\microsoft.ml.dnnimagefeaturizer.alexnet\0.21.0</PkgMicrosoft_ML_DnnImageFeaturizer_AlexNet>
     <PkgMicrosoft_EntityFrameworkCore_Tools Condition=" '$(PkgMicrosoft_EntityFrameworkCore_Tools)' == '' ">C:\Users\STCor\.nuget\packages\microsoft.entityframeworkcore.tools\7.0.13</PkgMicrosoft_EntityFrameworkCore_Tools>
     <PkgEntityFramework Condition=" '$(PkgEntityFramework)' == '' ">C:\Users\STCor\.nuget\packages\entityframework\6.4.4</PkgEntityFramework>
   </PropertyGroup>

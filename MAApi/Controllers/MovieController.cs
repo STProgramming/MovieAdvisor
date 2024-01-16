@@ -14,9 +14,7 @@ namespace MAApi.Controllers
 
         private readonly IMovieServices _movieServices;
 
-        private readonly IConfiguration _config;
-
-        private readonly IUploadFileServices _uploadFileServices;
+        private readonly IFileServices _uploadFileServices;
 
         private readonly IUserServices _userServices;
 
@@ -25,19 +23,18 @@ namespace MAApi.Controllers
         public MovieController(IMovieServices movieServices, 
             IConfiguration config,
             IWebHostEnvironment webHostEnvironment,
-            IUploadFileServices uploadFileServices,
+            IFileServices uploadFileServices,
             IUserServices userServices
             )
         {
             _movieServices = movieServices;
-            _config = config;   
             _webHostEnvironment = webHostEnvironment;
             _uploadFileServices = uploadFileServices;
             _userServices = userServices;
         }
 
         [HttpGet]
-        public async Task<ActionResult<ICollection<MovieDTO>>> GetSuggestionMovieForUser(string emailUser)
+        public async Task<ActionResult<ICollection<MovieDTO>>> Suggestions(string emailUser)
         {
             if(string.IsNullOrEmpty(emailUser) || !_emailAddressAttribute.IsValid(emailUser)) return StatusCode(406);
             var user = await _userServices.GetUserFromEmail(emailUser);

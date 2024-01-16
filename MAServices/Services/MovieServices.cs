@@ -17,11 +17,11 @@ namespace MAServices.MovieServices
 
         private readonly ITagServices _tagServices;
 
-        private readonly INMovieAdvisor _aiServices;
+        private readonly IMAAIRecommender _aiServices;
 
         public MovieServices(ApplicationDbContext database,
             ITagServices tagServices,
-            INMovieAdvisor aiServices)
+            IMAAIRecommender aiServices)
         {
             _database = database;
             _tagServices = tagServices;
@@ -31,7 +31,7 @@ namespace MAServices.MovieServices
         public async Task<List<MovieSuggested>> NSuggestedMoviesByUser(User user)
         {
             return await _aiServices.NMoviesSuggestedByUser(user);
-        }        
+        }
 
         public async Task<List<Movie>> GetAllMovies()
         {
@@ -92,6 +92,5 @@ namespace MAServices.MovieServices
             _database.Movies.Update(movie);
             await _database.SaveChangesAsync();
         }
-
     }
 }

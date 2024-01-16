@@ -34,13 +34,13 @@ builder.Services.AddTransient<IReviewServices, ReviewServices>();
 
 builder.Services.AddTransient<ITagServices, TagServices>();
 
-builder.Services.AddTransient<IUploadFileServices, UploadFileServices>();
+builder.Services.AddTransient<IFileServices, FileServices>();
 
 builder.Services.AddScoped<IUserServices, UserServices>();
 
-builder.Services.AddScoped<INMovieAdvisor, NMovieAdvisor>();
+builder.Services.AddScoped<IMAAIRecommender, MAAIRecommender>();
 
-builder.Services.AddHostedService<ModelTrainCore>();
+builder.Services.AddHostedService<MABSCore>();
 
 #endregion
 
