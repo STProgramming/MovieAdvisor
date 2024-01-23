@@ -52,8 +52,6 @@ namespace MAAI.ScriptAI
                     modelTrain.Add(train);
                 }
 
-                DataPreparer.PreprocessData(_fileServices.MakeCsv(modelTrain));
-
                 var data = mlContext.Data.LoadFromEnumerable(modelTrain);
 
                 IEstimator<ITransformer> estimator = mlContext.Transforms.Conversion.MapValueToKey(outputColumnName: "UserId", inputColumnName: "UserId")
@@ -64,7 +62,7 @@ namespace MAAI.ScriptAI
                     MatrixColumnIndexColumnName = "UserId",
                     MatrixRowIndexColumnName = "MovieId",
                     LabelColumnName = "Label",
-                    NumberOfIterations = 100,
+                    NumberOfIterations = modelTrain.Count,
                     ApproximationRank = 100,
                     Quiet = true,
                 };

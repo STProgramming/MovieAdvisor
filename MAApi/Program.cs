@@ -40,8 +40,6 @@ builder.Services.AddScoped<IUserServices, UserServices>();
 
 builder.Services.AddScoped<IMAAIRecommender, MAAIRecommender>();
 
-builder.Services.AddHostedService<MABSCore>();
-
 #endregion
 
 #region CONFIGURE CORS
