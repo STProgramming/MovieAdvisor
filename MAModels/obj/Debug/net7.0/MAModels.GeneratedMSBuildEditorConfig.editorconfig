@@ -8,6 +8,6 @@ build_property.PlatformNeutralAssembly =
 build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = MAModels
-build_property.ProjectDir = C:\Users\STCor\OneDrive\Documenti\Repository\MovieAdvisorApp\MAModels\
+build_property.ProjectDir = C:\Users\STCor\Documents\Repositories\MAApp\MovieAdvisor\MAModels\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 

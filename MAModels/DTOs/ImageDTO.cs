@@ -6,14 +6,14 @@ namespace MAModels.DTO
     {
         public ImageDTO(
             string ImageName,
-            string pathServer,
+            byte[] ImageData,
             int movieId,
             Movie movie
         )
         {
             this.ImageName = ImageName;
             ImageExtension = Path.GetExtension(ImageName);
-            ImagePath = pathServer;
+            this.ImageData = ImageData;
             MovieId = movieId;
             Movie = movie;
         }
@@ -22,7 +22,7 @@ namespace MAModels.DTO
         {
             ImageName = im.ImageName;
             ImageExtension = im.ImageName;
-            ImagePath = im.ImagePath;
+            ImageData = im.ImageData;
             MovieId = im.MovieId;
             Movie = im.Movie;
         }

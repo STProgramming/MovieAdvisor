@@ -10,7 +10,6 @@ namespace MAApi.Controllers
     [ApiController]
     public class MovieController : ControllerBase
     {
-        private readonly IWebHostEnvironment _webHostEnvironment;
 
         private readonly IMovieServices _movieServices;
 
@@ -22,13 +21,11 @@ namespace MAApi.Controllers
 
         public MovieController(IMovieServices movieServices, 
             IConfiguration config,
-            IWebHostEnvironment webHostEnvironment,
             IFileServices uploadFileServices,
             IUserServices userServices
             )
         {
             _movieServices = movieServices;
-            _webHostEnvironment = webHostEnvironment;
             _uploadFileServices = uploadFileServices;
             _userServices = userServices;
         }
@@ -64,13 +61,12 @@ namespace MAApi.Controllers
             if(Files.Count == 0) return BadRequest();
             try
             {
-                string contentRootPath = _webHostEnvironment.ContentRootPath;
-                await _movieServices.AddNewMovieImage(Files, MovieId, _uploadFileServices.SaveImage(Files));
+                await _movieServices.AddNewMovieImage(Files, MovieId, _uploadFileServices.ConvertToByteArray(Files));
                 return StatusCode(201);
             }
-            catch (Exception ex)
+            catch (NullReferenceException)
             {
-                return StatusCode(500, ex.Message);
+                return NotFound();
             }
         }
     }

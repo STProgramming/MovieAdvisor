@@ -1,21 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\STCor\\OneDrive\\Documenti\\Repository\\MovieAdvisorApp\\MAModels\\MAModels.csproj": {}
+    "C:\\Users\\STCor\\Documents\\Repositories\\MAApp\\MovieAdvisor\\MAModels\\MAModels.csproj": {}
   },
   "projects": {
-    "C:\\Users\\STCor\\OneDrive\\Documenti\\Repository\\MovieAdvisorApp\\MAModels\\MAModels.csproj": {
+    "C:\\Users\\STCor\\Documents\\Repositories\\MAApp\\MovieAdvisor\\MAModels\\MAModels.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\STCor\\OneDrive\\Documenti\\Repository\\MovieAdvisorApp\\MAModels\\MAModels.csproj",
+        "projectUniqueName": "C:\\Users\\STCor\\Documents\\Repositories\\MAApp\\MovieAdvisor\\MAModels\\MAModels.csproj",
         "projectName": "MAModels",
-        "projectPath": "C:\\Users\\STCor\\OneDrive\\Documenti\\Repository\\MovieAdvisorApp\\MAModels\\MAModels.csproj",
+        "projectPath": "C:\\Users\\STCor\\Documents\\Repositories\\MAApp\\MovieAdvisor\\MAModels\\MAModels.csproj",
         "packagesPath": "C:\\Users\\STCor\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\STCor\\OneDrive\\Documenti\\Repository\\MovieAdvisorApp\\MAModels\\obj\\",
+        "outputPath": "C:\\Users\\STCor\\Documents\\Repositories\\MAApp\\MovieAdvisor\\MAModels\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
           "C:\\Users\\STCor\\AppData\\Roaming\\NuGet\\NuGet.Config",

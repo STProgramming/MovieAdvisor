@@ -4,8 +4,6 @@ using MAModels.Models;
 using MAServices.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
-using System.Globalization;
-using System.Net.Http.Headers;
 
 namespace MAServices.Services
 {
@@ -18,42 +16,31 @@ namespace MAServices.Services
             _configuration = configuration;
         }
 
-        public List<string> SaveImage(ICollection<IFormFile> Files)
+        public List<byte[]> ConvertToByteArray(ICollection<IFormFile> Files)
         {
-            List<string> pathsImage = new List<string>();
-            string DirectoryUpload = Path.Combine(_configuration["ServerDirectory:Upload:root"], _configuration["ServerDirectory:Upload:image"]);
-            string PathToSave = Path.Combine(Directory.GetCurrentDirectory(), DirectoryUpload);
-            foreach(var file in Files)
+            List<byte[]> resultImages = new List<byte[]>();
+            foreach (var item in Files)
             {
-                var FileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
-                var FullPath = Path.Combine(PathToSave, FileName);
+                byte[] img = ByteArrayFromPathImage(Path.Combine(_configuration["UploadFilePaths:ImagePath"], item.FileName));
+                resultImages.Add(img);
+            }
+            return resultImages;
+        }
 
-                using (var stream = new FileStream(FullPath, FileMode.Create))
+        private byte[] ByteArrayFromPathImage(string pathImage)
+        {
+            if (!File.Exists(pathImage)) throw new FileNotFoundException();
+
+            // Leggi il contenuto del file in un array di byte.
+            byte[] imageData;
+            using (FileStream fileStream = new FileStream(pathImage, FileMode.Open, FileAccess.Read))
+            {
+                using (BinaryReader binaryReader = new BinaryReader(fileStream))
                 {
-                    file.CopyTo(stream);
+                    imageData = binaryReader.ReadBytes((int)fileStream.Length);
                 }
-                pathsImage.Add(FullPath);
             }
-            return pathsImage;
-        }
-
-        public string MakeCsv(List<PreferenceModelTrain> model)
-        {
-            string nameFile = new Guid().ToString();
-            var pathFile = MakePathCsv(nameFile);
-            using (var writer = new StreamWriter(pathFile))
-            using (var csv = new CsvWriter(writer, new CsvConfiguration(CultureInfo.InvariantCulture)))
-            {
-                csv.WriteRecords(model);
-            }
-            return pathFile;
-        }
-
-        private string MakePathCsv(string nameFile)
-        {
-            string directoryCsv = Path.Combine(_configuration["ServerDirectory:Upload:root"], _configuration["ServerDirectory:Upload:csv"]);
-            string pathToSave = Path.Combine(Directory.GetCurrentDirectory(), directoryCsv);
-            return Path.Combine(pathToSave, nameFile);
+            return imageData;
         }
     }
 }

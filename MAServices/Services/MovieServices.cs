@@ -74,7 +74,7 @@ namespace MAServices.MovieServices
             await _database.SaveChangesAsync();
         }
 
-        public async Task AddNewMovieImage(List<IFormFile> ImageList, int movieId, List<string> serverPathsImage) 
+        public async Task AddNewMovieImage(List<IFormFile> ImageList, int movieId, List<byte[]> imagesList) 
         {
             List<Image> imageList = new List<Image>();
             var movie = await GetMovieData(movieId);
@@ -82,7 +82,7 @@ namespace MAServices.MovieServices
             int counter = 0;
             foreach (var image in ImageList)
             {
-                ImageDTO MovieImage = new ImageDTO(image.FileName, serverPathsImage[counter], movieId, movie);
+                ImageDTO MovieImage = new ImageDTO(image.FileName, imagesList.ElementAt(counter), movieId, movie);
                 await _database.Images.AddAsync(MovieImage);
                 await _database.SaveChangesAsync();
                 imageList.Add(MovieImage);

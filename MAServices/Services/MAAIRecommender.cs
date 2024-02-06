@@ -54,33 +54,46 @@ namespace MAAI.ScriptAI
 
                 var data = mlContext.Data.LoadFromEnumerable(modelTrain);
 
-                IEstimator<ITransformer> estimator = mlContext.Transforms.Conversion.MapValueToKey(outputColumnName: "UserId", inputColumnName: "UserId")
-                    .Append(mlContext.Transforms.Conversion.MapValueToKey(outputColumnName: "MovieId", inputColumnName: "MovieId"));
+                var dataProcessingPipeline = mlContext
+                    .Transforms
+                    .Conversion
+                    .MapValueToKey(outputColumnName: "UserIdEncoded",
+                                    inputColumnName: nameof(PreferenceModelTrain.UserId))
+                    .Append(mlContext
+                    .Transforms
+                    .Conversion
+                    .MapValueToKey(outputColumnName: "MovieIdEncoded",
+                                    inputColumnName: nameof(PreferenceModelTrain.MovieId)));
 
                 var options = new MatrixFactorizationTrainer.Options
                 {
-                    MatrixColumnIndexColumnName = "UserId",
-                    MatrixRowIndexColumnName = "MovieId",
+                    MatrixColumnIndexColumnName = "UserIdEncoded",
+                    MatrixRowIndexColumnName = "MovieIdEncoded",
                     LabelColumnName = "Label",
                     NumberOfIterations = modelTrain.Count,
                     ApproximationRank = 100,
                     Quiet = true,
                 };
 
-                var trainerEstimator = estimator.Append(mlContext.Recommendation().Trainers.MatrixFactorization(options));
+                var trainer = mlContext.Recommendation().Trainers.MatrixFactorization(options);
 
-                ITransformer model = trainerEstimator.Fit(data);
+                var trainingPipeLine = dataProcessingPipeline.Append(trainer);
 
-                var prediction = model.Transform(data);
+                var model = trainingPipeLine.Fit(data);
 
-                var metrics = mlContext.Regression.Evaluate(prediction, labelColumnName: "Label", scoreColumnName: "Score");
+                var predictionEngine = mlContext.Model.CreatePredictionEngine<PreferenceModelTrain, MovieSuggested>(model);
+
+                var crossValMetrics = mlContext.Recommendation()
+                                        .CrossValidate(data: data,
+                                        estimator: trainingPipeLine,
+                                        labelColumnName: "Label");
 
                 try
                 {
-                    var predictionEngine = mlContext.Model.CreatePredictionEngine<PreferenceModelTrain, MovieSuggested>(model);
+                    var prediction = mlContext.Model.CreatePredictionEngine<PreferenceModelTrain, MovieSuggested>(model);
                     foreach (var movie in movieNotYetSeen)
                     {
-                        var pred = predictionEngine.Predict(new PreferenceModelTrain
+                        var pred = prediction.Predict(new PreferenceModelTrain
                         {
                             UserId = user.UserId,
                             MovieId = movie.MovieId,

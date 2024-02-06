@@ -14,10 +14,10 @@ namespace MAModels.EntityFrameworkModels
         public string ImageName { get; set; } = null!;
 
         [Required]
-        public string ImagePath { get; set; } = null!;
+        public string ImageExtension { get; set; } = null!;
 
         [Required]
-        public string ImageExtension { get; set; } = null!;
+        public byte[] ImageData { get; set; }
 
         public int MovieId { get; set; }
 

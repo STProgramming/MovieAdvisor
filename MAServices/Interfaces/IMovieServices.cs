@@ -17,6 +17,6 @@ namespace MAServices.Interfaces
 
         Task<Movie?> GetMovieData(int movieId);
 
-        Task AddNewMovieImage(List<IFormFile> ImageList, int movieId, List<string> serverPathsImage);
-    }
+        Task AddNewMovieImage(List<IFormFile> ImageList, int movieId, List<byte[]> imagesList);
+        }
 }

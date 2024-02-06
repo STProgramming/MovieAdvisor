@@ -5,8 +5,6 @@ namespace MAServices.Interfaces
 {
     public interface IFileServices
     {
-        List<string> SaveImage(ICollection<IFormFile> Files);
-
-        string MakeCsv(List<PreferenceModelTrain> model);
+        List<byte[]> ConvertToByteArray(ICollection<IFormFile> Files);
     }
 }
