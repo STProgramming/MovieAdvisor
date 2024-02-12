@@ -9,8 +9,6 @@ namespace MAServices.Interfaces
 
         Task<List<Tag>> GetAllTags();
 
-        Task<List<MovieDTO>> GetMoviesFromTag(int tagId);
-
         Task CreateAllTags();
     }
 }

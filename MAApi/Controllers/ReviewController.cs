@@ -11,38 +11,36 @@ namespace MAApi.Controllers
     {
         private readonly IReviewServices _reviewServices;
 
-        private readonly EmailAddressAttribute _emailController = new EmailAddressAttribute();
-
-        private readonly IUserServices _userServices;
-
-        private readonly IMovieServices _movieServices;
-
         public ReviewController(IReviewServices reviewServices, IUserServices userServices, IMovieServices movieServices) 
         {
             _reviewServices = reviewServices;
-            _userServices = userServices;
-            _movieServices = movieServices;
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> PostNewReview(string emailUser, int movieId, string? descriptionVote, float vote, string? when)
-        {
-            if (string.IsNullOrEmpty(emailUser) || !_emailController.IsValid(emailUser)) return StatusCode(406);
-            var user = await _userServices.GetUserFromEmail(emailUser);
-            if (user == null) return StatusCode(401);
-            var movie = await _movieServices.GetMovieData(movieId);
-            if (movie == null) return NotFound();
-            await _reviewServices.PostNewReview(user, movie, descriptionVote, vote, when);
-            return StatusCode(201);
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetReviews(string? emailUser, int? movieId)
+        public async Task<IActionResult> Search(string? emailUser, int? movieId)
         {
-            User? user = await _userServices.GetUserFromEmail(emailUser);
-            Movie? movie = await _movieServices.GetMovieData(Convert.ToInt32(movieId));
-            var results = await _reviewServices.SearchEngineReviews(user, movie);
-            return results != null && results.Count > 0 ? Ok(results) : NotFound();
+            try
+            {
+                return Ok(await _reviewServices.SearchEngineReviews(emailUser, movieId));
+            }
+            catch (NullReferenceException)
+            {
+                return NotFound();
+            }
         }
+
+        [HttpPost]
+        public async Task<IActionResult> Post(string emailUser, int movieId, string? descriptionVote, float vote, string? when)
+        {
+            try
+            {
+                await _reviewServices.PostNewReview(emailUser, movieId, descriptionVote, vote, when);
+                return StatusCode(201);
+            }
+            catch (NullReferenceException)
+            {
+                return NotFound();
+            }
+        }        
     }
 }

@@ -38,7 +38,7 @@ builder.Services.AddTransient<IFileServices, FileServices>();
 
 builder.Services.AddScoped<IUserServices, UserServices>();
 
-builder.Services.AddScoped<IMAAIRecommender, MAAIRecommender>();
+builder.Services.AddScoped<IRecommendationServices, RecommendationServices>();
 
 #endregion
 

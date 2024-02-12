@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 
 namespace MAModels.Models
 {
-    public class PreferenceModelTrain
+    public class ModelInput
     {
         [LoadColumn(0)]
-        public int UserId { get; set; }
+        public float UserId { get; set; }
 
         [LoadColumn(1)]
-        public int MovieId { get; set; }
+        public float MovieId { get; set; }
 
         [LoadColumn(2)]
         public float Label { get; set; }

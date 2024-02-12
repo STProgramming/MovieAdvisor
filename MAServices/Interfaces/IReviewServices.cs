@@ -5,8 +5,8 @@ namespace MAServices.Interfaces
 {
     public interface IReviewServices
     {
-        Task PostNewReview(User user, Movie movie, string? descriptionVote, float vote, string? when);
+        Task PostNewReview(string userEmail, int movieId, string? descriptionVote, float vote, string? when);
 
-        Task<List<ReviewDTO>?> SearchEngineReviews(User? user, Movie? movie);
+        Task<List<ReviewDTO>?> SearchEngineReviews(string? userEmail, int? movieId);
     }
 }

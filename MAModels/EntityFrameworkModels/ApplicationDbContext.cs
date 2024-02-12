@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System.Diagnostics.Contracts;
 
 namespace MAModels.EntityFrameworkModels
 {
@@ -16,8 +15,6 @@ namespace MAModels.EntityFrameworkModels
         public DbSet<Review> Reviews { get; set; }
 
         public DbSet<User> Users { get; set; }
-
-        public DbSet<Preference> ModelsTrain { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

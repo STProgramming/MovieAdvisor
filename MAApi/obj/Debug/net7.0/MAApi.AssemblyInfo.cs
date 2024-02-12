@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MAApi")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+036bdd464738a37bfe1f9689ca4424788c01d6e4")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+16cfaed1f14dee1eaf4af4c8e4355de6390bec4a")]
 [assembly: System.Reflection.AssemblyProductAttribute("MAApi")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MAApi")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

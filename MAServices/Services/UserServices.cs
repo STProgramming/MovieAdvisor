@@ -25,7 +25,14 @@ namespace MAServices.Services
 
         public async Task<User?> GetUserFromEmail(string emailUser)
         {
-            return await _database.Users.Where(u => string.Equals(emailUser, u.EmailAddress)).FirstOrDefaultAsync();
+            try
+            {
+                return await _database.Users.Where(u => string.Equals(emailUser, u.EmailAddress)).FirstOrDefaultAsync();
+            }
+            catch (Exception)
+            {
+                throw new NullReferenceException();
+            }
         }
 
         public async Task<User?> GetUserFromId(int userId)

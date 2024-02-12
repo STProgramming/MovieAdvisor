@@ -7,16 +7,12 @@ namespace MAServices.Interfaces
 {
     public interface IMovieServices
     {
-        Task<List<MovieSuggested>> NSuggestedMoviesByUser(User user);
+        Task<List<MovieDTO>> SearchEngine(string Query);
 
-        Task<List<Movie>> IsThisMovieAlreadyInDB(string movieTitle, short movieYearProduction, string movieMaker);
-
-        Task<List<Movie>> GetAllMovies();
+        Task<Movie> GetMovieDataById(int movieId);
 
         Task CreateNewMovie(MovieDTO newMovie);
 
-        Task<Movie?> GetMovieData(int movieId);
-
         Task AddNewMovieImage(List<IFormFile> ImageList, int movieId, List<byte[]> imagesList);
-        }
+    }
 }

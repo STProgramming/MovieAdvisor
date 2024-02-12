@@ -15,19 +15,13 @@ namespace MAApi.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllTags()
+        public async Task<IActionResult> Get()
         {
             return Ok(await _tagServices.GetAllTags());
         }
 
-        [HttpGet]
-        public async Task<IActionResult> GetMoviesFromTag(int idTag)
-        {
-            return Ok(await _tagServices.GetMoviesFromTag(idTag));
-        }
-
         [HttpPost]
-        public async Task<IActionResult> CreateAllTags()
+        public async Task<ActionResult> Post()
         {
             await _tagServices.CreateAllTags();
             return StatusCode(201);

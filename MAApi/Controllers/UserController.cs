@@ -23,7 +23,7 @@ namespace MAApi.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetUserData(string emailUser)
+        public async Task<IActionResult> Get(string emailUser)
         {
             if (string.IsNullOrEmpty(emailUser) || !(_emailController.IsValid(emailUser))) return StatusCode(406);
             if (string.Equals(_configuration["EmailAdmin"], emailUser)) return Ok(await _userServices.GetAllUsers());
