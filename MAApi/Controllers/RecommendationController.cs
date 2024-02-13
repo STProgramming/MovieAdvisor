@@ -16,7 +16,7 @@ namespace MAApi.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<MovieResultRecommendation>>> Get(string emailUser)
+        public async Task<IActionResult> Get(string emailUser)
         {
             try
             {

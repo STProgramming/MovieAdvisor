@@ -20,13 +20,13 @@ namespace MAApi.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<ICollection<MovieDTO>>> Get(string Search = "")
+        public async Task<IActionResult> Get(string Search = "")
         {
             return Ok(await _movieServices.SearchEngine(Search));
         }
 
         [HttpPost]
-        public async Task<ActionResult> Post([FromBody] MovieDTO newMovie)
+        public async Task<IActionResult> Post([FromBody] MovieDTO newMovie)
         {
             try
             { 
@@ -40,7 +40,7 @@ namespace MAApi.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> PostMovieImage([FromQuery]int MovieId, List<IFormFile> Files)
+        public async Task<IActionResult> PostMovieImage([FromQuery]int MovieId, List<IFormFile> Files)
         {            
             try
             {

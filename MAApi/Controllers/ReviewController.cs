@@ -17,7 +17,7 @@ namespace MAApi.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Search(string? emailUser, int? movieId)
+        public async Task<IActionResult> Get(string? emailUser, int? movieId)
         {
             try
             {
@@ -40,6 +40,10 @@ namespace MAApi.Controllers
             catch (NullReferenceException)
             {
                 return NotFound();
+            }
+            catch (Exception)
+            {
+                return StatusCode(406);
             }
         }        
     }

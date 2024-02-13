@@ -21,7 +21,7 @@ namespace MAApi.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Post()
+        public async Task<IActionResult> Post()
         {
             await _tagServices.CreateAllTags();
             return StatusCode(201);

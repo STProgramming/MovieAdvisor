@@ -93,9 +93,9 @@ namespace MAServices.Services
             var user = await _userServices.GetUserFromEmail(userEmail);
             var movie = await _movieServices.GetMovieDataById(movieId);
             if (movie == null || user == null) throw new NullReferenceException();
-            if (movie.MovieYearProduction < Convert.ToDateTime(when).Year) throw new Exception();
+            if (movie.MovieYearProduction > Convert.ToDateTime(when).Year) throw new Exception();
             var movieReviewed = await GetReviewsOfMovie(movieId);
-            if (movieReviewed != null || movieReviewed.Count > 0)
+            if (movieReviewed != null && movieReviewed.Count > 0)
             {
                 movieReviewed.FirstOrDefault().UserId = user.UserId;
                 movieReviewed.FirstOrDefault().MovieId = movie.MovieId;

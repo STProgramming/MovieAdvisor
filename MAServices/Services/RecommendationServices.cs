@@ -37,8 +37,7 @@ namespace MAAI.ScriptAI
             List<ModelOutput> movieSuggesteds = new List<ModelOutput>();
 
             //Caricamento dei film non visti dall'utente
-
-            List<Movie> movieNotYetSeen = await _context.Movies.Where(m => !m.UsersList.Contains(user)).ToListAsync();
+            List<Movie> movieNotYetSeen = await _context.Movies.Where(m => m.UsersList.Count == 0 || !m.UsersList.Any(u => u.UserId == user.UserId)).ToListAsync();
             short yearOfUser = Convert.ToInt16(DateTime.Now.Year - user.BirthDate.Year);
             foreach (Movie movie in movieNotYetSeen)
             {
@@ -109,11 +108,11 @@ namespace MAAI.ScriptAI
                         UserId = user.UserId,
                         UserObj = userDTO.ConvertToUserDTO(user),
                         MovieObj = movieDTO.ConvertToMovieDTO(movie),
-                        Score = movieRatingPrediction.Score
+                        Score = Double.IsNaN(movieRatingPrediction.Score) ? 0 : movieRatingPrediction.Score 
                     });
                 }
             }
-            return result.OrderBy(r => r.Score).ToList();
+            return result.OrderByDescending(r => r.Score).ToList();
         }        
     }
 }
