@@ -1,9 +1,4 @@
 ﻿using Microsoft.ML.Data;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MAModels.Models
 {
@@ -16,6 +11,24 @@ namespace MAModels.Models
         public float MovieId { get; set; }
 
         [LoadColumn(2)]
+        public string MovieTitle { get; set; } = string.Empty;
+
+        [LoadColumn(3)]
+        public string MovieDescription { get; set;} = string.Empty;
+
+        [LoadColumn(4)]
+        public string MovieMaker { get; set; } = string.Empty;
+
+        [LoadColumn(5)]
+        public string UserName { get; set; } = string.Empty;
+
+        [LoadColumn(6)]
+        public string MovieGenres {  get; set; } = string.Empty;
+
+        [LoadColumn(7)]
+        public string ReviewDate {  get; set; } = string.Empty;
+
+        [LoadColumn(8)]
         public float Label { get; set; }
     }
 }

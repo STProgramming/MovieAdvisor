@@ -22,6 +22,8 @@ namespace MAApi.Controllers
             _configuration = configuration;
         }
 
+        //TODO refactoring del codice controllo come gli attuali controllers
+
         [HttpGet]
         public async Task<IActionResult> Get(string emailUser)
         {
@@ -31,7 +33,7 @@ namespace MAApi.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateNewUser(UserDTO newUserModel)
+        public async Task<IActionResult> Post(UserDTO newUserModel)
         {
             if(!ModelState.IsValid) return StatusCode(406);
             var user = await _userServices.GetUserFromEmail(newUserModel.EmailAddress);            
@@ -40,7 +42,7 @@ namespace MAApi.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> ModifyUserData([FromQuery] string userEmail, string? userEmailChange, string? userName)
+        public async Task<IActionResult> Put([FromQuery] string userEmail, string? userEmailChange, string? userName)
         {
             if (!string.IsNullOrEmpty(userEmail) || !_emailController.IsValid(userEmail)) return StatusCode(406);
             var user = await _userServices.GetUserFromEmail(userEmail);

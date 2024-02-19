@@ -55,13 +55,25 @@ namespace MAAI.ScriptAI
             {
                 foreach (var review in reviews)
                 {
-                    ModelInput train = new ModelInput
+                    ModelInput train = new ModelInput();
+                    Movie movie = new Movie();
+                    if (review.Movie == null) movie = await _context.Movies.Where(m => m.MovieId == review.MovieId).FirstOrDefaultAsync();
+                    else movie = review.Movie;
+                    List<Tag> tags = _context.Tags.Where(t => t.MoviesList.Any(m => m.MovieId == movie.MovieId)).ToList();
+                    tags.ForEach(tag =>
                     {
-                        UserId = user.UserId,
-                        MovieId = review.MovieId,
-                        Label = review.Vote
-                    };
-                    modelTrain.Add(train);
+                        train.MovieGenres += string.Join(", ", tag.TagName);
+                    });
+
+                    train.UserId = user.UserId;
+                    train.MovieId = review.MovieId;
+                    train.MovieTitle = movie.MovieTitle;
+                    train.MovieDescription = movie.MovieDescription;
+                    train.MovieMaker = movie.MovieMaker;
+                    train.UserName = user.UserName;
+                    train.Label = review.Vote;
+                    train.ReviewDate = review.DateTimeVote.ToString();
+                    modelTrain.Add(train);                    
                 }
 
                 IDataView data = mlContext.Data.LoadFromEnumerable(modelTrain);
@@ -76,17 +88,50 @@ namespace MAAI.ScriptAI
                            .Transforms
                            .Conversion
                            .MapValueToKey(outputColumnName: "MovieIdEncoded",
-                                           inputColumnName: nameof(ModelInput.MovieId)));
+                                           inputColumnName: nameof(ModelInput.MovieId)))
+                   .Append(mlContext
+                           .Transforms
+                           .Text
+                           .FeaturizeText(outputColumnName: "MovieTitleFeaturized",
+                                            inputColumnName: nameof(ModelInput.MovieTitle)))
+                   .Append(mlContext
+                           .Transforms
+                           .Text
+                           .FeaturizeText(outputColumnName: "MovieDescriptionFeaturized",
+                                            inputColumnName: nameof(ModelInput.MovieDescription)))
+                   .Append(mlContext
+                           .Transforms
+                           .Text
+                           .FeaturizeText(outputColumnName: "MovieMakerFeaturized",
+                                            inputColumnName: nameof(ModelInput.MovieMaker)))
+                   .Append(mlContext
+                           .Transforms
+                           .Text
+                           .FeaturizeText(outputColumnName: "UserNameFeaturized",
+                                            inputColumnName: nameof(ModelInput.UserName)))
+                   .Append(mlContext
+                           .Transforms
+                           .Text
+                           .FeaturizeText(outputColumnName: "MovieGenresFeaturized",
+                                            inputColumnName: nameof(ModelInput.MovieGenres)))
+                   .Append(mlContext
+                           .Transforms
+                           .Text
+                           .FeaturizeText(outputColumnName: "ReviewDateFeaturized",
+                                            inputColumnName: nameof(ModelInput.ReviewDate)))
+                   .Append(mlContext
+                           .Transforms
+                           .Concatenate("Features", "MovieTitle", "MovieDescription", "MovieMaker", "UserName", "MovieGenres", "ReviewDate"));                   
 
                 var finalOptions = new MatrixFactorizationTrainer.Options
                 {
                     MatrixColumnIndexColumnName = "UserIdEncoded",
-                    MatrixRowIndexColumnName = "MovieIdEncoded",
-                    LabelColumnName = "Label",
+                    MatrixRowIndexColumnName = "MovieIdEncoded",                    
+                    LabelColumnName = "Label",                    
                     NumberOfIterations = 10,
                     ApproximationRank = 200,
                     Quiet = true
-                };
+                };                
 
                 var trainer = mlContext.Recommendation().Trainers.MatrixFactorization(finalOptions);
 

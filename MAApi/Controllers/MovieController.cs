@@ -40,7 +40,7 @@ namespace MAApi.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> PostMovieImage([FromQuery]int MovieId, List<IFormFile> Files)
+        public async Task<IActionResult> Upload([FromQuery]int MovieId, List<IFormFile> Files)
         {            
             try
             {
