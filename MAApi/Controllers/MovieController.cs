@@ -10,13 +10,9 @@ namespace MAApi.Controllers
     {
         private readonly IMovieServices _movieServices;
 
-        private readonly IFileServices _uploadFileServices;
-
-        public MovieController(IMovieServices movieServices, 
-            IFileServices uploadFileServices)
+        public MovieController(IMovieServices movieServices)
         {
             _movieServices = movieServices;
-            _uploadFileServices = uploadFileServices;
         }
 
         [HttpGet]
@@ -29,27 +25,13 @@ namespace MAApi.Controllers
         public async Task<IActionResult> Post([FromBody] MovieDTO newMovie)
         {
             try
-            { 
+            {
                 await _movieServices.CreateNewMovie(newMovie);
                 return StatusCode(201);
             }
             catch (IOException)
             {
                 return StatusCode(409);
-            }
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> Upload([FromQuery]int MovieId, List<IFormFile> Files)
-        {            
-            try
-            {
-                await _movieServices.AddNewMovieImage(Files, MovieId, _uploadFileServices.ConvertToByteArray(Files));
-                return StatusCode(201);
-            }
-            catch (NullReferenceException)
-            {
-                return NotFound();
             }
         }
     }

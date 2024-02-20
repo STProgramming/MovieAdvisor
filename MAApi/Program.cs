@@ -2,8 +2,9 @@ using MAAI.Interfaces;
 using MAAI.ScriptAI;
 using MAModels.EntityFrameworkModels;
 using MAServices.Interfaces;
-using MAServices.MovieServices;
+using MAServices.Interfaces.movie;
 using MAServices.Services;
+using MAServices.Services.movie;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -28,6 +29,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 #region CREATE NEW DIPENDENCIES ON MOVIE ADVISOR SERVICES
 
 builder.Services.AddTransient<IMovieServices, MovieServices>();
+
+builder.Services.AddTransient<IMultimediaServices, MultimediaServices>();
 
 builder.Services.AddTransient<IReviewServices, ReviewServices>();
 

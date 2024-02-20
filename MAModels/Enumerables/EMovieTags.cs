@@ -32,9 +32,10 @@
         BuddyCop =28,
         Religioso =29,
         Sentimentale =30,
-        Spionaggio =31,
+        Spionaggio =31,        
         Sportivo =32,
         SpaceOpera =33,
-        Gangster =34
+        Gangster =34,
+        Satirico = 35
     }
 }

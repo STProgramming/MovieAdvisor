@@ -7,6 +7,7 @@ namespace MAModels.DTO
     public class MovieDTO
     {
         public int MovieId { get; set; } = 0;
+
         public string MovieTitle { get; set; } = null!;
 
         public short MovieYearProduction { get; set; }
@@ -28,6 +29,6 @@ namespace MAModels.DTO
             this.MovieMaker = movie.MovieMaker;
             this.IsForAdult = movie.IsForAdult;
             return this;
-        }
+        }        
     }
 }

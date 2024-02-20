@@ -1,0 +1,28 @@
+<div>
+    <h4>Inserisci un nuovo film</h4>
+    <form>
+        <mat-form-field>
+            <mat-label>Titolo del film</mat-label>
+            <input type="text">
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Anno</mat-label>
+            <input type="number">
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Regista</mat-label>
+            <input type="text">
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Trama</mat-label>
+            <textarea></textarea>
+        </mat-form-field>
+        <mat-form-field *ngIf="">
+            <mat-label>Genere di film</mat-label>
+            <mat-select multiple>
+                <mat-option *ngFor="let item of list"></mat-option>
+            </mat-select>
+        </mat-form-field>
+    </form>
+</div>
+

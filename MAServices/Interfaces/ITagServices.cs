@@ -1,5 +1,4 @@
-﻿using MAModels.DTO;
-using MAModels.EntityFrameworkModels;
+﻿using MAModels.EntityFrameworkModels;
 
 namespace MAServices.Interfaces
 {
