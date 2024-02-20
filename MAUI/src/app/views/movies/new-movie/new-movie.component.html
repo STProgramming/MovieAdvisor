@@ -1,0 +1,32 @@
+<div>
+    <h4>Inserisci un nuovo film</h4>
+    <form [formGroup]="newMovieForm" (ngSubmit)="onSubmit()">
+        <mat-form-field>
+            <mat-label>Titolo del film</mat-label>
+            <input type="text" formControlName="title">
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Anno</mat-label>
+            <input type="number" formControlName="year">
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Regista</mat-label>
+            <input type="text" formControlName="maker">
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Trama</mat-label>
+            <textarea formControlName="description"></textarea>
+        </mat-form-field>
+        <ng-container *ngIf="isLoadingTags == true">
+            <mat-spinner></mat-spinner>
+        </ng-container>        
+        <mat-form-field *ngIf="isLoadingTags == false && TagsData != null">
+            <mat-label>Genere di film</mat-label>
+            <mat-select multiple>
+                <mat-option *ngFor="let tag of TagsData" [value]="tag.tagId">{{tag.tagName}}</mat-option>
+            </mat-select>
+        </mat-form-field>
+        <button mat-button color="primary" type="submit" [disabled]="newMovieForm.invalid">Primary</button>
+    </form>
+</div>
+

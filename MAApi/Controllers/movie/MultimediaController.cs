@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace MAApi.Controllers.movie
 {
-    [Route("api/movie/[controller]/[action]")]
+    [Route("api/movie/[controller]")]
     [ApiController]
     public class MultimediaController : ControllerBase
     {
