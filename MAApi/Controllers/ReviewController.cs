@@ -17,11 +17,11 @@ namespace MAApi.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get(string? emailUser, int? movieId)
+        public async Task<IActionResult> Get(string? EmailUser, int? MovieId)
         {
             try
             {
-                return Ok(await _reviewServices.SearchEngineReviews(emailUser, movieId));
+                return Ok(await _reviewServices.SearchEngineReviews(EmailUser, MovieId));
             }
             catch (NullReferenceException)
             {
@@ -30,11 +30,11 @@ namespace MAApi.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post(string emailUser, int movieId, string? descriptionVote, float vote, string? when)
+        public async Task<IActionResult> Post(string EmailUser, int MovieId, string? DescriptionVote, float Vote, string? When)
         {
             try
             {
-                await _reviewServices.PostNewReview(emailUser, movieId, descriptionVote, vote, when);
+                await _reviewServices.PostNewReview(EmailUser, MovieId, DescriptionVote, Vote, When);
                 return StatusCode(201);
             }
             catch (NullReferenceException)

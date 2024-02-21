@@ -16,11 +16,11 @@ namespace MAApi.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get(string emailUser)
+        public async Task<IActionResult> Get(string EmailUser)
         {
             try
             {
-                return Ok(await _recommendationServices.MoviesSuggestedByUser(emailUser));
+                return Ok(await _recommendationServices.MoviesSuggestedByUser(EmailUser));
             }
             catch (NullReferenceException)
             {

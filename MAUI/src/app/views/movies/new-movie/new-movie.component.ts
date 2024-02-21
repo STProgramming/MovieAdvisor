@@ -16,12 +16,16 @@ export class NewMovieComponent {
   TagsData: TagDto[];
   newMovieForm: FormGroup;
   errorsList: string[];
+  yearList: number[] = [];
+  genresSelected: string[] = [];
+  filesSelected: File[] = [];
 
   constructor(private moviesService : MoviesService,
     private formBuilder : FormBuilder){}
 
   ngOnInit(): void{
     this.loadTags();
+    this.initYearArray();
     this.initForm();
   }
 
@@ -43,6 +47,36 @@ export class NewMovieComponent {
       genres: [[], Validators.required],
       year: ['', Validators.required]
     });
+  }
+
+  initYearArray(){
+    let date = new Date();
+    for(let year = date.getFullYear(); year >= 1900; year--){
+      this.yearList.push(year);
+    }
+  }
+
+  selectGenreMovie(event: any){
+    let select = (event.target as HTMLInputElement).value;
+    let found = this.TagsData.find((obj) => {
+      return obj.tagId === parseInt(select);
+    });
+    let index = this.genresSelected.indexOf(found.tagName);
+    if (index !== -1){
+      this.genresSelected.splice(index, 1);
+    }
+    else{      
+      this.genresSelected.push(found.tagName);
+    }
+  }
+
+  selectImageMovie(event: any){
+    this.filesSelected.push(event.target.value);
+  }
+
+  removeImage(event: any){
+    var index = this.filesSelected.indexOf(event.target.value);
+    this.filesSelected.splice(index, 1);
   }
 
   onSubmit() {

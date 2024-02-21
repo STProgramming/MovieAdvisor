@@ -1,32 +1,69 @@
-<div>
+<div class="container mt-5">
     <h4>Inserisci un nuovo film</h4>
     <form [formGroup]="newMovieForm" (ngSubmit)="onSubmit()">
-        <mat-form-field>
-            <mat-label>Titolo del film</mat-label>
-            <input type="text" formControlName="title">
-        </mat-form-field>
-        <mat-form-field>
-            <mat-label>Anno</mat-label>
-            <input type="number" formControlName="year">
-        </mat-form-field>
-        <mat-form-field>
-            <mat-label>Regista</mat-label>
-            <input type="text" formControlName="maker">
-        </mat-form-field>
-        <mat-form-field>
-            <mat-label>Trama</mat-label>
-            <textarea formControlName="description"></textarea>
-        </mat-form-field>
-        <ng-container *ngIf="isLoadingTags == true">
-            <mat-spinner></mat-spinner>
-        </ng-container>        
-        <mat-form-field *ngIf="isLoadingTags == false && TagsData != null">
-            <mat-label>Genere di film</mat-label>
-            <mat-select multiple>
-                <mat-option *ngFor="let tag of TagsData" [value]="tag.tagId">{{tag.tagName}}</mat-option>
-            </mat-select>
-        </mat-form-field>
-        <button mat-button color="primary" type="submit" [disabled]="newMovieForm.invalid">Primary</button>
+        <div class="row">
+            <div class="col-6">
+                <div class="form-group">
+                    <label>Titolo del film</label>
+                    <input class="form-control" type="text" formControlName="title">
+                </div>
+                <div class="form-group">
+                    <label>Anno</label>
+                    <select class="form-select" formControlName="year">
+                        <option *ngFor="let yearNum of yearList" [value]="yearNum">{{yearNum}}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Regista</label>
+                    <input class="form-control" type="text" formControlName="maker">
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="form-group">
+                    <label>Trama</label>
+                    <textarea class="form-control" formControlName="description"></textarea>
+                </div>                
+                <ng-container *ngIf="isLoadingTags == true">
+                    <mat-spinner></mat-spinner>
+                </ng-container>
+                <ng-container *ngIf="isLoadingTags == false && TagsData != null">
+                    <div class="form-group">
+                        <label>Genere di film</label>
+                        <select class="form-control" (change)="selectGenreMovie($event)">
+                            <option *ngFor="let tag of TagsData" [value]="tag.tagId">{{tag.tagName}}</option>
+                        </select>
+                    </div>
+                </ng-container>
+                <ng-container *ngIf="genresSelected.length > 0">
+                    <hr>
+                    <p>Generi selezionati</p>
+                    <div *ngFor="let genre of genresSelected">
+                        <p>{{genre}}</p>
+                    </div>
+                    <hr>        
+                </ng-container>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" formControlName="adult">
+                    <label class="form-check-label" >
+                      18+
+                    </label>
+                </div>
+            </div>
+        </div>
+        <ng-component *ngIf="filesSelected.length > 0">
+            <p>Immagini selezionate per il film</p>
+            <div *ngFor="let image of filesSelected">
+                <p>{{image}}</p>
+                <button (click)="removeImage($event)">X</button>
+            </div>
+        </ng-component>
+        <div class="row">
+            <div class="form-group">
+                <label class="form-label">Immagini del film</label>
+                <input class="form-control" type="file" (change)="selectImageMovie($event)">
+            </div>
+            <button type="submit" [disabled]="newMovieForm.invalid">Primary</button>
+        </div>
     </form>
 </div>
 

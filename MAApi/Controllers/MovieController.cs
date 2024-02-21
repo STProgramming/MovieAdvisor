@@ -22,11 +22,11 @@ namespace MAApi.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] MovieDTO newMovie)
+        public async Task<IActionResult> Post([FromBody] MovieDTO NewMovie)
         {
             try
             {
-                await _movieServices.CreateNewMovie(newMovie);
+                await _movieServices.CreateNewMovie(NewMovie);
                 return StatusCode(201);
             }
             catch (IOException)

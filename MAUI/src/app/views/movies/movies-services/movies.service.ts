@@ -37,4 +37,13 @@ export class MoviesService {
         }        
       }));
   }
+
+  postMovieImage(formData: FormData, movieId: number): Observable<any>{
+    return this.apiService.post('movie/Multimedia?MovieId='+movieId, formData)
+      .pipe(map((response:any)=>{
+        if(response){
+          return response;
+        }
+      }));
+  }
 }
