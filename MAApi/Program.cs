@@ -1,8 +1,10 @@
-using MAAI.Interfaces;
 using MAAI.ScriptAI;
+using MAContracts.Contracts.Mappers;
+using MAContracts.Contracts.Services;
+using MAContracts.Contracts.Services.movie;
+using MADTOs.Mappers;
 using MAModels.EntityFrameworkModels;
-using MAServices.Interfaces;
-using MAServices.Interfaces.movie;
+using MAServices.Mappers;
 using MAServices.Services;
 using MAServices.Services.movie;
 using Microsoft.EntityFrameworkCore;
@@ -28,6 +30,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 #region CREATE NEW DIPENDENCIES ON MOVIE ADVISOR SERVICES
 
+#region TRANSIENT SERVICES
+
 builder.Services.AddTransient<IMovieServices, MovieServices>();
 
 builder.Services.AddTransient<IMultimediaServices, MultimediaServices>();
@@ -38,9 +42,31 @@ builder.Services.AddTransient<ITagServices, TagServices>();
 
 builder.Services.AddTransient<IFileServices, FileServices>();
 
+builder.Services.AddTransient<IObjectsMapperDtoServices, ObjectsMapperDtoServices>();
+
+builder.Services.AddTransient<IMovieDtoObjectsMapper, MovieDtoObjectsMapper>();
+
+builder.Services.AddTransient<IUserDtoObjectsMapper, UserDtoObjectsMapper>();
+
+builder.Services.AddTransient<IReviewDtoObjectsMapper, ReviewDtoObjectsMapper>();
+
+builder.Services.AddTransient<ITagDtoObjectsMapper, TagDtoObjectsMapper>();
+
+builder.Services.AddTransient<IImageDtoObjectsMapper, ImageDtoObjectsMapper>();
+
+#endregion
+
+#region SINGLETON SERVICES
+
+#endregion
+
+#region SCOPED SERVICES
+
 builder.Services.AddScoped<IUserServices, UserServices>();
 
 builder.Services.AddScoped<IRecommendationServices, RecommendationServices>();
+
+#endregion
 
 #endregion
 

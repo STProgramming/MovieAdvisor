@@ -37,7 +37,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MAModels\MAModels.csproj" />
+    <ProjectReference Include="..\MADTOss\MADTOs.csproj" />
     <ProjectReference Include="..\MAServices\MAServices.csproj" />
   </ItemGroup>
 

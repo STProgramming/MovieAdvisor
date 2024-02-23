@@ -1,5 +1,5 @@
-﻿using MAModels.DTO;
-using MAServices.Interfaces;
+﻿using MAContracts.Contracts.Services;
+using MADTOs.DTOs;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MAApi.Controllers
@@ -25,9 +25,8 @@ namespace MAApi.Controllers
         public async Task<IActionResult> Post([FromBody] MovieDTO NewMovie)
         {
             try
-            {
-                await _movieServices.CreateNewMovie(NewMovie);
-                return StatusCode(201);
+            {               
+                return StatusCode(201, await _movieServices.CreateNewMovie(NewMovie));
             }
             catch (IOException)
             {

@@ -1,0 +1,6 @@
+C:\Users\STCor\Documents\Repositories\MAApp\MovieAdvisor\MADTOs\obj\Debug\net8.0\MADTOs.csproj.AssemblyReference.cache
+C:\Users\STCor\Documents\Repositories\MAApp\MovieAdvisor\MADTOs\obj\Debug\net8.0\MADTOs.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\STCor\Documents\Repositories\MAApp\MovieAdvisor\MADTOs\obj\Debug\net8.0\MADTOs.AssemblyInfoInputs.cache
+C:\Users\STCor\Documents\Repositories\MAApp\MovieAdvisor\MADTOs\obj\Debug\net8.0\MADTOs.AssemblyInfo.cs
+C:\Users\STCor\Documents\Repositories\MAApp\MovieAdvisor\MADTOs\obj\Debug\net8.0\MADTOs.csproj.CoreCompileInputs.cache
+C:\Users\STCor\Documents\Repositories\MAApp\MovieAdvisor\MADTOs\obj\Debug\net8.0\MADTOs.sourcelink.json

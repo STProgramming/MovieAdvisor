@@ -19,6 +19,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\MAContracts\MAContracts.csproj" />
+    <ProjectReference Include="..\MADTOss\MADTOs.csproj" />
     <ProjectReference Include="..\MAModels\MAModels.csproj" />
   </ItemGroup>
 

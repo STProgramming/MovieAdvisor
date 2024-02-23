@@ -1,8 +1,8 @@
-﻿using MAModels.DTO;
+﻿using MAContracts.Contracts.Mappers;
+using MAContracts.Contracts.Services;
+using MADTOs.DTOs;
 using MAModels.EntityFrameworkModels;
-using MAServices.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 
 namespace MAServices.Services
 {
@@ -10,12 +10,12 @@ namespace MAServices.Services
     {
         private readonly ApplicationDbContext _database;
 
-        private readonly IConfiguration _config;
+        private readonly IObjectsMapperDtoServices _mapperService;
 
-        public UserServices(ApplicationDbContext database, IConfiguration config)
+        public UserServices(ApplicationDbContext database, IObjectsMapperDtoServices mapperService)
         {
-            _config = config;
             _database = database;
+            _mapperService = mapperService;
         }
 
         public async Task<ICollection<User>> GetAllUsers()
@@ -23,11 +23,11 @@ namespace MAServices.Services
             return await _database.Users.ToListAsync();
         }
 
-        public async Task<User?> GetUserFromEmail(string emailUser)
+        public async Task<UserDTO?> GetUserFromEmail(string emailUser)
         {
             try
             {
-                return await _database.Users.Where(u => string.Equals(emailUser, u.EmailAddress)).FirstOrDefaultAsync();
+                return _mapperService.UserMapperDtoService(await _database.Users.Where(u => string.Equals(emailUser, u.EmailAddress)).FirstOrDefaultAsync());
             }
             catch (Exception)
             {
@@ -35,9 +35,9 @@ namespace MAServices.Services
             }
         }
 
-        public async Task<User?> GetUserFromId(int userId)
+        public async Task<UserDTO?> GetUserFromId(int userId)
         {
-            return await _database.Users.Where(u => u.UserId == userId).FirstOrDefaultAsync();
+            return _mapperService.UserMapperDtoService(await _database.Users.Where(u => u.UserId == userId).FirstOrDefaultAsync());
         }
 
         public async Task CreateNewUser(UserDTO newUserModel)
@@ -54,8 +54,10 @@ namespace MAServices.Services
             await _database.SaveChangesAsync();
         }
 
-        public async Task ModifyUserData(User userData, string? email, string? userName)
+        public async Task ModifyUserData(UserDTO userDto, string? email, string? userName)
         {
+            User userData = await _database.Users.Where(u => string.Equals(u.EmailAddress, userDto.EmailAddress)).FirstOrDefaultAsync();
+            if (userData == null) throw new NullReferenceException();
             userData.EmailAddress = string.IsNullOrEmpty(email) ? userData.EmailAddress : email;
             userData.UserName = string.IsNullOrEmpty(userName) ? userData.UserName : userName;
             using (var transaction = _database.Database.BeginTransaction())

@@ -1,8 +1,7 @@
-﻿using MAAI.Interfaces;
-using MAModels.DTO;
+﻿using MAContracts.Contracts.Services;
+using MADTOs.DTOs;
 using MAModels.EntityFrameworkModels;
 using MAModels.Models;
-using MAServices.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.ML;
 using Microsoft.ML.AutoML;
@@ -14,17 +13,14 @@ namespace MAAI.ScriptAI
     {
         private readonly ApplicationDbContext _context;
 
-        private readonly IUserServices _userServices;
-
-        public RecommendationServices(ApplicationDbContext context, IUserServices userServices)
+        public RecommendationServices(ApplicationDbContext context)
         {
             _context = context;
-            _userServices = userServices;
         }
 
         public async Task<List<MovieResultRecommendation>> MoviesSuggestedByUser(string userEmail)
         {
-            User user = await _userServices.GetUserFromEmail(userEmail);
+            var user = await _context.Users.Where(u => string.Equals(u.EmailAddress, userEmail)).FirstOrDefaultAsync();
             if (user == null) throw new NullReferenceException();
 
             //E' importante che le reviews siano di tutti gli utenti perchè deve imparare da tutte le casistiche
@@ -150,9 +146,8 @@ namespace MAAI.ScriptAI
                     result.Add(new MovieResultRecommendation
                     {
                         MovieId = movie.MovieId,
-                        UserId = user.UserId,
-                        UserObj = userDTO.ConvertToUserDTO(user),
-                        MovieObj = movieDTO.ConvertToMovieDTO(movie),
+                        Name = user.Name,
+                        LastName = user.LastName,
                         Score = Double.IsNaN(movieRatingPrediction.Score) ? 0 : movieRatingPrediction.Score 
                     });
                 }

@@ -1,5 +1,4 @@
-﻿using MAModels.DTO;
-using Microsoft.ML.Data;
+﻿using Microsoft.ML.Data;
 
 namespace MAModels.Models
 {

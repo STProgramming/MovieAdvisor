@@ -1,6 +1,5 @@
-﻿using MAModels.DTO;
-using MAModels.EntityFrameworkModels;
-using MAServices.Interfaces;
+﻿using MAContracts.Contracts.Services;
+using MADTOs.DTOs;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 
@@ -51,7 +50,14 @@ namespace MAApi.Controllers
             {
                 var userCheck = await _userServices.GetUserFromEmail(UserEmailChange);
                 if (userCheck != null) return StatusCode(401);
-                await _userServices.ModifyUserData(user, UserEmailChange, UserName);
+                try
+                {
+                    await _userServices.ModifyUserData(user, UserEmailChange, UserName);
+                }
+                catch (NullReferenceException)
+                {
+                    return NotFound();
+                }
                 return Ok(new { message = "User is saved" });
             }
             else return Ok();

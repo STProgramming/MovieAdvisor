@@ -1,6 +1,7 @@
-﻿using MAServices.Interfaces;
-using MAServices.Interfaces.movie;
+﻿using MAContracts.Contracts.Services;
+using MAContracts.Contracts.Services.movie;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 
 namespace MAApi.Controllers.movie
 {
@@ -19,16 +20,20 @@ namespace MAApi.Controllers.movie
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get(int MovieId)
+        public async Task<IActionResult> Get(int MovieId, int counter)
         {
             try
             {
-                var image = await _multimediaServices.GetMovieImages(MovieId);
+                var image = await _multimediaServices.GetMovieImages(MovieId, counter);
                 return File(image.ImageData, $"image/{image.ImageExtension}");                
             }
             catch (NullReferenceException)
             {
                 return NotFound();
+            }
+            catch (Exception)
+            {
+                return StatusCode((int)HttpStatusCode.Conflict);
             }
         }
 
@@ -38,7 +43,7 @@ namespace MAApi.Controllers.movie
             try
             {
                 await _multimediaServices.AddNewMovieImage(Files, MovieId, _fileServices.ConvertToByteArray(Files));
-                return StatusCode(201);
+                return StatusCode((int)HttpStatusCode.Created);
             }
             catch (NullReferenceException)
             {

@@ -1,5 +1,4 @@
-﻿using MAAI.Interfaces;
-using MAModels.Models;
+﻿using MAContracts.Contracts.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MAApi.Controllers

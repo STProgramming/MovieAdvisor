@@ -3,6 +3,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TagDto } from '../../../shared/models/tag-dto';
 import { Observable } from 'rxjs';
 import { MoviesService } from '../movies-services/movies.service';
+import { environment } from '../../../../environments/environment.development';
+import { MovieDto } from '../../../shared/models/movie-dto';
 
 @Component({
   selector: 'app-new-movie',
@@ -13,9 +15,10 @@ export class NewMovieComponent {
   isLoadingTags: boolean = false;
   TagsObservable: Observable<TagDto[]>;
   MoviesObservable: Observable<any>;
+  NewMovieObservable: Observable<any>;
+  NewImageObservable: Observable<any>;
   TagsData: TagDto[];
   newMovieForm: FormGroup;
-  errorsList: string[];
   yearList: number[] = [];
   genresSelected: string[] = [];
   filesSelected: File[] = [];
@@ -44,7 +47,6 @@ export class NewMovieComponent {
       maker: ['', [Validators.required]],
       description: ['', [Validators.required, Validators.minLength(6)]],
       adult:[false, Validators.required],
-      genres: [[], Validators.required],
       year: ['', Validators.required]
     });
   }
@@ -71,7 +73,17 @@ export class NewMovieComponent {
   }
 
   selectImageMovie(event: any){
-    this.filesSelected.push(event.target.value);
+    var uploadImage = event.target.files[0];
+    if(this.filesSelected.length > 0){
+      this.filesSelected.find(obj => {
+        if(obj.name !== uploadImage.name){
+          this.filesSelected.push(event.target.files[0]);
+        }
+      });
+    }
+    else{
+      this.filesSelected.push(event.target.files[0]);
+    }
   }
 
   removeImage(event: any){
@@ -79,13 +91,37 @@ export class NewMovieComponent {
     this.filesSelected.splice(index, 1);
   }
 
-  onSubmit() {
-    if (this.newMovieForm.valid) {
-      console.log(this.newMovieForm.value);
-      // Puoi inviare i dati al backend o fare altre operazioni qui
-    } else {
-      // Gestisci il caso in cui il form non sia valido
-    }
+  onSubmit(newMovieForm: FormGroup) {
+    if (newMovieForm.valid) {
+      var tagsList: number[] = [];
+      this.genresSelected.forEach(genre => {
+        var obj = this.TagsData.find(tag => {
+          return tag.tagName === genre;
+        });
+        tagsList.push(obj.tagId);
+      });
+      var newMovie: MovieDto = {        
+        'MovieTitle' : newMovieForm.get('title').value,
+        'MovieYearProduction' : newMovieForm.get('year').value,
+        'MovieMaker' : newMovieForm.get('maker').value,
+        'MovieDescription' : newMovieForm.get('description').value,
+        'IsForAdult' : newMovieForm.get('adult').value,
+        'TagsId': tagsList
+      };      
+      var newIdMovie = 0;
+      this.NewMovieObservable = this.moviesService.postMovie(newMovie);
+      this.NewMovieObservable.subscribe((resp: any) => {
+        newIdMovie = resp;
+        alert(resp);
+      });
+      if(this.filesSelected.length > 0 && newIdMovie > 0){
+        var listFiles = new FormData();
+        this.filesSelected.forEach(e => {
+          listFiles.append('fileArray', e, e.name);
+        });
+        this.NewImageObservable = this.moviesService.postMovieImage(listFiles, newIdMovie)
+      }      
+    }     
   }
 
 }

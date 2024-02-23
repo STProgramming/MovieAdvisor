@@ -1,8 +1,8 @@
-﻿using Azure;
-using MAModels.DTO;
+﻿using MAContracts.Contracts.Mappers;
+using MAContracts.Contracts.Services;
+using MADTOs.DTOs;
 using MAModels.EntityFrameworkModels;
 using MAModels.Enumerables;
-using MAServices.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace MAServices.Services
@@ -11,18 +11,22 @@ namespace MAServices.Services
     {
         private readonly ApplicationDbContext _context;
 
-        public TagServices(ApplicationDbContext context)            
+        private readonly IObjectsMapperDtoServices _mapperService;
+
+        public TagServices(ApplicationDbContext context,
+            IObjectsMapperDtoServices mapperDtoService)            
         {
             _context = context;
+            _mapperService = mapperDtoService;
         }
-        public async Task<Tag?> GetTag(int tagId) 
+        public async Task<TagDTO> GetTag(int tagId) 
         {
-            return await _context.Tags.FindAsync(tagId);
+            return _mapperService.TagMapperDtoService(await _context.Tags.FindAsync(tagId));
         }   
         
-        public async Task<List<Tag>> GetAllTags()
+        public async Task<List<TagDTO>> GetAllTags()
         {
-            return await _context.Tags.OrderBy(x => x).ToListAsync();
+            return _mapperService.TagMapperDtoListService(await _context.Tags.OrderBy(x => x).ToListAsync());
         }
 
         public async Task CreateAllTags()

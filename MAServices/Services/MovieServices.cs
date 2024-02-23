@@ -1,6 +1,7 @@
-﻿using MAModels.DTO;
+﻿using MAContracts.Contracts.Mappers;
+using MAContracts.Contracts.Services;
+using MADTOs.DTOs;
 using MAModels.EntityFrameworkModels;
-using MAServices.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace MAServices.Services
@@ -9,19 +10,20 @@ namespace MAServices.Services
     {
         private readonly ApplicationDbContext _database;
 
-        private readonly ITagServices _tagServices;
+        private readonly IObjectsMapperDtoServices _mapperService;
 
         public MovieServices(ApplicationDbContext database,
-            ITagServices tagServices)
+            IObjectsMapperDtoServices mapperService)
         {
             _database = database;
-            _tagServices = tagServices;
+            _mapperService = mapperService;
         }
 
         #region PUBLIC SERVICES
 
         public async Task<List<MovieDTO>> SearchEngine(string Query)
         {
+
             List<Movie> results = new List<Movie>();
             if (int.TryParse(Query, out _))
             {
@@ -52,17 +54,12 @@ namespace MAServices.Services
                 MovieDTO movieDTO = new MovieDTO();
                 List<Image> images = await _database.Images.Where(i => i.MovieId == result.MovieId).ToListAsync();
                 List<Tag> tags = await _database.Tags.Where(t => t.MoviesList.Any(m => m.MovieId == result.MovieId)).ToListAsync();
-                resultsDtos.Add(movieDTO.ConvertToMovieDTO(result));
+                resultsDtos.Add(_mapperService.MovieMappingDtoService(result, images, tags));
             }
             return resultsDtos;
         }
 
-        public async Task<Movie> GetMovieDataById(int movieId)
-        {
-            return await _database.Movies.FindAsync(movieId);
-        }
-
-        public async Task CreateNewMovie(MovieDTO newMovie)
+        public async Task<int> CreateNewMovie(MovieDTO newMovie)
         {
             var moviesExist = await IsThisMovieAlreadyInDB(newMovie.MovieTitle, newMovie.MovieYearProduction, newMovie.MovieMaker);
             if (moviesExist != null && moviesExist.Count > 0) throw new IOException();
@@ -77,11 +74,11 @@ namespace MAServices.Services
             await _database.Movies.AddAsync(newMovieObj);
             await _database.SaveChangesAsync();
             List<Tag> tagsInserted = new List<Tag>();
-            if (newMovie.TagsId != null && newMovie.TagsId.Count > 0)
+            if (newMovie.Tags.Count > 0)
             {
-                foreach (int tag in newMovie.TagsId)
+                foreach (var tag in newMovie.Tags)
                 {
-                    var tagObj = await _tagServices.GetTag(tag);
+                    var tagObj = await _database.Tags.FindAsync(tag.TagId);
                     if (tagObj == null) throw new ArgumentNullException();
                     tagsInserted.Add(tagObj);
                 }
@@ -89,6 +86,7 @@ namespace MAServices.Services
             newMovieObj.TagsList = tagsInserted;
             _database.Movies.Update(newMovieObj);
             await _database.SaveChangesAsync();
+            return newMovieObj.MovieId;
         }
 
         #endregion
@@ -101,5 +99,6 @@ namespace MAServices.Services
         }
 
         #endregion
+
     }
 }

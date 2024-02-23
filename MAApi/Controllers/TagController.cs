@@ -1,4 +1,4 @@
-﻿using MAServices.Interfaces;
+﻿using MAContracts.Contracts.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MAApi.Controllers
