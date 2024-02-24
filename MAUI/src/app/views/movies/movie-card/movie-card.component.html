@@ -1,1 +1,12 @@
-<p>movie-card works!</p>
+<div class="card" style="width: 18rem;">
+    <img class="card-img-top" src="" alt="Card image cap">
+    <div class="card-body">
+      <h5 class="card-title">{{movieData.movieTitle}}</h5>
+      <h5 class="card-title">{{movieData.movieYearProduction}}</h5>
+      <h5 class="card-title">{{movieData.movieMaker}}</h5>
+      <p class="card-text">{{movieData.movieDescription}}</p>
+      <div>
+        <p *ngFor="let tag of movieData.tags">{{tag.tagName}}</p>
+      </div>
+    </div>
+</div>

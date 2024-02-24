@@ -1,8 +1,13 @@
+import { ImageDto } from "./image-dto";
+import { TagDto } from "./tag-dto";
+
 export interface MovieDto{
-    MovieTitle: string;
-    MovieYearProduction: number;
-    MovieDescription: string;
-    MovieMaker: string;
-    IsForAdult: boolean;
-    TagsId: number[];
+    movieId: number;
+    movieTitle: string;
+    movieYearProduction: number;
+    movieDescription: string;
+    movieMaker: string;
+    isForAdult: boolean;
+    tags: TagDto[];
+    images: ImageDto[];
 }

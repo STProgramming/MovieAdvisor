@@ -13,10 +13,13 @@ export class MoviesService {
 
   getTagsMovie(): Observable<TagDto[]>{
     return this.apiService.get('Tag')
-      .pipe(map((response : any) => {
+      .pipe(map((response : TagDto[]) => {
         if(response){
-          return response;
+          return (response);
         }        
+        else{
+          return null;
+        }
       }));
   }
 
@@ -24,25 +27,33 @@ export class MoviesService {
     return this.apiService.get('Movie?Search='+query)
       .pipe(map((response : any) => {
         if(response){
-          return response;
+          return (response);
         }        
+        else{
+          return null;
+        }
       }));
   }
 
   postMovie(newMovie: MovieDto): Observable<any>{
     return this.apiService.post('Movie', newMovie)
       .pipe(map((response : any) => {
-        if(response){
-          return response;
-        }        
+        return response;    
       }));
   }
 
   postMovieImage(formData: FormData, movieId: number): Observable<any>{
     return this.apiService.post('movie/Multimedia?MovieId='+movieId, formData)
-      .pipe(map((response:any)=>{
+      .pipe(map((response: any)=>{
+        return response;
+      }));
+  }
+
+  getMovieImage(movieId: number, counter: number): Observable<Blob>{
+    return this.apiService.get('movie/Multimedia?MovieId='+movieId+'&Counter='+counter)
+      .pipe(map((response: any)=>{
         if(response){
-          return response;
+          return(response.Result);
         }
       }));
   }

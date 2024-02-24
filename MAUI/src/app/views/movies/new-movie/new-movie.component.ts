@@ -93,20 +93,22 @@ export class NewMovieComponent {
 
   onSubmit(newMovieForm: FormGroup) {
     if (newMovieForm.valid) {
-      var tagsList: number[] = [];
+      var tagsList: TagDto[] = [];
       this.genresSelected.forEach(genre => {
         var obj = this.TagsData.find(tag => {
           return tag.tagName === genre;
         });
-        tagsList.push(obj.tagId);
+        tagsList.push(obj);
       });
-      var newMovie: MovieDto = {        
-        'MovieTitle' : newMovieForm.get('title').value,
-        'MovieYearProduction' : newMovieForm.get('year').value,
-        'MovieMaker' : newMovieForm.get('maker').value,
-        'MovieDescription' : newMovieForm.get('description').value,
-        'IsForAdult' : newMovieForm.get('adult').value,
-        'TagsId': tagsList
+      var newMovie: MovieDto = { 
+        'movieId': null,       
+        'movieTitle' : newMovieForm.get('title').value,
+        'movieYearProduction' : newMovieForm.get('year').value,
+        'movieMaker' : newMovieForm.get('maker').value,
+        'movieDescription' : newMovieForm.get('description').value,
+        'isForAdult' : newMovieForm.get('adult').value,
+        'tags': tagsList,
+        'images': null
       };      
       var newIdMovie = 0;
       this.NewMovieObservable = this.moviesService.postMovie(newMovie);

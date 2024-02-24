@@ -20,11 +20,11 @@ namespace MAApi.Controllers.movie
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get(int MovieId, int counter)
+        public async Task<IActionResult> Get(int MovieId, int Counter)
         {
             try
             {
-                var image = await _multimediaServices.GetMovieImages(MovieId, counter);
+                var image = await _multimediaServices.GetMovieImages(MovieId, Counter);
                 return File(image.ImageData, $"image/{image.ImageExtension}");                
             }
             catch (NullReferenceException)
