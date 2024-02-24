@@ -146,6 +146,7 @@ namespace MAAI.ScriptAI
                     result.Add(new MovieResultRecommendation
                     {
                         MovieId = movie.MovieId,
+                        MovieTitle = movie.MovieTitle,
                         Name = user.Name,
                         LastName = user.LastName,
                         Score = Double.IsNaN(movieRatingPrediction.Score) ? 0 : movieRatingPrediction.Score 

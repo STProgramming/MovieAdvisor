@@ -1,5 +1,5 @@
 export interface ImageDto{
-    ImageName: string;
-    ImageExtension: string;
-    ImageData: Blob;
+    imageName: string;
+    imageExtension: string;
+    imageData: Blob;
 }

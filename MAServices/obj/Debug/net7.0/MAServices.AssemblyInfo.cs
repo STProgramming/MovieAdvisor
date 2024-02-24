@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MAServices")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+8f4a03007fdb2f4a8ee8619f89d31f98c4980b8d")]
 [assembly: System.Reflection.AssemblyProductAttribute("MAServices")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MAServices")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

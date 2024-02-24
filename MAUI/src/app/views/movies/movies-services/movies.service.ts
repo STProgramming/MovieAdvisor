@@ -50,11 +50,12 @@ export class MoviesService {
   }
 
   getMovieImage(movieId: number, counter: number): Observable<Blob>{
-    return this.apiService.get('movie/Multimedia?MovieId='+movieId+'&Counter='+counter)
-      .pipe(map((response: any)=>{
+    return this.apiService.getImage('movie/Multimedia?MovieId='+movieId+'&Counter='+counter)
+      .pipe(map((response: Blob)=>{
         if(response){
-          return(response.Result);
+          return response;
         }
+        else return null;
       }));
   }
 }

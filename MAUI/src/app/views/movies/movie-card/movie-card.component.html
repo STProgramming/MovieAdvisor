@@ -1,5 +1,7 @@
 <div class="card" style="width: 18rem;">
-    <img class="card-img-top" src="" alt="Card image cap">
+  <div *ngFor="let image of Images">
+    <img class="card-img-top" [src]="image" alt="Card image cap">
+  </div>
     <div class="card-body">
       <h5 class="card-title">{{movieData.movieTitle}}</h5>
       <h5 class="card-title">{{movieData.movieYearProduction}}</h5>

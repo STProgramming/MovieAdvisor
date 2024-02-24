@@ -22,6 +22,14 @@ export class RestApiService {
       .pipe(retry(1), catchError(this.handleError));
   }
 
+  getImage(route: string): Observable<any>{
+    let httpHeaders = new HttpHeaders()
+         .set('Accept', "image/jpg,*/*");
+    return this.http
+      .get<any>(environment.apiUrl+route, { headers: httpHeaders, responseType: 'blob' as 'json'})
+      .pipe(retry(1), catchError(this.handleError));
+  }
+
   post(route: string, postBody: any): Observable<any>{
     return this.http
       .post<any>(environment.apiUrl+route, JSON.stringify(postBody), this.httpOptions
