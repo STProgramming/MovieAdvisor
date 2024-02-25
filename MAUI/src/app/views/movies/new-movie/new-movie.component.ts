@@ -101,7 +101,7 @@ export class NewMovieComponent {
         tagsList.push(obj);
       });
       var newMovie: MovieDto = { 
-        'movieId': null,       
+        'movieId': 0,       
         'movieTitle' : newMovieForm.get('title').value,
         'movieYearProduction' : newMovieForm.get('year').value,
         'movieMaker' : newMovieForm.get('maker').value,

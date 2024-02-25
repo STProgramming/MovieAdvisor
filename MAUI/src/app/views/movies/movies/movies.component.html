@@ -1,12 +1,27 @@
 <div class="container">
     <div class="row">
-        <div class="form-group mb-5">
-            <label>Titolo del film</label>
-            <input class="form-control" type="text" (change)="inputSearch($event)">
+        <div class="col-6">
+            <div class="form-group mb-5">
+                <label>Titolo del film</label>
+                <input class="form-control" type="text" (change)="inputSearch($event)">
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="form-group mb-5">
+                <label>Email</label>
+                <input class="form-control" type="text" (change)="inputEmail($event)">
+            </div>
         </div>
     </div>
     <div class="row">
         <div class="col-4 mb-3" *ngFor="let movie of MoviesData">
+            <app-movie-card [movieData]="movie"></app-movie-card>
+        </div>
+    </div>
+    <hr>
+    <div class="row" *ngIf="MoviesRecommendations.length > 0">
+        <h5>I film raccomandati per te</h5>
+        <div class="col-4 mb-3" *ngFor="let movie of MoviesRecommendations">
             <app-movie-card [movieData]="movie"></app-movie-card>
         </div>
     </div>

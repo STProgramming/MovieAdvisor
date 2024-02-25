@@ -12,13 +12,17 @@ import { MoviesComponent } from './views/movies/movies/movies.component';
 import { MovieCardComponent } from './views/movies/movie-card/movie-card.component';
 import { NewMovieComponent } from './views/movies/new-movie/new-movie.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { ReviewsComponent } from './views/reviews/reviews/reviews.component';
+import { NewReviewComponent } from './views/reviews/new-review/new-review.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     MoviesComponent,
     MovieCardComponent,
-    NewMovieComponent
+    NewMovieComponent,
+    ReviewsComponent,
+    NewReviewComponent
   ],
   imports: [
     BrowserModule,
