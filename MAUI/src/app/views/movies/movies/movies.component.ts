@@ -39,6 +39,7 @@ export class MoviesComponent {
       this.RecommendationsObservable = this.recommendationService.getRecommendations(this.email);
       this.RecommendationsObservable.subscribe((response: MovieResultRecommendationDto[]) =>{
         this.RecommendationsData = response;
+        this.loadMoviesId();
       });
     }
   }

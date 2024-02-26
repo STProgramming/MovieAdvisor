@@ -14,6 +14,7 @@ import { NewMovieComponent } from './views/movies/new-movie/new-movie.component'
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ReviewsComponent } from './views/reviews/reviews/reviews.component';
 import { NewReviewComponent } from './views/reviews/new-review/new-review.component';
+import { ReviewAccordionComponent } from './views/reviews/review-accordion/review-accordion.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { NewReviewComponent } from './views/reviews/new-review/new-review.compon
     MovieCardComponent,
     NewMovieComponent,
     ReviewsComponent,
-    NewReviewComponent
+    NewReviewComponent,
+    ReviewAccordionComponent
   ],
   imports: [
     BrowserModule,

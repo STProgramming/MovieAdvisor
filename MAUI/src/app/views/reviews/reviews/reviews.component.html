@@ -1,1 +1,17 @@
-
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <div class="form-group mb-5">
+                <label>Email</label>
+                <input class="form-control" type="text" (change)="inputEmail($event)">
+            </div>
+        </div>        
+    </div>
+    <div class="row">
+        <div class="col-4 mb-3" *ngFor="let review of ReviewsData">
+            <app-review-accordion [reviewData]="review"></app-review-accordion>
+        </div>
+    </div>
+    <hr>
+    
+</div>
