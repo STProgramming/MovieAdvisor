@@ -2,7 +2,7 @@
 
 namespace MADTOs.DTOs
 {
-    public class TagDTO
+    public class TagsDTO
     {
         public int TagId { get; set; }
         

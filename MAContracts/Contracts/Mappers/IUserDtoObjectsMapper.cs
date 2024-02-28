@@ -1,10 +1,10 @@
 ﻿using MADTOs.DTOs;
-using MAModels.EntityFrameworkModels;
+using MAModels.EntityFrameworkModels.Identity;
 
 namespace MAContracts.Contracts.Mappers
 {
     public interface IUserDtoObjectsMapper
     {
-        UserDTO UserMapperDto(User user);
+        UsersDTO UserMapperDto(Users user);
     }
 }

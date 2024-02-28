@@ -1,11 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.CodeAnalysis;
+using MAModels.EntityFrameworkModels.Identity;
 
 namespace MAModels.EntityFrameworkModels
 {
     [Table("Reviews")]
-    public class Review
+    public class Reviews
     {
         [Key]
         [Required]
@@ -20,15 +21,17 @@ namespace MAModels.EntityFrameworkModels
         public DateTime DateTimeVote { get; set; }
 
         [Required]
-        public int UserId { get; set; }
+        [ForeignKey(nameof(Users))]
+        public string UserId { get; set; }
 
-        public User User { get; set; } = null!;
+        public Users User { get; set; } = null!;
 
-        [Required] 
+        [Required]
+        [ForeignKey(nameof(Movies))]
         public int MovieId { get; set; }
 
-        public Movie Movie { get; set; } = null!;
+        public Movies Movie { get; set; } = null!;
 
-        public Review() { }
+        public Reviews() { }
     }
 }

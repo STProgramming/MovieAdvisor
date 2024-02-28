@@ -8,9 +8,9 @@ namespace MAServices.Mappers
     {
         public ImageDtoObjectsMapper() { }
 
-        public ImageDTO ImageMapperDto(Image image, byte[] data)
+        public ImagesDTO ImageMapperDto(Images image, byte[] data)
         {
-            ImageDTO imageDTO = new ImageDTO
+            ImagesDTO imageDTO = new ImagesDTO
             {
                 ImageName = image.ImageName,
                 ImageExtension = image.ImageExtension,
@@ -19,10 +19,10 @@ namespace MAServices.Mappers
             return imageDTO;
         }
 
-        public List<ImageDTO> ImageListMapperDto(List<Image> imageList, List<byte[]> imagesData)
+        public List<ImagesDTO> ImageListMapperDto(List<Images> imageList, List<byte[]> imagesData)
         {
             int counter = 0;
-            List<ImageDTO> imageListDto = new List<ImageDTO>();
+            List<ImagesDTO> imageListDto = new List<ImagesDTO>();
             foreach(var image in imageList)
             {
                 imageListDto.Add(ImageMapperDto(image, imagesData[counter]));

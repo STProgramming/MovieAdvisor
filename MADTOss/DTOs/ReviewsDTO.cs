@@ -2,7 +2,7 @@
 
 namespace MADTOs.DTOs
 {
-    public class ReviewDTO
+    public class ReviewsDTO
     {
         public int ReviewId { get; set; } = 0;
 

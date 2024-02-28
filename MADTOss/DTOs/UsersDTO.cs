@@ -1,6 +1,6 @@
 ﻿namespace MADTOs.DTOs
 {
-    public class UserDTO
+    public class UsersDTO
     {
         public string Name { get; set; } = null!;
 

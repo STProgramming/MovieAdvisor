@@ -4,9 +4,9 @@ namespace MAContracts.Contracts.Services
 {
     public interface ITagServices
     {
-        Task<TagDTO> GetTag(int tagId);
+        Task<TagsDTO> GetTag(int tagId);
 
-        Task<List<TagDTO>> GetAllTags();
+        Task<List<TagsDTO>> GetAllTags();
 
         Task CreateAllTags();
     }

@@ -3,8 +3,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MAModels.EntityFrameworkModels
 {
-    [Table("Image")]
-    public class Image
+    [Table("Images")]
+    public class Images
     {
         [Key]
         [Required]
@@ -21,8 +21,8 @@ namespace MAModels.EntityFrameworkModels
 
         public int MovieId { get; set; }
 
-        public Movie Movie { get; set; } = null!;
+        public Movies Movie { get; set; } = null!;
 
-        public Image() { }
+        public Images() { }
     }
 }

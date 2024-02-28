@@ -19,12 +19,12 @@ namespace MAServices.Services
             _context = context;
             _mapperService = mapperDtoService;
         }
-        public async Task<TagDTO> GetTag(int tagId) 
+        public async Task<TagsDTO> GetTag(int tagId) 
         {
             return _mapperService.TagMapperDtoService(await _context.Tags.FindAsync(tagId));
         }   
         
-        public async Task<List<TagDTO>> GetAllTags()
+        public async Task<List<TagsDTO>> GetAllTags()
         {
             return _mapperService.TagMapperDtoListService(await _context.Tags.OrderBy(x => x).ToListAsync());
         }
@@ -35,7 +35,7 @@ namespace MAServices.Services
             {
                 if(!_context.Tags.Any(t => string.Equals(t.TagName, name)))
                 {
-                    Tag tag = new Tag
+                    Tags tag = new Tags
                     {
                         TagName = name,
                     };

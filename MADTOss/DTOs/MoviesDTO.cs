@@ -1,6 +1,6 @@
 ﻿namespace MADTOs.DTOs
 {
-    public class MovieDTO
+    public class MoviesDTO
     {
         public int MovieId { get; set; } = 0;
 
@@ -14,8 +14,8 @@
 
         public bool IsForAdult { get; set; }
 
-        public List<TagDTO> Tags { get; set; } = new List<TagDTO>();
+        public List<TagsDTO> Tags { get; set; } = new List<TagsDTO>();
 
-        public List<ImageDTO> Images { get; set; } = new List<ImageDTO>();
+        public List<ImagesDTO> Images { get; set; } = new List<ImagesDTO>();
     }
 }

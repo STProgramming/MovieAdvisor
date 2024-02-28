@@ -1,22 +1,23 @@
 ﻿using MADTOs.DTOs;
 using MAModels.EntityFrameworkModels;
+using MAModels.EntityFrameworkModels.Identity;
 
 namespace MAContracts.Contracts.Mappers
 {
     public interface IObjectsMapperDtoServices
     {
-        MovieDTO MovieMappingDtoService(Movie movie, List<Image> images, List<Tag> tags);
+        MoviesDTO MovieMappingDtoService(Movies movie, List<Images> images, List<Tags> tags);
 
-        ImageDTO ImageMapperDtoService(Image image, byte[] data);
+        ImagesDTO ImageMapperDtoService(Images image, byte[] data);
 
-        List<ImageDTO> ImageListMapperDtoService(List<Image> imageList, List<byte[]> imagesData);
+        List<ImagesDTO> ImageListMapperDtoService(List<Images> imageList, List<byte[]> imagesData);
 
-        TagDTO TagMapperDtoService(Tag tag);
+        TagsDTO TagMapperDtoService(Tags tag);
 
-        List<TagDTO> TagMapperDtoListService(List<Tag> tags);
+        List<TagsDTO> TagMapperDtoListService(List<Tags> tags);
 
-        ReviewDTO ReviewMapperDtoService(Review review);
+        ReviewsDTO ReviewMapperDtoService(Reviews review);
 
-        UserDTO UserMapperDtoService(User user);
+        UsersDTO UserMapperDtoService(Users user);
     }
 }

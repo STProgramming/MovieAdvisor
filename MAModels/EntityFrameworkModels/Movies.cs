@@ -1,11 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.CodeAnalysis;
+using MAModels.EntityFrameworkModels.Identity;
 
 namespace MAModels.EntityFrameworkModels
 {
     [Table("Movies")]
-    public class Movie
+    public class Movies
     {
         [Key]
         [Required]
@@ -26,12 +27,12 @@ namespace MAModels.EntityFrameworkModels
         [Required, NotNull]
         public bool IsForAdult { get; set; }
 
-        public List<User> UsersList {  get; set; } = new List<User>();
+        public List<Users> UsersList {  get; set; } = new List<Users>();
 
-        public List<Image> ImagesList { get; set; } = new List<Image>();
+        public List<Images> ImagesList { get; set; } = new List<Images>();
 
-        public List<Tag> TagsList { get; set; } = new List<Tag>();
+        public List<Tags> TagsList { get; set; } = new List<Tags>();
 
-        public Movie() { }
+        public Movies() { }
     }
 }

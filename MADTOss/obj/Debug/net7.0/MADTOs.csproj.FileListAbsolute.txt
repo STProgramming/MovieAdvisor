@@ -10,7 +10,7 @@ C:\Users\STCor\Documents\Repositories\MAApp\MovieAdvisor\MADTOss\obj\Debug\net7.
 C:\Users\STCor\Documents\Repositories\MAApp\MovieAdvisor\MADTOss\obj\Debug\net7.0\MADTOs.AssemblyInfo.cs
 C:\Users\STCor\Documents\Repositories\MAApp\MovieAdvisor\MADTOss\obj\Debug\net7.0\MADTOs.csproj.CoreCompileInputs.cache
 C:\Users\STCor\Documents\Repositories\MAApp\MovieAdvisor\MADTOss\obj\Debug\net7.0\MADTOs.sourcelink.json
-C:\Users\STCor\Documents\Repositories\MAApp\MovieAdvisor\MADTOss\obj\Debug\net7.0\MADTOs.csproj.CopyComplete
+C:\Users\STCor\Documents\Repositories\MAApp\MovieAdvisor\MADTOss\obj\Debug\net7.0\MADTOs.csproj.Up2Date
 C:\Users\STCor\Documents\Repositories\MAApp\MovieAdvisor\MADTOss\obj\Debug\net7.0\MADTOs.dll
 C:\Users\STCor\Documents\Repositories\MAApp\MovieAdvisor\MADTOss\obj\Debug\net7.0\refint\MADTOs.dll
 C:\Users\STCor\Documents\Repositories\MAApp\MovieAdvisor\MADTOss\obj\Debug\net7.0\MADTOs.pdb

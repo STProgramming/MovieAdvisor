@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace MAModels.EntityFrameworkModels
 {
     [Table("Tags")]
-    public class Tag
+    public class Tags
     {
         [Key]
         [Required]
@@ -13,8 +13,8 @@ namespace MAModels.EntityFrameworkModels
         [Required]
         public string TagName { get; set; } = null!;
 
-        public List<Movie> MoviesList { get; set; } = new List<Movie>();
+        public List<Movies> MoviesList { get; set; } = new List<Movies>();
 
-        public Tag() { }
+        public Tags() { }
     }
 }

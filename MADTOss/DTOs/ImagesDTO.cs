@@ -1,6 +1,6 @@
 ﻿namespace MADTOs.DTOs
 {
-    public class ImageDTO
+    public class ImagesDTO
     {
         public string ImageName { get; set; } = string.Empty;
 
