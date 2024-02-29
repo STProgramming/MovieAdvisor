@@ -25,6 +25,7 @@ namespace MAModels.EntityFrameworkModels
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
         }
     }
 }
