@@ -40,7 +40,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MADTOss\MADTOs.csproj" />
+    <ProjectReference Include="..\MADTOs\MADTOs.csproj" />
     <ProjectReference Include="..\MAServices\MAServices.csproj" />
   </ItemGroup>
 

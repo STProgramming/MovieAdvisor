@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MADTOss\MADTOs.csproj" />
+    <ProjectReference Include="..\MADTOs\MADTOs.csproj" />
   </ItemGroup>
 
 </Project>
