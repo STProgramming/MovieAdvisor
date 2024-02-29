@@ -1,5 +1,6 @@
 ﻿using MAContracts.Contracts.Services;
 using MADTOs.DTOs;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MAApi.Controllers
@@ -21,8 +22,9 @@ namespace MAApi.Controllers
             return Ok(await _movieServices.SearchEngine(Search));
         }
 
+        [Authorize]
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] MovieDTO NewMovie)
+        public async Task<IActionResult> Post([FromBody] MoviesDTO NewMovie)
         {
             try
             {               

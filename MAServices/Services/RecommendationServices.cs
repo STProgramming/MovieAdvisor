@@ -1,7 +1,9 @@
 ﻿using MAContracts.Contracts.Services;
 using MADTOs.DTOs;
 using MAModels.EntityFrameworkModels;
+using MAModels.EntityFrameworkModels.Identity;
 using MAModels.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.ML;
 using Microsoft.ML.AutoML;
@@ -13,29 +15,34 @@ namespace MAAI.ScriptAI
     {
         private readonly ApplicationDbContext _context;
 
-        public RecommendationServices(ApplicationDbContext context)
+        private readonly UserManager<Users> _userManager;
+
+        public RecommendationServices(
+            ApplicationDbContext context,
+            UserManager<Users> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         public async Task<List<MovieResultRecommendation>> MoviesSuggestedByUser(string userEmail)
         {
-            var user = await _context.Users.Where(u => string.Equals(u.EmailAddress, userEmail)).FirstOrDefaultAsync();
+            var user = await _userManager.FindByEmailAsync(userEmail);
             if (user == null) throw new NullReferenceException();
 
             //E' importante che le reviews siano di tutti gli utenti perchè deve imparare da tutte le casistiche
             //In seguito chiederemo per un utente specifico
 
-            List<Review> reviews = await _context.Reviews.ToListAsync();
+            List<Reviews> reviews = await _context.Reviews.ToListAsync();
             List<ModelInput> modelTrain = new List<ModelInput>();
             MLContext mlContext = new MLContext();
             var result = new List<MovieResultRecommendation>();
             List<ModelOutput> movieSuggesteds = new List<ModelOutput>();
 
             //Caricamento dei film non visti dall'utente
-            List<Movie> movieNotYetSeen = await _context.Movies.Where(m => m.UsersList.Count == 0 || !m.UsersList.Any(u => u.UserId == user.UserId)).ToListAsync();
+            List<Movies> movieNotYetSeen = await _context.Movies.Where(m => m.UsersList.Count == 0 || !m.UsersList.Any(u => u.Id == user.Id)).ToListAsync();
             short yearOfUser = Convert.ToInt16(DateTime.Now.Year - user.BirthDate.Year);
-            foreach (Movie movie in movieNotYetSeen)
+            foreach (Movies movie in movieNotYetSeen)
             {
                 //Verranno escusi i film che siano per un pubblico adulto nel caso in cui l'utente non abbia la maggiore età
 
@@ -52,16 +59,16 @@ namespace MAAI.ScriptAI
                 foreach (var review in reviews)
                 {
                     ModelInput train = new ModelInput();
-                    Movie movie = new Movie();
+                    Movies movie = new Movies();
                     if (review.Movie == null) movie = await _context.Movies.Where(m => m.MovieId == review.MovieId).FirstOrDefaultAsync();
                     else movie = review.Movie;
-                    List<Tag> tags = _context.Tags.Where(t => t.MoviesList.Any(m => m.MovieId == movie.MovieId)).ToList();
+                    List<Tags> tags = _context.Tags.Where(t => t.MoviesList.Any(m => m.MovieId == movie.MovieId)).ToList();
                     tags.ForEach(tag =>
                     {
                         train.MovieGenres += string.Join(", ", tag.TagName);
                     });
 
-                    train.UserId = user.UserId;
+                    train.UserId = user.Id;
                     train.MovieId = review.MovieId;
                     train.MovieTitle = movie.MovieTitle;
                     train.MovieDescription = movie.MovieDescription;
@@ -139,10 +146,10 @@ namespace MAAI.ScriptAI
 
                 foreach (var movie in movieNotYetSeen)
                 {
-                    var inputCase = new ModelInput { UserId = user.UserId, MovieId = movie.MovieId, };
+                    var inputCase = new ModelInput { UserId = user.Id, MovieId = movie.MovieId, };
                     var movieRatingPrediction = predictionEngine.Predict(inputCase);
-                    var userDTO = new UserDTO();
-                    var movieDTO = new MovieDTO();
+                    var userDTO = new UsersDTO();
+                    var movieDTO = new MoviesDTO();
                     result.Add(new MovieResultRecommendation
                     {
                         MovieId = movie.MovieId,

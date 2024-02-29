@@ -5,8 +5,8 @@ namespace MAContracts.Contracts.Mappers
 {
     public interface IImageDtoObjectsMapper
     {
-        ImageDTO ImageMapperDto(Image image, byte[] data);
+        ImagesDTO ImageMapperDto(Images image, byte[] data);
 
-        List<ImageDTO> ImageListMapperDto(List<Image> imageList, List<byte[]> imagesData);
+        List<ImagesDTO> ImageListMapperDto(List<Images> imageList, List<byte[]> imagesData);
     }
 }

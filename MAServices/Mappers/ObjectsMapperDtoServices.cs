@@ -1,6 +1,7 @@
 ﻿using MAContracts.Contracts.Mappers;
 using MADTOs.DTOs;
 using MAModels.EntityFrameworkModels;
+using MAModels.EntityFrameworkModels.Identity;
 
 namespace MAServices.Mappers
 {
@@ -31,7 +32,7 @@ namespace MAServices.Mappers
 
         #region MOVIES
 
-        public MovieDTO MovieMappingDtoService(Movie movie, List<Image> images, List<Tag> tags)
+        public MoviesDTO MovieMappingDtoService(Movies movie, List<Images> images, List<Tags> tags)
         {
             return _movieMapper.MovieMappingDto(movie, images, tags);
         }
@@ -40,12 +41,12 @@ namespace MAServices.Mappers
 
         #region IMAGES
 
-        public ImageDTO ImageMapperDtoService(Image image, byte[] data)
+        public ImagesDTO ImageMapperDtoService(Images image, byte[] data)
         {
             return _imageMapper.ImageMapperDto(image, data);
         }
 
-        public List<ImageDTO> ImageListMapperDtoService(List<Image> imageList, List<byte[]> imagesData)
+        public List<ImagesDTO> ImageListMapperDtoService(List<Images> imageList, List<byte[]> imagesData)
         {
             return _imageMapper.ImageListMapperDto(imageList, imagesData);
         }
@@ -54,12 +55,12 @@ namespace MAServices.Mappers
 
         #region TAGS
 
-        public TagDTO TagMapperDtoService(Tag tag)
+        public TagsDTO TagMapperDtoService(Tags tag)
         {
             return _tagMapper.TagMapperDto(tag);
         }
 
-        public List<TagDTO> TagMapperDtoListService(List<Tag> tags)
+        public List<TagsDTO> TagMapperDtoListService(List<Tags> tags)
         {
             return _tagMapper.TagMapperDtoList(tags);
         }
@@ -68,7 +69,7 @@ namespace MAServices.Mappers
 
         #region REVIEWS
 
-        public ReviewDTO ReviewMapperDtoService(Review review)
+        public ReviewsDTO ReviewMapperDtoService(Reviews review)
         {
             return _reviewMapper.ReviewMapperDto(review);
         }
@@ -77,7 +78,7 @@ namespace MAServices.Mappers
 
         #region USERS
 
-        public UserDTO UserMapperDtoService(User user)
+        public UsersDTO UserMapperDtoService(Users user)
         {
             return _userMapper.UserMapperDto(user);
         }

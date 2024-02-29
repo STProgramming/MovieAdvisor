@@ -5,6 +5,6 @@ namespace MAContracts.Contracts.Mappers
 {
     public interface IMovieDtoObjectsMapper
     {
-        public MovieDTO MovieMappingDto(Movie movie, List<Image> images, List<Tag> tags);
+        public MoviesDTO MovieMappingDto(Movies movie, List<Images> images, List<Tags> tags);
     }
 }

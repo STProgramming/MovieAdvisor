@@ -2,6 +2,8 @@
 using MAContracts.Contracts.Services;
 using MADTOs.DTOs;
 using MAModels.EntityFrameworkModels;
+using MAModels.EntityFrameworkModels.Identity;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace MAServices.Services
@@ -12,25 +14,29 @@ namespace MAServices.Services
 
         private readonly IObjectsMapperDtoServices _mapperService;
 
+        private readonly UserManager<Users> _userManager;
+
         public ReviewServices(ApplicationDbContext database,
-            IObjectsMapperDtoServices mapperService)
+            IObjectsMapperDtoServices mapperService,
+            UserManager<Users> userManager)
         {
             _database = database;
             _mapperService = mapperService;
+            _userManager = userManager;
         }
 
         #region PUBLIC SERVICES
 
-        public async Task<List<ReviewDTO>?> SearchEngineReviews(string? userEmail, int? movieId)
+        public async Task<List<ReviewsDTO>?> SearchEngineReviews(string? userEmail, int? movieId)
         {
-            List<ReviewDTO> ReviewsList = new List<ReviewDTO>();
-            List<Review> Reviews = new List<Review>();
+            List<ReviewsDTO> ReviewsList = new List<ReviewsDTO>();
+            List<Reviews> Reviews = new List<Reviews>();
             if (userEmail == null && movieId == null || movieId == 0)
             {
                 Reviews = await GetReviews();
                 foreach (var review in Reviews)
                 {
-                    var userObj = await _database.Users.Where(u => u.UserId == review.UserId).FirstOrDefaultAsync();
+                    var userObj = await _userManager.FindByIdAsync(review.UserId);
                     var movieObj = await _database.Movies.Where(m => m.MovieId == review.MovieId).FirstOrDefaultAsync();
                     review.User = userObj == null ? throw new NullReferenceException() : userObj;
                     review.Movie = movieObj == null ? throw new NullReferenceException() : movieObj;
@@ -44,7 +50,7 @@ namespace MAServices.Services
                 Reviews = await GetReviewsOfMovie(movie.MovieId);
                 foreach (var review in Reviews)
                 {
-                    var userObj = await _database.Users.FindAsync(review.UserId);
+                    var userObj = await _userManager.FindByIdAsync(review.UserId);
                     review.User = userObj != null ? userObj : throw new NullReferenceException();
                     review.Movie = movie;
                     ReviewsList.Add(_mapperService.ReviewMapperDtoService(review));
@@ -52,9 +58,9 @@ namespace MAServices.Services
             }
             else if (userEmail != null && movieId == null || movieId == 0)
             {                
-                var user = await _database.Users.Where(u => string.Equals(u.EmailAddress, userEmail)).FirstOrDefaultAsync();                
+                var user = await _userManager.FindByEmailAsync(userEmail);                
                 if (user == null) throw new NullReferenceException();
-                Reviews = await GetReviewsOfUser(user.UserId);
+                Reviews = await GetReviewsOfUser(user.Id);
                 foreach (var review in Reviews)
                 {
                     var movieObj = await _database.Movies.FindAsync(review.MovieId);
@@ -65,10 +71,10 @@ namespace MAServices.Services
             }
             else if (userEmail != null && movieId != null || movieId > 0)
             {
-                var user = await _database.Users.Where(u => string.Equals(u.EmailAddress, userEmail)).FirstOrDefaultAsync();
+                var user = await _database.Users.Where(u => string.Equals(u.Email, userEmail)).FirstOrDefaultAsync();
                 var movie = await _database.Movies.FindAsync(movieId);
                 if(user == null || movie == null) throw new NullReferenceException();
-                var result = await GetYourRiviewOfMovie(user.UserId, movie.MovieId);
+                var result = await GetYourRiviewOfMovie(user.Id, movie.MovieId);
                 if (result != null && result.Count > 0)
                 {
                     Reviews = result.ToList();
@@ -83,16 +89,16 @@ namespace MAServices.Services
             return ReviewsList;
         }
 
-        public async Task PostNewReview(string userEmail, int movieId, string? descriptionVote, float vote, string? when)
+        public async Task PostNewReview(string userEmail,int movieId, string? descriptionVote, float vote, string? when)
         {
-            var user = await _database.Users.Where(u => string.Equals(u.EmailAddress, userEmail)).FirstOrDefaultAsync();
+            var user = await _database.Users.Where(u => string.Equals(u.Email, userEmail)).FirstOrDefaultAsync();
             var movie = await _database.Movies.FindAsync(movieId);
             if (movie == null || user == null) throw new NullReferenceException();
             if (movie.MovieYearProduction > Convert.ToDateTime(when).Year) throw new Exception();
             var movieReviewed = await GetReviewsOfMovie(movieId);
             if (movieReviewed != null && movieReviewed.Count > 0)
             {
-                movieReviewed.FirstOrDefault().UserId = user.UserId;
+                movieReviewed.FirstOrDefault().UserId = user.Id;
                 movieReviewed.FirstOrDefault().MovieId = movie.MovieId;
                 movieReviewed.FirstOrDefault().Movie = movie;
                 movieReviewed.FirstOrDefault().User = user;
@@ -106,9 +112,9 @@ namespace MAServices.Services
             }
             else
             {
-                Review newReview = new Review
+                Reviews newReview = new Reviews
                 {
-                    UserId = user.UserId,
+                    UserId = user.Id,
                     MovieId = movie.MovieId,
                     Movie = movie,
                     User = user,
@@ -128,26 +134,26 @@ namespace MAServices.Services
 
         #endregion
 
-        #region PRIVATE SERVICES
+        #region PRIVATE METHODS
 
-        private async Task<List<Review>> GetReviews()
+        private async Task<List<Reviews>> GetReviews()
         {
             return await _database.Reviews.ToListAsync();
         }
 
-        private async Task<List<Review>> GetReviewsOfUser(int userId)
+        private async Task<List<Reviews>> GetReviewsOfUser(string userId)
         {
-            return await _database.Reviews.Where(r => r.UserId == userId).ToListAsync();
+            return await _database.Reviews.Where(r => string.Equals(r.UserId, userId)).ToListAsync();
         }
 
-        private async Task<List<Review>> GetReviewsOfMovie(int movieId)
+        private async Task<List<Reviews>> GetReviewsOfMovie(int movieId)
         {
             return await _database.Reviews.Where(r => r.MovieId == movieId).ToListAsync();
         }
 
-        private async Task<List<Review>?> GetYourRiviewOfMovie(int userId, int movieId)
+        private async Task<List<Reviews>?> GetYourRiviewOfMovie(string userId, int movieId)
         {
-            var moviesReviewedByUser = await _database.Reviews.Where(r => r.MovieId == movieId && r.UserId == userId).ToListAsync();
+            var moviesReviewedByUser = await _database.Reviews.Where(r => r.MovieId == movieId && string.Equals(r.UserId, userId)).ToListAsync();
             return moviesReviewedByUser;
         }
 

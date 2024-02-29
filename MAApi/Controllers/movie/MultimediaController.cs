@@ -1,11 +1,12 @@
 ﻿using MAContracts.Contracts.Services;
-using MAContracts.Contracts.Services.movie;
+using MAContracts.Contracts.Services.Movie;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
-namespace MAApi.Controllers.movie
+namespace MAApi.Controllers.Movie
 {
-    [Route("api/movie/[controller]")]
+    [Route("api/Movie/[controller]")]
     [ApiController]
     public class MultimediaController : ControllerBase
     {
@@ -37,6 +38,7 @@ namespace MAApi.Controllers.movie
             }
         }
 
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> Post([FromQuery] int MovieId, List<IFormFile> Files)
         {

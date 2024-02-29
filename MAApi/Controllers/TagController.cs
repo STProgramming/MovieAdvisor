@@ -1,4 +1,5 @@
 ﻿using MAContracts.Contracts.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MAApi.Controllers
@@ -20,6 +21,7 @@ namespace MAApi.Controllers
             return Ok(await _tagServices.GetAllTags());
         }
 
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> Post()
         {

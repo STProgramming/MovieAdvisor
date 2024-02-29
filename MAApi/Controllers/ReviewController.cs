@@ -1,4 +1,6 @@
 ﻿using MAContracts.Contracts.Services;
+using MAContracts.Contracts.Services.Identity.User;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MAApi.Controllers
@@ -27,6 +29,7 @@ namespace MAApi.Controllers
             }
         }
 
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> Post(string EmailUser, int MovieId, string? DescriptionVote, float Vote, string? When)
         {

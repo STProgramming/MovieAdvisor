@@ -6,8 +6,8 @@ namespace MAContracts.Contracts.Services
 {
     public interface IMovieServices
     {
-        Task<List<MovieDTO>> SearchEngine(string Query);
+        Task<List<MoviesDTO>> SearchEngine(string Query);
 
-        Task<int> CreateNewMovie(MovieDTO newMovie);
+        Task<int> CreateNewMovie(MoviesDTO newMovie);
     }
 }

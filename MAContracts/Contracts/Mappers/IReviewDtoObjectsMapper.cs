@@ -5,6 +5,6 @@ namespace MAContracts.Contracts.Mappers
 {
     public interface IReviewDtoObjectsMapper
     {
-        ReviewDTO ReviewMapperDto(Review review);
+        ReviewsDTO ReviewMapperDto(Reviews review);
     }
 }

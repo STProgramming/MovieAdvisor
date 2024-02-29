@@ -1,6 +1,6 @@
 ﻿using MAContracts.Contracts.Mappers;
 using MADTOs.DTOs;
-using MAModels.EntityFrameworkModels;
+using MAModels.EntityFrameworkModels.Identity;
 
 namespace MAServices.Mappers
 {
@@ -8,14 +8,14 @@ namespace MAServices.Mappers
     {
         public UserDtoObjectsMapper() { }
 
-        public UserDTO UserMapperDto(User user)
+        public UsersDTO UserMapperDto(Users user)
         {
-            UserDTO userDto = new UserDTO
+            UsersDTO userDto = new UsersDTO
             {
                 Name = user.Name,
                 LastName = user.LastName,
                 UserName = user.UserName,
-                EmailAddress = user.EmailAddress,
+                EmailAddress = user.Email,
                 BirthDate = user.BirthDate
             };
             return userDto;

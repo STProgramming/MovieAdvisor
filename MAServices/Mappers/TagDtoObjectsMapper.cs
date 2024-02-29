@@ -8,9 +8,9 @@ namespace MAServices.Mappers
     {
         public TagDtoObjectsMapper() { }
 
-        public TagDTO TagMapperDto(Tag tag)
+        public TagsDTO TagMapperDto(Tags tag)
         {
-            TagDTO tagDTO = new TagDTO
+            TagsDTO tagDTO = new TagsDTO
             {
                 TagId = tag.TagId,
                 TagName = tag.TagName
@@ -18,9 +18,9 @@ namespace MAServices.Mappers
             return tagDTO;
         }
 
-        public List<TagDTO> TagMapperDtoList(List<Tag> tags)
+        public List<TagsDTO> TagMapperDtoList(List<Tags> tags)
         {
-            List<TagDTO> tagsDto = new List<TagDTO>();
+            List<TagsDTO> tagsDto = new List<TagsDTO>();
             foreach(var tag in tags)
             {
                 tagsDto.Add(TagMapperDto(tag));

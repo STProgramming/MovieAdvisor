@@ -1,23 +1,31 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Duende.IdentityServer.EntityFramework.Options;
+using MAModels.EntityFrameworkModels.Identity;
+using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 
 namespace MAModels.EntityFrameworkModels
 {
-    public class ApplicationDbContext : DbContext
+    public class ApplicationDbContext : IdentityDbContext<Users>
     {
-        public ApplicationDbContext(DbContextOptions options) : base(options) { }
+        public ApplicationDbContext(
+            DbContextOptions options            
+            ) : base(options) { }
 
-        public DbSet<Movie> Movies { get; set; }
+        public DbSet<Movies> Movies { get; set; }
 
-        public DbSet<Image> Images { get; set; }
+        public DbSet<Images> Images { get; set; }
 
-        public DbSet<Tag> Tags { get; set; }
+        public DbSet<Tags> Tags { get; set; }
 
-        public DbSet<Review> Reviews { get; set; }
+        public DbSet<Reviews> Reviews { get; set; }
 
-        public DbSet<User> Users { get; set; }
+        public DbSet<Users> Users { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
         }
     }
 }

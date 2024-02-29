@@ -22,7 +22,83 @@ namespace MAModels.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("MAModels.EntityFrameworkModels.Image", b =>
+            modelBuilder.Entity("MAModels.EntityFrameworkModels.Identity.Users", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("BirthDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("UserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedEmail")
+                        .HasDatabaseName("EmailIndex");
+
+                    b.HasIndex("NormalizedUserName")
+                        .IsUnique()
+                        .HasDatabaseName("UserNameIndex")
+                        .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.ToTable("AspNetUsers", (string)null);
+                });
+
+            modelBuilder.Entity("MAModels.EntityFrameworkModels.Images", b =>
                 {
                     b.Property<int>("ImageId")
                         .ValueGeneratedOnAdd()
@@ -49,10 +125,10 @@ namespace MAModels.Migrations
 
                     b.HasIndex("MovieId");
 
-                    b.ToTable("Image");
+                    b.ToTable("Images");
                 });
 
-            modelBuilder.Entity("MAModels.EntityFrameworkModels.Movie", b =>
+            modelBuilder.Entity("MAModels.EntityFrameworkModels.Movies", b =>
                 {
                     b.Property<int>("MovieId")
                         .ValueGeneratedOnAdd()
@@ -83,7 +159,7 @@ namespace MAModels.Migrations
                     b.ToTable("Movies");
                 });
 
-            modelBuilder.Entity("MAModels.EntityFrameworkModels.Review", b =>
+            modelBuilder.Entity("MAModels.EntityFrameworkModels.Reviews", b =>
                 {
                     b.Property<int>("ReviewId")
                         .ValueGeneratedOnAdd()
@@ -100,8 +176,9 @@ namespace MAModels.Migrations
                     b.Property<int>("MovieId")
                         .HasColumnType("int");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<float>("Vote")
                         .HasColumnType("real");
@@ -115,7 +192,7 @@ namespace MAModels.Migrations
                     b.ToTable("Reviews");
                 });
 
-            modelBuilder.Entity("MAModels.EntityFrameworkModels.Tag", b =>
+            modelBuilder.Entity("MAModels.EntityFrameworkModels.Tags", b =>
                 {
                     b.Property<int>("TagId")
                         .ValueGeneratedOnAdd()
@@ -132,39 +209,144 @@ namespace MAModels.Migrations
                     b.ToTable("Tags");
                 });
 
-            modelBuilder.Entity("MAModels.EntityFrameworkModels.User", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
-                    b.Property<int>("UserId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserId"));
-
-                    b.Property<DateTime>("BirthDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("EmailAddress")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
 
-                    b.Property<string>("UserName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<string>("NormalizedName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
 
-                    b.HasKey("UserId");
+                    b.HasKey("Id");
 
-                    b.ToTable("Users");
+                    b.HasIndex("NormalizedName")
+                        .IsUnique()
+                        .HasDatabaseName("RoleNameIndex")
+                        .HasFilter("[NormalizedName] IS NOT NULL");
+
+                    b.ToTable("AspNetRoles", (string)null);
                 });
 
-            modelBuilder.Entity("MovieTag", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("RoleId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("AspNetRoleClaims", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AspNetUserClaims", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
+                {
+                    b.Property<string>("LoginProvider")
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
+
+                    b.Property<string>("ProviderKey")
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
+
+                    b.Property<string>("ProviderDisplayName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("LoginProvider", "ProviderKey");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AspNetUserLogins", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("RoleId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("UserId", "RoleId");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("AspNetUserRoles", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("LoginProvider")
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
+
+                    b.Property<string>("Value")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("UserId", "LoginProvider", "Name");
+
+                    b.ToTable("AspNetUserTokens", (string)null);
+                });
+
+            modelBuilder.Entity("MoviesTags", b =>
                 {
                     b.Property<int>("MoviesListMovieId")
                         .HasColumnType("int");
@@ -176,27 +358,27 @@ namespace MAModels.Migrations
 
                     b.HasIndex("TagsListTagId");
 
-                    b.ToTable("MovieTag");
+                    b.ToTable("MoviesTags");
                 });
 
-            modelBuilder.Entity("MovieUser", b =>
+            modelBuilder.Entity("MoviesUsers", b =>
                 {
                     b.Property<int>("MoviesListMovieId")
                         .HasColumnType("int");
 
-                    b.Property<int>("UsersListUserId")
-                        .HasColumnType("int");
+                    b.Property<string>("UsersListId")
+                        .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("MoviesListMovieId", "UsersListUserId");
+                    b.HasKey("MoviesListMovieId", "UsersListId");
 
-                    b.HasIndex("UsersListUserId");
+                    b.HasIndex("UsersListId");
 
-                    b.ToTable("MovieUser");
+                    b.ToTable("MoviesUsers");
                 });
 
-            modelBuilder.Entity("MAModels.EntityFrameworkModels.Image", b =>
+            modelBuilder.Entity("MAModels.EntityFrameworkModels.Images", b =>
                 {
-                    b.HasOne("MAModels.EntityFrameworkModels.Movie", "Movie")
+                    b.HasOne("MAModels.EntityFrameworkModels.Movies", "Movie")
                         .WithMany("ImagesList")
                         .HasForeignKey("MovieId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -205,15 +387,15 @@ namespace MAModels.Migrations
                     b.Navigation("Movie");
                 });
 
-            modelBuilder.Entity("MAModels.EntityFrameworkModels.Review", b =>
+            modelBuilder.Entity("MAModels.EntityFrameworkModels.Reviews", b =>
                 {
-                    b.HasOne("MAModels.EntityFrameworkModels.Movie", "Movie")
+                    b.HasOne("MAModels.EntityFrameworkModels.Movies", "Movie")
                         .WithMany()
                         .HasForeignKey("MovieId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("MAModels.EntityFrameworkModels.User", "User")
+                    b.HasOne("MAModels.EntityFrameworkModels.Identity.Users", "User")
                         .WithMany("ReviewsList")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -224,44 +406,95 @@ namespace MAModels.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("MovieTag", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
-                    b.HasOne("MAModels.EntityFrameworkModels.Movie", null)
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
+                {
+                    b.HasOne("MAModels.EntityFrameworkModels.Identity.Users", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
+                {
+                    b.HasOne("MAModels.EntityFrameworkModels.Identity.Users", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MAModels.EntityFrameworkModels.Identity.Users", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
+                {
+                    b.HasOne("MAModels.EntityFrameworkModels.Identity.Users", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("MoviesTags", b =>
+                {
+                    b.HasOne("MAModels.EntityFrameworkModels.Movies", null)
                         .WithMany()
                         .HasForeignKey("MoviesListMovieId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("MAModels.EntityFrameworkModels.Tag", null)
+                    b.HasOne("MAModels.EntityFrameworkModels.Tags", null)
                         .WithMany()
                         .HasForeignKey("TagsListTagId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("MovieUser", b =>
+            modelBuilder.Entity("MoviesUsers", b =>
                 {
-                    b.HasOne("MAModels.EntityFrameworkModels.Movie", null)
+                    b.HasOne("MAModels.EntityFrameworkModels.Movies", null)
                         .WithMany()
                         .HasForeignKey("MoviesListMovieId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("MAModels.EntityFrameworkModels.User", null)
+                    b.HasOne("MAModels.EntityFrameworkModels.Identity.Users", null)
                         .WithMany()
-                        .HasForeignKey("UsersListUserId")
+                        .HasForeignKey("UsersListId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("MAModels.EntityFrameworkModels.Movie", b =>
-                {
-                    b.Navigation("ImagesList");
-                });
-
-            modelBuilder.Entity("MAModels.EntityFrameworkModels.User", b =>
+            modelBuilder.Entity("MAModels.EntityFrameworkModels.Identity.Users", b =>
                 {
                     b.Navigation("ReviewsList");
+                });
+
+            modelBuilder.Entity("MAModels.EntityFrameworkModels.Movies", b =>
+                {
+                    b.Navigation("ImagesList");
                 });
 #pragma warning restore 612, 618
         }

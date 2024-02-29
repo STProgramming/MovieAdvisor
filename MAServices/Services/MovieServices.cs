@@ -21,10 +21,10 @@ namespace MAServices.Services
 
         #region PUBLIC SERVICES
 
-        public async Task<List<MovieDTO>> SearchEngine(string Query)
+        public async Task<List<MoviesDTO>> SearchEngine(string Query)
         {
 
-            List<Movie> results = new List<Movie>();
+            List<Movies> results = new List<Movies>();
             if (int.TryParse(Query, out _))
             {
                 results = await _database.Movies.Where(m => m.MovieYearProduction == short.Parse(Query)).ToListAsync();
@@ -48,22 +48,22 @@ namespace MAServices.Services
             {
                 results = await _database.Movies.ToListAsync();
             }
-            List<MovieDTO> resultsDtos = new List<MovieDTO>();
+            List<MoviesDTO> resultsDtos = new List<MoviesDTO>();
             foreach (var result in results)
             {
-                MovieDTO movieDTO = new MovieDTO();
-                List<Image> images = await _database.Images.Where(i => i.MovieId == result.MovieId).ToListAsync();
-                List<Tag> tags = await _database.Tags.Where(t => t.MoviesList.Any(m => m.MovieId == result.MovieId)).ToListAsync();
+                MoviesDTO movieDTO = new MoviesDTO();
+                List<Images> images = await _database.Images.Where(i => i.MovieId == result.MovieId).ToListAsync();
+                List<Tags> tags = await _database.Tags.Where(t => t.MoviesList.Any(m => m.MovieId == result.MovieId)).ToListAsync();
                 resultsDtos.Add(_mapperService.MovieMappingDtoService(result, images, tags));
             }
             return resultsDtos;
         }
 
-        public async Task<int> CreateNewMovie(MovieDTO newMovie)
+        public async Task<int> CreateNewMovie(MoviesDTO newMovie)
         {
             var moviesExist = await IsThisMovieAlreadyInDB(newMovie.MovieTitle, newMovie.MovieYearProduction, newMovie.MovieMaker);
             if (moviesExist != null && moviesExist.Count > 0) throw new IOException();
-            Movie newMovieObj = new Movie
+            Movies newMovieObj = new Movies
             {
                 MovieTitle = newMovie.MovieTitle,
                 MovieYearProduction = newMovie.MovieYearProduction,
@@ -73,7 +73,7 @@ namespace MAServices.Services
             };
             await _database.Movies.AddAsync(newMovieObj);
             await _database.SaveChangesAsync();
-            List<Tag> tagsInserted = new List<Tag>();
+            List<Tags> tagsInserted = new List<Tags>();
             if (newMovie.Tags.Count > 0)
             {
                 foreach (var tag in newMovie.Tags)
@@ -93,7 +93,7 @@ namespace MAServices.Services
 
         #region PRIVATE SERVICES
 
-        private async Task<List<Movie>> IsThisMovieAlreadyInDB(string movieTitle, short movieYearProduction, string movieMaker)
+        private async Task<List<Movies>> IsThisMovieAlreadyInDB(string movieTitle, short movieYearProduction, string movieMaker)
         {
             return await _database.Movies.Where(m => string.Equals(movieTitle.ToLower().Trim(), m.MovieTitle.ToLower().Trim()) && movieYearProduction == m.MovieYearProduction && string.Equals(movieMaker.Trim().ToLower(), m.MovieMaker.Trim().ToLower())).ToListAsync();
         }

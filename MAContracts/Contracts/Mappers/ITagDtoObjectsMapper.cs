@@ -5,8 +5,8 @@ namespace MAContracts.Contracts.Mappers
 {
     public interface ITagDtoObjectsMapper
     {
-        TagDTO TagMapperDto(Tag tag);
+        TagsDTO TagMapperDto(Tags tag);
 
-        List<TagDTO> TagMapperDtoList(List<Tag> tags);
+        List<TagsDTO> TagMapperDtoList(List<Tags> tags);
     }
 }

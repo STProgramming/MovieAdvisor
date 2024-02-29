@@ -1,12 +1,11 @@
 ﻿using MAContracts.Contracts.Mappers;
-using MAContracts.Contracts.Services;
-using MAContracts.Contracts.Services.movie;
+using MAContracts.Contracts.Services.Movie;
 using MADTOs.DTOs;
 using MAModels.EntityFrameworkModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 
-namespace MAServices.Services.movie
+namespace MAServices.Services.Movie
 {
     public class MultimediaServices : IMultimediaServices
     {
@@ -23,13 +22,13 @@ namespace MAServices.Services.movie
 
         public async Task AddNewMovieImage(List<IFormFile> ImageList, int movieId, List<byte[]> imagesList)
         {
-            List<Image> images = new List<Image>();
+            List<Images> images = new List<Images>();
             var movie = await _database.Movies.FindAsync(movieId);
             if (movie == null) throw new ArgumentNullException();
             int counter = 0;
             foreach (var image in ImageList)
             {
-                Image newImage = new Image
+                Images newImage = new Images
                 {
                     ImageName = image.FileName,
                     ImageExtension = Path.GetExtension(image.FileName),
@@ -48,11 +47,11 @@ namespace MAServices.Services.movie
             await _database.SaveChangesAsync();
         }
 
-        public async Task<ImageDTO> GetMovieImages(int movieId, int counter)
+        public async Task<ImagesDTO> GetMovieImages(int movieId, int counter)
         {
-            Movie movie = await _database.Movies.FindAsync(movieId);
+            Movies movie = await _database.Movies.FindAsync(movieId);
             if (movie == null) throw new NullReferenceException();
-            List<Image> images = await _database.Images.Where(i => i.MovieId == movieId).ToListAsync();
+            List<Images> images = await _database.Images.Where(i => i.MovieId == movieId).ToListAsync();
             if (images.Count == 0) throw new NullReferenceException();
             return _mapperService.ImageMapperDtoService(images[counter], images[counter].ImageData);
         }
