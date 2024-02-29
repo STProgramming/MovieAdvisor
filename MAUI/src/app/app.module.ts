@@ -15,6 +15,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ReviewsComponent } from './views/reviews/reviews/reviews.component';
 import { NewReviewComponent } from './views/reviews/new-review/new-review.component';
 import { ReviewAccordionComponent } from './views/reviews/review-accordion/review-accordion.component';
+import { LoginComponent } from './views/identity/login/login.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { ReviewAccordionComponent } from './views/reviews/review-accordion/revie
     NewMovieComponent,
     ReviewsComponent,
     NewReviewComponent,
-    ReviewAccordionComponent
+    ReviewAccordionComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,

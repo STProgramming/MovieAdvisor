@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 
 namespace MAApi.Controllers.Identity
 {
@@ -9,37 +10,43 @@ namespace MAApi.Controllers.Identity
     [ApiController]
     public class AuthenticationController : ControllerBase
     {
-        private readonly IAuthenticationServices _authenticationServices;
+        private readonly IAuthenticationServices _authenticationServices;        
 
         public AuthenticationController(IAuthenticationServices authenticationServices)
         {
             _authenticationServices = authenticationServices;
         }
 
-        [HttpGet]
-        public IActionResult GoogleRequest()
-        {
-            var properties = new AuthenticationProperties
-            {
-                RedirectUri = Url.Action(nameof(GoogleResponse))
-            };
+        #region GOOGLE AUTHENTICATION
 
-            return Challenge(properties, "Google");
+        #region PUBLIC
+
+        [HttpGet]
+        public IActionResult Google()
+        {
+            return Challenge(_authenticationServices.LoginWithGoogle(), "Google");
         }
 
         [HttpGet]
-        public async Task<IActionResult> GoogleResponse()
+        public async Task<IActionResult> ExternalLoginCallback(string ReturnUrl, string RemoteError)
         {
             try
             {
-                var authenticateResult = await HttpContext.AuthenticateAsync(JwtBearerDefaults.AuthenticationScheme);
-                return Ok(_authenticationServices.GoogleResponse(authenticateResult));
+                var token = await _authenticationServices.GoogleAuthentication(ReturnUrl, RemoteError);
+                return Ok(new { token });
             }
-            catch (Exception ex)
+            catch (UnauthorizedAccessException)
             {
                 return Unauthorized();
             }
-
+            catch (Exception)
+            {
+                return StatusCode((int)HttpStatusCode.ServiceUnavailable);
+            }
         }
+
+        #endregion
+
+        #endregion
     }
 }

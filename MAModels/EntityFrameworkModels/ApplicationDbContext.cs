@@ -1,9 +1,6 @@
-﻿using Duende.IdentityServer.EntityFramework.Options;
-using MAModels.EntityFrameworkModels.Identity;
-using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
+﻿using MAModels.EntityFrameworkModels.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 
 namespace MAModels.EntityFrameworkModels
 {

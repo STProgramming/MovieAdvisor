@@ -1,3 +1,9 @@
+C:\Users\STCor\Documents\Repositories\MAApp\MovieAdvisor\MAContracts\obj\Debug\net7.0\MAContracts.csproj.AssemblyReference.cache
+C:\Users\STCor\Documents\Repositories\MAApp\MovieAdvisor\MAContracts\obj\Debug\net7.0\MAContracts.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\STCor\Documents\Repositories\MAApp\MovieAdvisor\MAContracts\obj\Debug\net7.0\MAContracts.AssemblyInfoInputs.cache
+C:\Users\STCor\Documents\Repositories\MAApp\MovieAdvisor\MAContracts\obj\Debug\net7.0\MAContracts.AssemblyInfo.cs
+C:\Users\STCor\Documents\Repositories\MAApp\MovieAdvisor\MAContracts\obj\Debug\net7.0\MAContracts.csproj.CoreCompileInputs.cache
+C:\Users\STCor\Documents\Repositories\MAApp\MovieAdvisor\MAContracts\obj\Debug\net7.0\MAContracts.sourcelink.json
 C:\Users\STCor\Documents\Repositories\MAApp\MovieAdvisor\MAContracts\bin\Debug\net7.0\MAContracts.deps.json
 C:\Users\STCor\Documents\Repositories\MAApp\MovieAdvisor\MAContracts\bin\Debug\net7.0\MAContracts.runtimeconfig.json
 C:\Users\STCor\Documents\Repositories\MAApp\MovieAdvisor\MAContracts\bin\Debug\net7.0\MAContracts.dll
@@ -6,12 +12,6 @@ C:\Users\STCor\Documents\Repositories\MAApp\MovieAdvisor\MAContracts\bin\Debug\n
 C:\Users\STCor\Documents\Repositories\MAApp\MovieAdvisor\MAContracts\bin\Debug\net7.0\MAModels.dll
 C:\Users\STCor\Documents\Repositories\MAApp\MovieAdvisor\MAContracts\bin\Debug\net7.0\MADTOs.pdb
 C:\Users\STCor\Documents\Repositories\MAApp\MovieAdvisor\MAContracts\bin\Debug\net7.0\MAModels.pdb
-C:\Users\STCor\Documents\Repositories\MAApp\MovieAdvisor\MAContracts\obj\Debug\net7.0\MAContracts.csproj.AssemblyReference.cache
-C:\Users\STCor\Documents\Repositories\MAApp\MovieAdvisor\MAContracts\obj\Debug\net7.0\MAContracts.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\STCor\Documents\Repositories\MAApp\MovieAdvisor\MAContracts\obj\Debug\net7.0\MAContracts.AssemblyInfoInputs.cache
-C:\Users\STCor\Documents\Repositories\MAApp\MovieAdvisor\MAContracts\obj\Debug\net7.0\MAContracts.AssemblyInfo.cs
-C:\Users\STCor\Documents\Repositories\MAApp\MovieAdvisor\MAContracts\obj\Debug\net7.0\MAContracts.csproj.CoreCompileInputs.cache
-C:\Users\STCor\Documents\Repositories\MAApp\MovieAdvisor\MAContracts\obj\Debug\net7.0\MAContracts.sourcelink.json
 C:\Users\STCor\Documents\Repositories\MAApp\MovieAdvisor\MAContracts\obj\Debug\net7.0\MAContra.E7FEF083.Up2Date
 C:\Users\STCor\Documents\Repositories\MAApp\MovieAdvisor\MAContracts\obj\Debug\net7.0\MAContracts.dll
 C:\Users\STCor\Documents\Repositories\MAApp\MovieAdvisor\MAContracts\obj\Debug\net7.0\refint\MAContracts.dll

@@ -12,11 +12,11 @@ using MAServices.Services;
 using MAServices.Services.identity;
 using MAServices.Services.Identity.Profile;
 using MAServices.Services.Movie;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -37,7 +37,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 #endregion
 
-#region CREATE NEW DIPENDENCIES ON MOVIE ADVISOR SERVICES
+#region DIPENDENCIES ON MOVIE ADVISOR SERVICES
 
 #region TRANSIENT SERVICES
 
@@ -83,7 +83,7 @@ builder.Services.AddScoped<IAuthenticationServices, AuthenticationServices>();
 
 #region IDENTITY
 
-builder.Services.AddDefaultIdentity<Users>(options =>
+builder.Services.AddIdentity<Users, IdentityRole>(options =>
 {
     options.SignIn.RequireConfirmedAccount = true;
     options.Password.RequireDigit = true;
@@ -93,16 +93,27 @@ builder.Services.AddDefaultIdentity<Users>(options =>
     options.Password.RequiredLength = 8;
 })
 .AddRoles<IdentityRole>()
-.AddEntityFrameworkStores<ApplicationDbContext>();
+.AddEntityFrameworkStores<ApplicationDbContext>()
+.AddDefaultTokenProviders();
 
 builder.Services.AddAuthentication(options =>
 {
-    options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
     options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
 })
-.AddCookie()
-.AddIdentityServerJwt()
+.AddJwtBearer(tokenOptions =>
+{
+    tokenOptions.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ValidIssuer = builder.Configuration["JwtSettings:Issuer"],
+        ValidAudience = builder.Configuration["JwtSettings:Audience"],
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JwtSettings:Secret"]))
+    };
+})
 .AddGoogle(googleOptions =>
 {
     googleOptions.ClientId = builder.Configuration["Authentication:Google:ClientId"];
@@ -112,15 +123,15 @@ builder.Services.AddAuthentication(options =>
 #endregion
 
 #region CONFIGURE CORS
-var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy(
-      name: MyAllowSpecificOrigins,
-      builder => {
-          builder.WithOrigins("*").AllowAnyHeader().AllowAnyMethod();
-      });
+    options.AddPolicy("CorsPolicy",
+        builder => builder.WithOrigins("http://localhost:4200") // Modifica il dominio di origine con quello effettivo del tuo frontend Angular
+        .AllowAnyMethod()
+        .AllowAnyHeader()
+        .AllowCredentials()
+    );
 });
 
 #endregion
@@ -142,6 +153,6 @@ app.UseHttpsRedirection();
 
 app.MapControllers();
 
-app.UseCors(MyAllowSpecificOrigins);
+app.UseCors("CorsPolicy");
 
 app.Run();
