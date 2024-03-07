@@ -2,6 +2,7 @@
 using MAContracts.Contracts.Services.Identity.User;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace MAApi.Controllers
 {
@@ -17,11 +18,11 @@ namespace MAApi.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get(string? EmailUser, int? MovieId)
+        public async Task<IActionResult> Get(int? MovieId)
         {
             try
             {
-                return Ok(await _reviewServices.SearchEngineReviews(EmailUser, MovieId));
+                return Ok(await _reviewServices.SearchEngineReviews(HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value, MovieId));
             }
             catch (NullReferenceException)
             {

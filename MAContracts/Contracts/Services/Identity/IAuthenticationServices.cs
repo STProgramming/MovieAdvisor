@@ -1,11 +1,17 @@
-﻿using Microsoft.AspNetCore.Authentication;
+﻿using MADTOs.DTOs.ModelsDTOs;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Http;
 
 namespace MAContracts.Contracts.Services.Identity
 {
     public interface IAuthenticationServices
     {
-        Task<string> GoogleAuthentication(string returnUrl, string error);
+        Task<string> ResponseGoogleAuthentication(string returnUrl, string error);
 
-        AuthenticationProperties LoginWithGoogle();
+        AuthenticationProperties GoogleAuthentication(string redirectUrl);
+
+        Task<string> MAAuthentication(LoginDTO login, HttpContext? ctx);
+
+        Task LogOutAuthentication(HttpContext ctx);
     }
 }

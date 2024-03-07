@@ -1,7 +1,8 @@
 ﻿using MAContracts.Contracts.Mappers;
 using MAContracts.Contracts.Services.Movie;
-using MADTOs.DTOs;
+using MADTOs.DTOs.EntityFrameworkDTOs.Movie;
 using MAModels.EntityFrameworkModels;
+using MAModels.EntityFrameworkModels.Movie;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 

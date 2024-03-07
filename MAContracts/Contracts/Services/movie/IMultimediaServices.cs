@@ -1,4 +1,4 @@
-﻿using MADTOs.DTOs;
+﻿using MADTOs.DTOs.EntityFrameworkDTOs.Movie;
 using Microsoft.AspNetCore.Http;
 
 namespace MAContracts.Contracts.Services.Movie

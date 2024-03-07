@@ -1,6 +1,9 @@
 using MAAI.ScriptAI;
 using MAContracts.Contracts.Mappers;
+using MAContracts.Contracts.Mappers.Identity.User;
+using MAContracts.Contracts.Mappers.Movie;
 using MAContracts.Contracts.Services;
+using MAContracts.Contracts.Services.AI;
 using MAContracts.Contracts.Services.Identity;
 using MAContracts.Contracts.Services.Identity.User;
 using MAContracts.Contracts.Services.Movie;
@@ -8,9 +11,12 @@ using MADTOs.Mappers;
 using MAModels.EntityFrameworkModels;
 using MAModels.EntityFrameworkModels.Identity;
 using MAServices.Mappers;
+using MAServices.Mappers.Identity.User;
+using MAServices.Mappers.Movie;
 using MAServices.Services;
+using MAServices.Services.AI;
 using MAServices.Services.identity;
-using MAServices.Services.Identity.Profile;
+using MAServices.Services.Identity.User;
 using MAServices.Services.Movie;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
@@ -111,7 +117,7 @@ builder.Services.AddAuthentication(options =>
         ValidateIssuerSigningKey = true,
         ValidIssuer = builder.Configuration["JwtSettings:Issuer"],
         ValidAudience = builder.Configuration["JwtSettings:Audience"],
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JwtSettings:Secret"]))
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JwtSettings:Secret"])),
     };
 })
 .AddGoogle(googleOptions =>
@@ -127,10 +133,10 @@ builder.Services.AddAuthentication(options =>
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("CorsPolicy",
-        builder => builder.WithOrigins("http://localhost:4200") // Modifica il dominio di origine con quello effettivo del tuo frontend Angular
+        builder => builder.WithOrigins("http://localhost:4200", "https://accounts.google.com")
         .AllowAnyMethod()
         .AllowAnyHeader()
-        .AllowCredentials()
+        .AllowCredentials()        
     );
 });
 

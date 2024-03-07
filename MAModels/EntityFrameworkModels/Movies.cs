@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.CodeAnalysis;
 using MAModels.EntityFrameworkModels.Identity;
+using MAModels.EntityFrameworkModels.Movie;
 
 namespace MAModels.EntityFrameworkModels
 {
@@ -23,6 +24,11 @@ namespace MAModels.EntityFrameworkModels
 
         [Required, NotNull]
         public string MovieMaker { get; set; } = null!;
+
+        //TODO CAST, LIST EPISODES, AWARDS, IS TV SERIES
+
+        [Required, NotNull]
+        public short MovieLifeSpan { get; set; } = 0;
 
         [Required, NotNull]
         public bool IsForAdult { get; set; }

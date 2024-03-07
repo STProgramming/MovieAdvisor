@@ -11,7 +11,7 @@ export class IdentityService {
   constructor(private apiService: RestApiService) { }
 
   loginWithGoogle(): Observable<any>{
-    return this.apiService.get('Identity/Authentication/Google')
+    return this.apiService.get('Identity/Authentication/Google?ReturnUrl='+environment.frontUrl)
       .pipe(map((response : any) => {
         if(response){
           return (response);

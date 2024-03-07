@@ -1,5 +1,6 @@
-﻿using MADTOs.DTOs;
+﻿using MADTOs.DTOs.EntityFrameworkDTOs;
 using MAModels.EntityFrameworkModels;
+using MAModels.EntityFrameworkModels.Movie;
 
 namespace MAContracts.Contracts.Mappers
 {

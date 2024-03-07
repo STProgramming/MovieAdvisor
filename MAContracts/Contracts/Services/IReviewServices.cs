@@ -1,4 +1,4 @@
-﻿using MADTOs.DTOs;
+﻿using MADTOs.DTOs.EntityFrameworkDTOs;
 using MAModels.EntityFrameworkModels;
 
 namespace MAContracts.Contracts.Services

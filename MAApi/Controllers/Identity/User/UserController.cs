@@ -1,13 +1,15 @@
-﻿using MAApi.Helpers.Identity;
-using MAContracts.Contracts.Services.Identity.User;
-using MADTOs.DTOs;
+﻿using MAContracts.Contracts.Services.Identity.User;
+using MADTOs.DTOs.EntityFrameworkDTOs;
+using MADTOs.DTOs.ModelsDTOs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
+using System.Net;
+using System.Security.Claims;
 
-namespace MAApi.Controllers.identity.user
+namespace MAApi.Controllers.identity.User
 {
-    [Route("api/Identity/[controller]")]
+    [Route("api/Identity/User/[controller]")]
     [ApiController]
     public class UserController : ControllerBase
     {
@@ -23,15 +25,13 @@ namespace MAApi.Controllers.identity.user
             _configuration = configuration;
         }
 
-        //TODO refactoring del codice controllo come gli attuali controllers
         [Authorize]
         [HttpGet]
         public async Task<IActionResult> Get()
         {
             try
             {
-                var claims = IdentityHelpers.GetClaimsFromJwt(HttpContext.User);
-                return Ok(await _userServices.GetUserFromEmail(claims.Where(c => c.Equals("emailUser")).ToString()));
+                return Ok(await _userServices.GetUserFromEmail(HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value));
             }
             catch (UnauthorizedAccessException)
             {
@@ -41,12 +41,18 @@ namespace MAApi.Controllers.identity.user
 
         [AllowAnonymous]
         [HttpPost]
-        public async Task<IActionResult> Post(UsersDTO NewUserModel)
+        public async Task<IActionResult> Post([FromBody]NewUserDTO NewUserModel)
         {
-            if (!ModelState.IsValid) return StatusCode(406);
-            var user = await _userServices.GetUserFromEmail(NewUserModel.EmailAddress);
-            if (user == null) await _userServices.CreateNewUser(NewUserModel);
-            return StatusCode(201);
+            if (!ModelState.IsValid) return StatusCode((int)HttpStatusCode.NotAcceptable);
+            try
+            {
+                await _userServices.CreateNewUser(NewUserModel);
+                return StatusCode(201);
+            }
+            catch (UnauthorizedAccessException)
+            {
+                return StatusCode((int)HttpStatusCode.Conflict);
+            }
         }
 
         //[HttpPut]

@@ -1,4 +1,5 @@
-﻿using MAContracts.Contracts.Services;
+﻿using MAContracts.Contracts.Services.Movie;
+using MAModels.Enumerables.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,13 +16,14 @@ namespace MAApi.Controllers
             _tagServices = tagServices;
         }
 
+        [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> Get()
         {
             return Ok(await _tagServices.GetAllTags());
         }
 
-        [Authorize]
+        [Authorize(Roles = nameof(ERoleUser.AppAdmin))]
         [HttpPost]
         public async Task<IActionResult> Post()
         {

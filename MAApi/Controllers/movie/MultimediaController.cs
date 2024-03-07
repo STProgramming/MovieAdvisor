@@ -1,5 +1,6 @@
 ﻿using MAContracts.Contracts.Services;
 using MAContracts.Contracts.Services.Movie;
+using MAModels.Enumerables.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
@@ -20,6 +21,7 @@ namespace MAApi.Controllers.Movie
             _fileServices = fileServices;
         }
 
+        [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> Get(int MovieId, int Counter)
         {
@@ -38,7 +40,7 @@ namespace MAApi.Controllers.Movie
             }
         }
 
-        [Authorize]
+        [Authorize(Roles = nameof(ERoleUser.AppAdmin))]
         [HttpPost]
         public async Task<IActionResult> Post([FromQuery] int MovieId, List<IFormFile> Files)
         {

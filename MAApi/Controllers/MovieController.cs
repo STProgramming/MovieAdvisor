@@ -1,5 +1,6 @@
 ﻿using MAContracts.Contracts.Services;
-using MADTOs.DTOs;
+using MADTOs.DTOs.EntityFrameworkDTOs;
+using MAModels.Enumerables.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,13 +17,14 @@ namespace MAApi.Controllers
             _movieServices = movieServices;
         }
 
+        [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> Get(string Search = "")
         {
             return Ok(await _movieServices.SearchEngine(Search));
         }
 
-        [Authorize]
+        [Authorize(Roles = nameof(ERoleUser.AppAdmin))]
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] MoviesDTO NewMovie)
         {

@@ -1,5 +1,5 @@
-﻿using MADTOs.DTOs;
-using MAModels.EntityFrameworkModels.Identity;
+﻿using MADTOs.DTOs.EntityFrameworkDTOs.Identity;
+using MADTOs.DTOs.ModelsDTOs;
 
 namespace MAContracts.Contracts.Services.Identity.User
 {
@@ -9,7 +9,7 @@ namespace MAContracts.Contracts.Services.Identity.User
 
         Task<UsersDTO?> GetUserFromId(string userId);
 
-        Task CreateNewUser(UsersDTO newUserModel);
+        Task CreateNewUser(NewUserDTO newUserModel);
 
 
         //Task ModifyUserData(UserDTO userData, string? email, string? userName);

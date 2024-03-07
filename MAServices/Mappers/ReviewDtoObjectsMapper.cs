@@ -1,5 +1,5 @@
 ﻿using MAContracts.Contracts.Mappers;
-using MADTOs.DTOs;
+using MADTOs.DTOs.EntityFrameworkDTOs;
 using MAModels.EntityFrameworkModels;
 
 namespace MAServices.Mappers

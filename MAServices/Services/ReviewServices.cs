@@ -1,6 +1,6 @@
 ﻿using MAContracts.Contracts.Mappers;
 using MAContracts.Contracts.Services;
-using MADTOs.DTOs;
+using MADTOs.DTOs.EntityFrameworkDTOs;
 using MAModels.EntityFrameworkModels;
 using MAModels.EntityFrameworkModels.Identity;
 using Microsoft.AspNetCore.Identity;

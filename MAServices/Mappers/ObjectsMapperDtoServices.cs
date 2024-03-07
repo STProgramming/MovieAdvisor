@@ -1,7 +1,12 @@
 ﻿using MAContracts.Contracts.Mappers;
-using MADTOs.DTOs;
+using MAContracts.Contracts.Mappers.Identity.User;
+using MAContracts.Contracts.Mappers.Movie;
+using MADTOs.DTOs.EntityFrameworkDTOs;
+using MADTOs.DTOs.EntityFrameworkDTOs.Identity;
+using MADTOs.DTOs.EntityFrameworkDTOs.Movie;
 using MAModels.EntityFrameworkModels;
 using MAModels.EntityFrameworkModels.Identity;
+using MAModels.EntityFrameworkModels.Movie;
 
 namespace MAServices.Mappers
 {

@@ -16,6 +16,8 @@ import { ReviewsComponent } from './views/reviews/reviews/reviews.component';
 import { NewReviewComponent } from './views/reviews/new-review/new-review.component';
 import { ReviewAccordionComponent } from './views/reviews/review-accordion/review-accordion.component';
 import { LoginComponent } from './views/identity/login/login.component';
+import { NewUserComponent } from './views/user/new-user/new-user/new-user.component';
+import { UserDetailsComponent } from './views/user/user-details/user-details/user-details.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +28,9 @@ import { LoginComponent } from './views/identity/login/login.component';
     ReviewsComponent,
     NewReviewComponent,
     ReviewAccordionComponent,
-    LoginComponent
+    LoginComponent,
+    NewUserComponent,
+    UserDetailsComponent
   ],
   imports: [
     BrowserModule,
