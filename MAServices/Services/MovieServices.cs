@@ -1,6 +1,7 @@
 ﻿using MAContracts.Contracts.Mappers;
 using MAContracts.Contracts.Services;
 using MADTOs.DTOs.EntityFrameworkDTOs;
+using MADTOs.DTOs.ModelsDTOs;
 using MAModels.EntityFrameworkModels;
 using MAModels.EntityFrameworkModels.Movie;
 using Microsoft.EntityFrameworkCore;
@@ -55,12 +56,12 @@ namespace MAServices.Services
                 MoviesDTO movieDTO = new MoviesDTO();
                 List<Images> images = await _database.Images.Where(i => i.MovieId == result.MovieId).ToListAsync();
                 List<Tags> tags = await _database.Tags.Where(t => t.MoviesList.Any(m => m.MovieId == result.MovieId)).ToListAsync();
-                resultsDtos.Add(_mapperService.MovieMappingDtoService(result, images, tags));
+                resultsDtos.Add(_mapperService.MovieMapperDtoService(result, images, tags));
             }
             return resultsDtos;
         }
 
-        public async Task<int> CreateNewMovie(MoviesDTO newMovie)
+        public async Task<int> CreateNewMovie(NewMovieDTO newMovie)
         {
             var moviesExist = await IsThisMovieAlreadyInDB(newMovie.MovieTitle, newMovie.MovieYearProduction, newMovie.MovieMaker);
             if (moviesExist != null && moviesExist.Count > 0) throw new IOException();
@@ -70,16 +71,17 @@ namespace MAServices.Services
                 MovieYearProduction = newMovie.MovieYearProduction,
                 MovieMaker = newMovie.MovieMaker,
                 MovieDescription = newMovie.MovieDescription,
-                IsForAdult = newMovie.IsForAdult
+                IsForAdult = newMovie.IsForAdult,
+                MovieLifeSpan = newMovie.MovieLifeSpan
             };
             await _database.Movies.AddAsync(newMovieObj);
             await _database.SaveChangesAsync();
             List<Tags> tagsInserted = new List<Tags>();
-            if (newMovie.Tags.Count > 0)
+            if (newMovie.TagsId.Count > 0)
             {
-                foreach (var tag in newMovie.Tags)
+                foreach (int tag in newMovie.TagsId)
                 {
-                    var tagObj = await _database.Tags.FindAsync(tag.TagId);
+                    var tagObj = await _database.Tags.Where(t => t.TagId == tag).FirstOrDefaultAsync();
                     if (tagObj == null) throw new ArgumentNullException();
                     tagsInserted.Add(tagObj);
                 }

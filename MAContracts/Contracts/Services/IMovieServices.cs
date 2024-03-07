@@ -1,4 +1,5 @@
 ﻿using MADTOs.DTOs.EntityFrameworkDTOs;
+using MADTOs.DTOs.ModelsDTOs;
 using MAModels.EntityFrameworkModels;
 
 
@@ -8,6 +9,6 @@ namespace MAContracts.Contracts.Services
     {
         Task<List<MoviesDTO>> SearchEngine(string Query);
 
-        Task<int> CreateNewMovie(MoviesDTO newMovie);
+        Task<int> CreateNewMovie(NewMovieDTO newMovie);
     }
 }

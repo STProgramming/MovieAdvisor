@@ -5,6 +5,6 @@ namespace MAContracts.Contracts.Mappers.Identity.User
 {
     public interface IUserDtoObjectsMapper
     {
-        UsersDTO UserMapperDto(Users user);
+        UsersDTO UserMappingDto(Users user);
     }
 }

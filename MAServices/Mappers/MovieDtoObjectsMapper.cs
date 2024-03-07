@@ -40,6 +40,7 @@ namespace MADTOs.Mappers
                 MovieDescription = movie.MovieDescription,
                 MovieMaker = movie.MovieMaker,
                 IsForAdult = movie.IsForAdult,
+                MovieLifeSpan = movie.MovieLifeSpan,
                 Tags = tagsDto,
                 Images = imagesDto
             };

@@ -5,8 +5,8 @@ namespace MAContracts.Contracts.Mappers.Movie
 {
     public interface IImageDtoObjectsMapper
     {
-        ImagesDTO ImageMapperDto(Images image, byte[] data);
+        ImagesDTO ImageMappingDto(Images image, byte[] data);
 
-        List<ImagesDTO> ImageListMapperDto(List<Images> imageList, List<byte[]> imagesData);
+        List<ImagesDTO> ImageMappingDtoList(List<Images> imageList, List<byte[]> imagesData);
     }
 }

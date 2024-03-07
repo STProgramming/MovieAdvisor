@@ -109,8 +109,10 @@ namespace MAServices.Services.identity
                     new Claim(ClaimTypes.Name, user.Name),
                     new Claim(ClaimTypes.Email, user.Email),
                     new Claim(ClaimTypes.NameIdentifier, user.Id),
-                    new Claim(ClaimTypes.Role, role.FirstOrDefault())
+                    new Claim(ClaimTypes.Role, role.FirstOrDefault()),                    
                 }),
+                Audience = _config["JwtSettings:Audience"],
+                Issuer = _config["JwtSettings:Issuer"],
                 Expires = DateTime.UtcNow.AddDays(2),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };

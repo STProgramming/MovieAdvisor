@@ -1,5 +1,6 @@
 ﻿using MAContracts.Contracts.Services;
 using MADTOs.DTOs.EntityFrameworkDTOs;
+using MADTOs.DTOs.ModelsDTOs;
 using MAModels.Enumerables.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -26,7 +27,7 @@ namespace MAApi.Controllers
 
         [Authorize(Roles = nameof(ERoleUser.AppAdmin))]
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] MoviesDTO NewMovie)
+        public async Task<IActionResult> Post([FromBody]NewMovieDTO NewMovie)
         {
             try
             {               

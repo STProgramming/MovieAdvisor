@@ -21,6 +21,12 @@ namespace MADTOs.DTOs.ModelsDTOs
         public DateTime BirthDate { get; set; }
 
         [Required, NotNull]
+        public string Gender { get; set; } = string.Empty;
+
+        [Required, NotNull]
+        public string Nationality { get; set; } = string.Empty;
+
+        [Required, NotNull]
         public string Password { get; set; } = string.Empty;
     }
 }

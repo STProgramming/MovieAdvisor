@@ -8,7 +8,7 @@ namespace MAServices.Mappers.Movie
     {
         public ImageDtoObjectsMapper() { }
 
-        public ImagesDTO ImageMapperDto(Images image, byte[] data)
+        public ImagesDTO ImageMappingDto(Images image, byte[] data)
         {
             ImagesDTO imageDTO = new ImagesDTO
             {
@@ -19,13 +19,13 @@ namespace MAServices.Mappers.Movie
             return imageDTO;
         }
 
-        public List<ImagesDTO> ImageListMapperDto(List<Images> imageList, List<byte[]> imagesData)
+        public List<ImagesDTO> ImageMappingDtoList(List<Images> imageList, List<byte[]> imagesData)
         {
             int counter = 0;
             List<ImagesDTO> imageListDto = new List<ImagesDTO>();
             foreach (var image in imageList)
             {
-                imageListDto.Add(ImageMapperDto(image, imagesData[counter]));
+                imageListDto.Add(ImageMappingDto(image, imagesData[counter]));
                 counter++;
             }
             return imageListDto;

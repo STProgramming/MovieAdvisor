@@ -8,7 +8,7 @@ namespace MAServices.Mappers.Movie
     {
         public TagDtoObjectsMapper() { }
 
-        public TagsDTO TagMapperDto(Tags tag)
+        public TagsDTO TagMappingDto(Tags tag)
         {
             TagsDTO tagDTO = new TagsDTO
             {
@@ -18,12 +18,12 @@ namespace MAServices.Mappers.Movie
             return tagDTO;
         }
 
-        public List<TagsDTO> TagMapperDtoList(List<Tags> tags)
+        public List<TagsDTO> TagMappingDtoList(List<Tags> tags)
         {
             List<TagsDTO> tagsDto = new List<TagsDTO>();
             foreach (var tag in tags)
             {
-                tagsDto.Add(TagMapperDto(tag));
+                tagsDto.Add(TagMappingDto(tag));
             }
             return tagsDto;
         }

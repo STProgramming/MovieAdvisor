@@ -17,7 +17,5 @@
         public float AiScore { get; set; }
 
         public bool See { get; set; }
-
-        public RequestsDTO Request { get; set; }
     }
 }

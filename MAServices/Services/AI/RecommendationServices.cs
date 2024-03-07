@@ -1,4 +1,5 @@
-﻿using MAContracts.Contracts.Services.AI;
+﻿using MAContracts.Contracts.Mappers;
+using MAContracts.Contracts.Services.AI;
 using MADTOs.DTOs.EntityFrameworkDTOs;
 using MADTOs.DTOs.EntityFrameworkDTOs.AI;
 using MADTOs.DTOs.EntityFrameworkDTOs.Identity;
@@ -29,14 +30,18 @@ namespace MAServices.Services.AI
 
         private readonly IConfiguration _config;
 
+        private readonly IObjectsMapperDtoServices _mapper;
+
         public RecommendationServices(
             ApplicationDbContext context,
             UserManager<Users> userManager,
-            IConfiguration config)
+            IConfiguration config,
+            IObjectsMapperDtoServices objectsMapperDtoServices)
         {
             _context = context;
             _userManager = userManager;
             _config = config;
+            _mapper = objectsMapperDtoServices;
         }
 
         #region PUBLIC SERVICES
@@ -56,7 +61,7 @@ namespace MAServices.Services.AI
 
             await RequestsManager(user, null, result, sessionInfo, null);
 
-            return result;
+            return _mapper.RecommendationMapperDtoListService(result);
         }
 
         public async Task<List<RecommendationsDTO>> RecommendationsBasedOnRequest(string userEmail, RequestsDTO requestUser)
@@ -76,9 +81,9 @@ namespace MAServices.Services.AI
 
             List<Recommendations> defResult = await BasedOnRequest(user, sentimentUser, result, request);
 
-            await RequestsManager(user, null, result, sessionInfo, null);
+            await RequestsManager(user, null, result, sessionInfo, sentimentUser.Prediction);
 
-            return result;
+            return _mapper.RecommendationMapperDtoListService(defResult);
         }
 
         #endregion

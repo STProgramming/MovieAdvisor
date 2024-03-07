@@ -69,6 +69,8 @@ namespace MAServices.Services.Identity.User
                 Email = newUserModel.Email,
                 BirthDate = newUserModel.BirthDate,
                 SecurityStamp = new Guid().ToString(),
+                Gender = newUserModel.Gender,
+                Nationality = newUserModel.Nationality,
                 EmailConfirmed = true                
             };
             string role = string.Equals(newUserModel.Email, _configuration["EmailAdmin"]) ? nameof(ERoleUser.AppAdmin) : nameof(ERoleUser.User);

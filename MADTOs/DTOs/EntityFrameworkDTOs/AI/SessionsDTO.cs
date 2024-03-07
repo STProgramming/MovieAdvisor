@@ -8,8 +8,6 @@ namespace MADTOs.DTOs.EntityFrameworkDTOs.AI
 
         public List<RequestsDTO> Requests { get; set; } = new List<RequestsDTO>();
 
-        public UsersDTO Users { get; set; }
-
         public DateTime DateTimeCreation { get; set; }
     }
 }

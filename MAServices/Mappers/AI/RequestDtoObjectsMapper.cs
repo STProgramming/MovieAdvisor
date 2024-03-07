@@ -1,6 +1,5 @@
 ﻿using MAContracts.Contracts.Mappers.AI;
 using MADTOs.DTOs.EntityFrameworkDTOs.AI;
-using MADTOs.DTOs.EntityFrameworkDTOs.Identity;
 using MAModels.EntityFrameworkModels.AI;
 
 namespace MAServices.Mappers.AI
@@ -28,7 +27,6 @@ namespace MAServices.Mappers.AI
                 recomDto.LastName = recom.LastName;
                 recomDto.Email = recom.Email;
                 recomDto.AiScore = recom.AiScore;
-                recomDto.Request = requestDTO;
                 recomDtos.Add(recomDto);
             }
 

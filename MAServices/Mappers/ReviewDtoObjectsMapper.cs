@@ -8,7 +8,7 @@ namespace MAServices.Mappers
     {
         public ReviewDtoObjectsMapper() { }
 
-        public ReviewsDTO ReviewMapperDto(Reviews review)
+        public ReviewsDTO ReviewMappingDto(Reviews review)
         {
             ReviewsDTO reviewDto = new ReviewsDTO
             {

@@ -9,7 +9,7 @@ using System.Security.Claims;
 
 namespace MAApi.Controllers.identity.User
 {
-    [Route("api/Identity/User/[controller]")]
+    [Route("api/Identity/[controller]")]
     [ApiController]
     public class UserController : ControllerBase
     {

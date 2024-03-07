@@ -8,7 +8,7 @@ namespace MAServices.Mappers.Identity.User
     {
         public UserDtoObjectsMapper() { }
 
-        public UsersDTO UserMapperDto(Users user)
+        public UsersDTO UserMappingDto(Users user)
         {
             UsersDTO userDto = new UsersDTO
             {
@@ -16,7 +16,9 @@ namespace MAServices.Mappers.Identity.User
                 LastName = user.LastName,
                 UserName = user.UserName,
                 EmailAddress = user.Email,
-                BirthDate = user.BirthDate
+                BirthDate = user.BirthDate,
+                Nationality = user.Nationality,
+                Gender = user.Gender,
             };
             return userDto;
         }
