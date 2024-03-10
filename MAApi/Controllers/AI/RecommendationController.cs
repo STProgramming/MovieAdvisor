@@ -42,7 +42,7 @@ namespace MAApi.Controllers.AI
         {
             try
             {
-                return Ok(await _recommendationServices.RecommendationsBasedOnRequest(HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value, requestUser));
+                return Ok(await _recommendationServices.RecommendationsBasedOnRequest(HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value, requestUser));
             }
             catch (NullReferenceException)
             {

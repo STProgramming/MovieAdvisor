@@ -38,11 +38,11 @@ namespace MAServices.Services.Identity.User
         }
 
 
-        public async Task<UsersDTO?> GetUserFromEmail(string emailUser)
+        public async Task<UsersDTO?> GetUserFromEmail(string userId)
         {
             try
             {
-                return _mapperService.UserMapperDtoService(await _userManager.FindByEmailAsync(emailUser));
+                return _mapperService.UserMapperDtoService(await _userManager.FindByIdAsync(userId));
             }
             catch (Exception)
             {

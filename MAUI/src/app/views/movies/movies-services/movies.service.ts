@@ -12,7 +12,7 @@ export class MoviesService {
   constructor(private apiService: RestApiService) { }
 
   getTagsMovie(): Observable<TagDto[]>{
-    return this.apiService.get('Tag')
+    return this.apiService.get('Movie/Tag')
       .pipe(map((response : TagDto[]) => {
         if(response){
           return (response);

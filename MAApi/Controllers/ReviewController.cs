@@ -1,5 +1,6 @@
 ﻿using MAContracts.Contracts.Services;
 using MAContracts.Contracts.Services.Identity.User;
+using MADTOs.DTOs.ModelsDTOs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
@@ -22,7 +23,7 @@ namespace MAApi.Controllers
         {
             try
             {
-                return Ok(await _reviewServices.SearchEngineReviews(HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value, MovieId));
+                return Ok(await _reviewServices.SearchEngineReviews(HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value, MovieId));
             }
             catch (NullReferenceException)
             {
@@ -32,11 +33,11 @@ namespace MAApi.Controllers
 
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> Post(string EmailUser, int MovieId, string? DescriptionVote, float Vote, string? When)
+        public async Task<IActionResult> Post([FromBody]NewReviewDTO newReview)
         {
             try
             {
-                await _reviewServices.PostNewReview(EmailUser, MovieId, DescriptionVote, Vote, When);
+                await _reviewServices.PostNewReview(HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value, newReview);
                 return StatusCode(201);
             }
             catch (NullReferenceException)

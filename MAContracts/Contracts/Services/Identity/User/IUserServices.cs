@@ -5,7 +5,7 @@ namespace MAContracts.Contracts.Services.Identity.User
 {
     public interface IUserServices
     {
-        Task<UsersDTO?> GetUserFromEmail(string emailUser);
+        Task<UsersDTO?> GetUserFromEmail(string userId);
 
         Task<UsersDTO?> GetUserFromId(string userId);
 

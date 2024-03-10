@@ -46,9 +46,9 @@ namespace MAServices.Services.AI
 
         #region PUBLIC SERVICES
 
-        public async Task<List<RecommendationsDTO>> RecommendationsBasedOnReviews(string userEmail)
+        public async Task<List<RecommendationsDTO>> RecommendationsBasedOnReviews(string userId)
         {
-            var user = await _userManager.FindByEmailAsync(userEmail);
+            var user = await _userManager.FindByIdAsync(userId);
             if (user == null) throw new NullReferenceException();
 
             await AISmartAvailability();

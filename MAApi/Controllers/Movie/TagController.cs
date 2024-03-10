@@ -3,9 +3,9 @@ using MAModels.Enumerables.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace MAApi.Controllers
+namespace MAApi.Controllers.Movie
 {
-    [Route("api/[controller]")]
+    [Route("api/Movie/[controller]")]
     [ApiController]
     public class TagController : ControllerBase
     {

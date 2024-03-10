@@ -4,4 +4,6 @@ export interface UserDto{
     userName: string;
     emailAddress: string;
     birthDate: Date;
+    nationality: string;
+    gender: string;
 }

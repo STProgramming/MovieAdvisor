@@ -1,12 +1,12 @@
 ﻿using MADTOs.DTOs.EntityFrameworkDTOs;
-using MAModels.EntityFrameworkModels;
+using MADTOs.DTOs.ModelsDTOs;
 
 namespace MAContracts.Contracts.Services
 {
     public interface IReviewServices
     {
-        Task PostNewReview(string userEmail, int movieId, string? descriptionVote, float vote, string? when);
+        Task PostNewReview(string userId, NewReviewDTO newReviewDto);
 
-        Task<List<ReviewsDTO>?> SearchEngineReviews(string? userEmail, int? movieId);
+        Task<List<ReviewsDTO>?> SearchEngineReviews(string? userId, int? movieId);
     }
 }

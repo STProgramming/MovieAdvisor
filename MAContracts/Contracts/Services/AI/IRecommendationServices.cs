@@ -4,8 +4,8 @@ namespace MAContracts.Contracts.Services.AI
 {
     public interface IRecommendationServices
     {
-        Task<List<RecommendationsDTO>> RecommendationsBasedOnReviews(string userEmail);
+        Task<List<RecommendationsDTO>> RecommendationsBasedOnReviews(string userId);
 
-        Task<List<RecommendationsDTO>> RecommendationsBasedOnRequest(string userEmail, RequestsDTO requestUser);
+        Task<List<RecommendationsDTO>> RecommendationsBasedOnRequest(string userId, RequestsDTO requestUser);
     }
 }

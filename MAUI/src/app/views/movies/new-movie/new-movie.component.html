@@ -20,6 +20,10 @@
                     <label>Regista</label>
                     <input class="form-control" type="text" formControlName="maker">
                 </div>
+                <div class="form-group">
+                    <label>Durata film in minuti</label>
+                    <input class="form-control" type="number" formControlName="lifeSpan">
+                </div>
             </div>
             <div class="col-6">
                 <div class="form-group">
@@ -27,7 +31,6 @@
                     <textarea class="form-control" formControlName="description"></textarea>
                 </div>                
                 <ng-container *ngIf="isLoadingTags == true">
-                    <mat-spinner></mat-spinner>
                 </ng-container>
                 <ng-container *ngIf="isLoadingTags == false && TagsData != null">
                     <div class="form-group">

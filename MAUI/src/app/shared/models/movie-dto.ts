@@ -7,6 +7,7 @@ export interface MovieDto{
     movieYearProduction: number;
     movieDescription: string;
     movieMaker: string;
+    movieLifeSpan: number;
     isForAdult: boolean;
     tags: TagDto[];
     images: ImageDto[];

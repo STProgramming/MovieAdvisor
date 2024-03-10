@@ -7,5 +7,6 @@ namespace MAApi.Controllers.AI
     [ApiController]
     public class SessionController : ControllerBase
     {
+
     }
 }

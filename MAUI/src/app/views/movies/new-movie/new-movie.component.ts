@@ -47,6 +47,7 @@ export class NewMovieComponent {
       maker: ['', [Validators.required]],
       description: ['', [Validators.required, Validators.minLength(6)]],
       adult:[false, Validators.required],
+      lifeSpan: ['', Validators.required],
       year: ['', Validators.required]
     });
   }
@@ -107,6 +108,7 @@ export class NewMovieComponent {
         'movieMaker' : newMovieForm.get('maker').value,
         'movieDescription' : newMovieForm.get('description').value,
         'isForAdult' : newMovieForm.get('adult').value,
+        'movieLifeSpan': parseInt(newMovieForm.get('lifeSpan').value),
         'tags': tagsList,
         'images': null
       };      
