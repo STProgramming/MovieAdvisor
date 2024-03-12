@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MADTOs")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4386c0f17006ef8582cd40520aaf638bb3319406")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9c1a684fd2e0680d27c6ecfda4b492dee5bab6f2")]
 [assembly: System.Reflection.AssemblyProductAttribute("MADTOs")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MADTOs")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

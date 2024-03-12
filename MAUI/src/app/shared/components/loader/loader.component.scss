@@ -1,0 +1,70 @@
+$border-color_1: #FFF #FFF transparent transparent;
+$border-color_2: transparent transparent #FF3D00 #FF3D00;
+
+@keyframes rotation {
+	0% {
+		transform: rotate(0deg);
+	}
+	100% {
+		transform: rotate(360deg);
+	}
+}
+@keyframes rotationBack {
+	0% {
+		transform: rotate(0deg);
+	}
+	100% {
+		transform: rotate(-360deg);
+	}
+}
+.loader {
+	width: 70px;
+	height: 70px;
+	border-radius: 50%;
+	display: inline-block;
+	position: relative;
+	border: 3px solid;
+	border-color: $border-color_1;
+	box-sizing: border-box;
+	animation: rotation 1s linear infinite;
+	&::after {
+		content: '';
+		box-sizing: border-box;
+		position: absolute;
+		left: 0;
+		right: 0;
+		top: 0;
+		bottom: 0;
+		margin: auto;
+		border: 3px solid;
+		border-color: $border-color_2;
+		width: 62px;
+		height: 62px;
+		border-radius: 50%;
+		box-sizing: border-box;
+		animation: rotationBack 0.5s linear infinite;
+		transform-origin: center center;
+	}
+	&::before {
+		content: '';
+		box-sizing: border-box;
+		position: absolute;
+		left: 0;
+		right: 0;
+		top: 0;
+		bottom: 0;
+		margin: auto;
+		border: 3px solid;
+		border-color: $border-color_2;
+		width: 62px;
+		height: 62px;
+		border-radius: 50%;
+		box-sizing: border-box;
+		animation: rotationBack 0.5s linear infinite;
+		transform-origin: center center;
+		width: 32px;
+		height: 32px;
+		border-color: $border-color_1;
+		animation: rotation 1.5s linear infinite;
+	}
+}

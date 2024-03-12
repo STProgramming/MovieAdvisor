@@ -1,0 +1,14 @@
+<div class="container text-center">
+  <h2>Servizio di autenticazione e ripristino della sessione</h2>
+  <hr>
+  <div *ngIf="loading == true">
+    <app-loader></app-loader>
+  </div>
+  <div *ngIf="userName !== null">
+    <h3>Bentornat* {{userName}}</h3>
+  </div>
+  <div *ngIf="userName == null">
+    <h3>Benvenut*</h3>
+  </div>
+  <p>Sarai reinderizzat* alla home</p>
+</div>

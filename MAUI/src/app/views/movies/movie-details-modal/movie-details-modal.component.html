@@ -1,0 +1,35 @@
+<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+            <div class="carousel-inner">
+                <div *ngFor="let image of Images">
+                    <div class="carousel-item active">
+                        <img src="..." class="d-block w-100" alt="...">
+                    </div>
+                </div>                        
+                <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </div>
+        </div>
+        <hr>
+        <div class="text-center">
+            <h3>{{movieDetails.movieTitle}}</h3>
+            <h4>{{movieDetails.movieMaker}}</h4>
+            <h4>{{movieDetails.movieYearProduction}}</h4>
+            <div>
+                <p *ngFor="let tag of movieDetails.tags">{{tag.tagName}}</p>
+            </div>
+            <hr>
+            <p>{{movieDetails.movieDescription}}</p>
+            <p>{{movieDetails.isForAdult}}</p>
+            <p>{{movieDetails.movieLifeSpan}}</p>
+        </div>        
+    </div>
+</div>

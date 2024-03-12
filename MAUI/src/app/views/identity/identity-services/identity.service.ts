@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { RestApiService } from '../../../shared/services/rest-api.service';
 import { Observable, map } from 'rxjs';
 import { environment } from '../../../../environments/environment.development';
+import { LoginDto } from '../../../shared/models/login-dto';
 
 @Injectable({
   providedIn: 'root'
@@ -20,5 +21,12 @@ export class IdentityService {
           return null;
         }
       }));
+  }
+
+  loginMovieAdvisor(formLogin: LoginDto): Observable<any>{
+    return this.apiService.post('Identity/Authentication/Login', formLogin)
+      .pipe(map((response: any) => {
+        return response;
+      }))
   }
 }

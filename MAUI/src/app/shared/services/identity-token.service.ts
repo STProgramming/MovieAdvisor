@@ -7,8 +7,6 @@ import { jwtDecode } from 'jwt-decode';
 })
 export class IdentityTokenService {
 
-  constructor() { }
-
   setMAIdentityToken(value: string){
     localStorage.setItem(environment.nameIdentityToken, value);
   }
@@ -23,12 +21,21 @@ export class IdentityTokenService {
       return jwtDecode(token);
     }
     catch(Error){
-      alert(Error); 
       return null;     
     }
   }
 
   readIdentityToken(){
     return localStorage.getItem(environment.nameIdentityToken);
+  }
+
+  getUserName(){
+    var token = this.decodeIdentityToken();
+    return token.unique_name;
+  }
+
+  getUserRole():string{
+    var token = this.decodeIdentityToken();
+    return token.role;
   }
 }

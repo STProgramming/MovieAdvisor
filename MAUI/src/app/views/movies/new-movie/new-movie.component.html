@@ -1,5 +1,7 @@
 <div class="container mt-5">
-    <h4>Inserisci un nuovo film</h4>
+    <div class="text-center mb-5">
+        <h4>Inserisci un nuovo film</h4>
+    </div>
     <ng-container *ngIf="newMovieForm.errors != null">
         <p class="text-danger">{{newMovieForm.errors}}</p>
     </ng-container>
@@ -19,49 +21,49 @@
                 <div class="form-group">
                     <label>Regista</label>
                     <input class="form-control" type="text" formControlName="maker">
-                </div>
-                <div class="form-group">
-                    <label>Durata film in minuti</label>
-                    <input class="form-control" type="number" formControlName="lifeSpan">
-                </div>
+                </div>                
             </div>
             <div class="col-6">
                 <div class="form-group">
                     <label>Trama</label>
                     <textarea class="form-control" formControlName="description"></textarea>
                 </div>                
-                <ng-container *ngIf="isLoadingTags == true">
-                </ng-container>
-                <ng-container *ngIf="isLoadingTags == false && TagsData != null">
+                <div *ngIf="isLoadingTags == true">
+                </div>
+                <div *ngIf="isLoadingTags == false && TagsData != null">
                     <div class="form-group">
                         <label>Genere di film</label>
                         <select class="form-control" (change)="selectGenreMovie($event)">
                             <option *ngFor="let tag of TagsData" [value]="tag.tagId">{{tag.tagName}}</option>
                         </select>
                     </div>
-                </ng-container>
-                <ng-container *ngIf="genresSelected.length > 0">
+                </div>
+                <div *ngIf="genresSelected.length > 0">
                     <hr>
                     <p>Generi selezionati</p>
                     <div *ngFor="let genre of genresSelected">
                         <p>{{genre}}</p>
                     </div>
                     <hr>        
-                </ng-container>
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" formControlName="adult">
-                    <label class="form-check-label" >
-                      18+
-                    </label>
+                </div>
+                <div class="form-group">
+                    <label>Durata film in minuti</label>
+                    <input class="form-control" type="number" formControlName="lifeSpan">
                 </div>
             </div>
         </div>
-        <div class="row">            
+        <div class="row">  
+            <div class="form-check">
+                <label class="form-check-label" >
+                    E' per un publico adulto?
+                </label>
+                <input class="form-check-input" type="checkbox" formControlName="adult">
+            </div>          
             <div class="form-group">
                 <label class="form-label">Immagini del film</label>
                 <input class="form-control" type="file" (change)="selectImageMovie($event)">
             </div>
-            <ng-container *ngIf="filesSelected.length > 0">
+            <div *ngIf="filesSelected.length > 0">
                 <p>Immagini selezionate per il film</p>
                 <div *ngFor="let image of filesSelected">
                     <div class="card" style="width: 18rem;">
@@ -71,8 +73,8 @@
                         </div>
                     </div>
                 </div>       
-            </ng-container>
-            <button class="btn btn-primary btn-lg" type="submit" [disabled]="newMovieForm.invalid">Primary</button>
+            </div>
+            <button class="btn btn-primary btn-lg" type="submit" [disabled]="newMovieForm.invalid">Inserisci il nuovo film</button>
         </div>
     </form>
 </div>

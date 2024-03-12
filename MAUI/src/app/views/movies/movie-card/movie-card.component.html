@@ -1,14 +1,14 @@
-<div class="card" style="width: 18rem;">
-  <div *ngFor="let image of Images">
-    <img class="card-img-top" [src]="image" alt="Card image cap">
-  </div>
-    <div class="card-body">
-      <h5 class="card-title">{{movieData.movieTitle}}</h5>
-      <h5 class="card-title">{{movieData.movieYearProduction}}</h5>
-      <h5 class="card-title">{{movieData.movieMaker}}</h5>
-      <p class="card-text">{{movieData.movieDescription}}</p>
-      <div>
-        <p *ngFor="let tag of movieData.tags">{{tag.tagName}}</p>
+<a (click)="clickSeeDetails()">
+  <div class="card" style="width: 18rem;">
+      <img class="card-img-top" [src]="Image" alt="Card image cap">
+      <div class="card-body">
+        <h3 class="card-title">{{movieData.movieTitle}}</h3>
+        <h3 class="card-title">{{movieData.movieYearProduction}}</h3>  
+        <div>
+          <p *ngFor="let tag of movieData.tags">{{tag.tagName}}</p>
+        </div>  
       </div>
-    </div>
-</div>
+  </div>
+</a>
+<app-movie-details-modal [movieDetails]="movieData" *ngIf="seeDetails"></app-movie-details-modal>
+

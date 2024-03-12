@@ -5,7 +5,6 @@ import { MatInputModule } from '@angular/material/input';
 import { AppRoutingModule } from './app-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-
 import { AppComponent } from './app.component';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { MoviesComponent } from './views/movies/movies/movies.component';
@@ -18,6 +17,12 @@ import { ReviewAccordionComponent } from './views/reviews/review-accordion/revie
 import { LoginComponent } from './views/identity/authentication/login/login.component';
 import { NewUserComponent } from './views/identity/user/new-user/new-user.component';
 import { UserDetailsComponent } from './views/identity/user/user-details/user-details.component';
+import { HomeComponent } from './views/home/home.component';
+import { HeaderComponent } from './shared/components/header/header.component';
+import { MovieDetailsModalComponent } from './views/movies/movie-details-modal/movie-details-modal.component';
+import { AuthComponent } from './shared/components/auth/auth.component';
+import { LoaderComponent } from './shared/components/loader/loader.component';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [
@@ -30,7 +35,12 @@ import { UserDetailsComponent } from './views/identity/user/user-details/user-de
     ReviewAccordionComponent,
     LoginComponent,
     NewUserComponent,
-    UserDetailsComponent
+    UserDetailsComponent,
+    HomeComponent,
+    HeaderComponent,
+    MovieDetailsModalComponent,
+    AuthComponent,
+    LoaderComponent
   ],
   imports: [
     BrowserModule,
@@ -40,7 +50,8 @@ import { UserDetailsComponent } from './views/identity/user/user-details/user-de
     ReactiveFormsModule,
     HttpClientModule,
     MatInputModule,
-    NgbModule
+    NgbModule,
+    ToastrModule.forRoot()
   ],
   providers: [
     provideAnimationsAsync()

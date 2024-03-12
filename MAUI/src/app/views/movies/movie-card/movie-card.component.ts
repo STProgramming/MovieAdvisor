@@ -1,4 +1,4 @@
-import { Component, Input, input } from '@angular/core';
+import { Component, EventEmitter, Input, Output, input } from '@angular/core';
 import { MovieDto } from '../../../shared/models/movie-dto';
 import { Observable } from 'rxjs';
 import { MoviesService } from '../movies-services/movies.service';
@@ -9,20 +9,23 @@ import { MoviesService } from '../movies-services/movies.service';
   styleUrl: './movie-card.component.scss'
 })
 export class MovieCardComponent {
-  Images: any[] = [];
+  Image: any;
   ImageObservable: Observable<Blob>;
   @Input() movieData: MovieDto;
+  seeDetails: boolean = false;
   
   constructor(private movieService: MoviesService){}
 
   ngOnInit(): void{
-    this.loadImagesMovie();
+    this.loadImageMovie();
   }
 
-  loadImagesMovie(){
-    this.movieData.images.forEach((image, index) => {
-      this.loadImage(this.movieData.movieId, index);
-    });
+  loadImageMovie(){
+    this.loadImage(this.movieData.movieId, 0);
+  }
+
+  clickSeeDetails(){
+    this.seeDetails = !this.seeDetails;
   }
 
   loadImage(movieId: number, index: number){
@@ -35,7 +38,7 @@ export class MovieCardComponent {
   convertFromBlobToImg(image: Blob){
     let reader = new FileReader();
     reader.addEventListener("load", () => {
-      this.Images.push(reader.result);
+      this.Image = (reader.result);
     }, false);
 
     if (image) {

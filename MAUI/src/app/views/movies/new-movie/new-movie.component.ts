@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { MoviesService } from '../movies-services/movies.service';
 import { environment } from '../../../../environments/environment.development';
 import { MovieDto } from '../../../shared/models/movie-dto';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-new-movie',
@@ -24,7 +25,8 @@ export class NewMovieComponent {
   filesSelected: File[] = [];
 
   constructor(private moviesService : MoviesService,
-    private formBuilder : FormBuilder){}
+    private formBuilder : FormBuilder,
+    private toastr: ToastrService){}
 
   ngOnInit(): void{
     this.loadTags();
@@ -116,15 +118,15 @@ export class NewMovieComponent {
       this.NewMovieObservable = this.moviesService.postMovie(newMovie);
       this.NewMovieObservable.subscribe((resp: any) => {
         newIdMovie = resp;
-        alert(resp);
       });
       if(this.filesSelected.length > 0 && newIdMovie > 0){
         var listFiles = new FormData();
         this.filesSelected.forEach(e => {
           listFiles.append('fileArray', e, e.name);
         });
-        this.NewImageObservable = this.moviesService.postMovieImage(listFiles, newIdMovie)
-      }      
+        this.NewImageObservable = this.moviesService.postMovieImage(listFiles, newIdMovie);
+        this.toastr.success('il film '+ newMovie.movieTitle + ' è stato inserito correttamente', 'Film inserito')
+      }     
     }     
   }
 
