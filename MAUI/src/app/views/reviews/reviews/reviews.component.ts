@@ -13,6 +13,7 @@ export class ReviewsComponent {
   ReviewsObservable: Observable<ReviewDto[]>;
   ReviewsData: ReviewDto[] = [];
   movieSearch: string | null = "";
+  isLoading: boolean = false;
 
   constructor(private reviewsServices: ReviewsService,
     private routeService: RouteService){}
@@ -27,9 +28,11 @@ export class ReviewsComponent {
   }
 
   loadReviewsData(){
+    this.isLoading = true;
     this.ReviewsObservable = this.reviewsServices.getReviews(this.movieSearch);
     this.ReviewsObservable.subscribe((response: ReviewDto[]) =>{
       this.ReviewsData = response;
+      this.isLoading = false;
     });
   }
 

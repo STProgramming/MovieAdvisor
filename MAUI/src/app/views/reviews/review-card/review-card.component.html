@@ -1,12 +1,5 @@
-<div ngbAccordion>
-    <div ngbAccordionItem [collapsed]="false" *ngIf="reviewData.descriptionVote == null">
-        <h2 ngbAccordionHeader>
-            {{reviewData.userName}}
-            {{reviewData.movieTitle}}
-        </h2>
-        <h4>{{reviewData.dateTimeVote}}</h4>
-    </div>
-	<div ngbAccordionItem [collapsed]="false" *ngIf="reviewData.descriptionVote != null">
+<div ngbAccordion>    
+	<div ngbAccordionItem [collapsed]="false">
 		<h2 ngbAccordionHeader>
 			<button ngbAccordionButton>{{reviewData.userName}}</button>
             {{reviewData.movieTitle}}
@@ -18,9 +11,9 @@
 					{{reviewData.descriptionVote}}
 				</ng-template>
 			</div>
+            <ngb-rating [(rate)]="reviewData.vote" />
+                <hr />
+            <pre>Rate: <b>{{ reviewData.vote }}</b></pre>
 		</div>
 	</div>
-    <ngb-rating [(rate)]="reviewData.vote" />
-        <hr />
-    <pre>Rate: <b>{{ reviewData.vote }}</b></pre>
 </div>

@@ -11,7 +11,10 @@
             </div>
         </div>
     </div>
-    <hr>    
+    <hr>  
+    <div *ngIf="isLoading">
+        <app-loader></app-loader>
+    </div>  
     <div class="row" *ngIf="ReviewsData.length > 0">
         <h3 class="text-center">Tutte le recensioni di tutti gli utenti</h3>
         <hr>

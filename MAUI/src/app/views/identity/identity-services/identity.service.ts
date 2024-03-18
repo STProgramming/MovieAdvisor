@@ -3,6 +3,7 @@ import { RestApiService } from '../../../shared/services/rest-api.service';
 import { Observable, map } from 'rxjs';
 import { environment } from '../../../../environments/environment.development';
 import { LoginDto } from '../../../shared/models/login-dto';
+import { NewUserDto } from '../../../shared/models/new-user-dto';
 
 @Injectable({
   providedIn: 'root'
@@ -28,5 +29,12 @@ export class IdentityService {
       .pipe(map((response: any) => {
         return response;
       }))
+  }
+
+  createNewUser(newUser: NewUserDto){
+    return this.apiService.post('Identity/User', newUser)
+      .pipe(map((response : any) => {
+        return response;    
+      }));
   }
 }

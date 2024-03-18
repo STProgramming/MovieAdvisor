@@ -25,6 +25,7 @@ import { NewRequestComponent } from './views/recommendations/new-request/new-req
 import { RecommendationsComponent } from './views/recommendations/recommendations/recommendations.component';
 import { RecommendationsViewerComponent } from './views/recommendations/recommendations-viewer/recommendations-viewer.component';
 import { SessionsViewerComponent } from './views/recommendations/sessions-viewer/sessions-viewer.component';
+import { FooterComponent } from './shared/components/footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -46,7 +47,8 @@ import { SessionsViewerComponent } from './views/recommendations/sessions-viewer
     NewRequestComponent,
     RecommendationsComponent,
     RecommendationsViewerComponent,
-    SessionsViewerComponent
+    SessionsViewerComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,

@@ -64,7 +64,7 @@ export class RestApiService {
   }
 
   handleError(error: any){
-    alert(JSON.stringify(error));
+    console.log(JSON.stringify(error));
     return throwError(()=>{
       return error;
     });

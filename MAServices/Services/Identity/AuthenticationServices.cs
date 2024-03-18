@@ -58,7 +58,7 @@ namespace MAServices.Services.identity
         public async Task<string> MAAuthentication(LoginDTO login, HttpContext? ctx)
         {
             var user = await _userManager.FindByEmailAsync(login.Email);
-            if (user == null) throw new Exception();
+            if (user == null) throw new NullReferenceException();
             if (user != null && await _userManager.CheckPasswordAsync(user, login.Password) == false)
             {
                 await _userManager.AccessFailedAsync(user);

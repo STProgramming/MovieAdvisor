@@ -67,7 +67,7 @@ export class NewReviewComponent {
       this.NewReviewObservable = this.reviewService.postReview(newReviewDto);
       this.NewReviewObservable.subscribe({
         next: (resp) =>{
-          this.toastr.success('Hai recensito il film', 'Recensione inviata c');
+          this.toastr.success('Hai recensito il film', 'Recensione inviata');
           this.isLoading = false;
           this.routeService.goReviews();      
         },

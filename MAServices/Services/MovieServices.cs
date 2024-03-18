@@ -25,7 +25,6 @@ namespace MAServices.Services
 
         public async Task<List<MoviesDTO>> SearchEngine(string Query)
         {
-
             List<Movies> results = new List<Movies>();
             if (int.TryParse(Query, out _))
             {
@@ -44,6 +43,7 @@ namespace MAServices.Services
                 {
                     results = await _database.Movies.Where(m => string.Equals(m.MovieMaker.ToLower(), Query.Trim().ToLower()) || m.MovieMaker.ToLower().Contains(Query.Trim().ToLower()) || m.MovieMaker.ToLower().StartsWith(Query.Trim().ToLower()) || m.MovieMaker.ToLower().EndsWith(Query.Trim().ToLower())).ToListAsync();
                     if (results.Count == 0) results = await _database.Movies.Where(m => m.TagsList.Count > 0 && m.TagsList.Any(t => string.Equals(t.TagName.Trim().ToLower(), Query.Trim().ToLower()) || t.TagName.ToLower().Contains(Query.Trim().ToLower()) || t.TagName.ToLower().StartsWith(Query.Trim().ToLower()) || t.TagName.ToLower().EndsWith(Query.Trim().ToLower()))).ToListAsync();
+                    if (results.Count == 0) results = await _database.Movies.Where(m => m.MovieDescription.ToLower().Contains(Query.Trim().ToLower()) || string.Equals(m.MovieDescription.Trim().ToLower(), Query.Trim().ToLower())).ToListAsync();
                 }
             }
             if (string.IsNullOrEmpty(Query) || results.Count == 0)

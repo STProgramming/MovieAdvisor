@@ -27,19 +27,33 @@ export class RecommendationsComponent {
 
   loadRecommendationsByUser(){    
     this.RecommendationsObservable = this.recommendationsService.getRecommendationsByUser();
-    this.RecommendationsObservable.subscribe(resp =>{
-      this.RecommendationsData = resp;
-      this.isLoading= false;
-      this.response = true;
+    this.RecommendationsObservable.subscribe({
+      next: (resp) =>{
+        this.RecommendationsData = resp;
+      },
+      error: (error) =>{
+
+      },
+      complete: () =>{
+        this.isLoading= false;
+        this.response = true;
+      }
     });
   }
 
   loadRecommendationsByRequest(){
     this.RecommendationsRequestObservable = this.recommendationsService.getRecommendationsByRequest(this.request);
-    this.RecommendationsRequestObservable.subscribe(resp => {
-      this.RecommendationsData = resp;
-      this.isLoading = false
-      this.response = true;
+    this.RecommendationsRequestObservable.subscribe({
+      next: (resp) => {
+        this.RecommendationsData = resp;
+      },
+      error: (error) => {
+
+      },
+      complete: () =>{
+        this.isLoading = false
+        this.response = true;
+      }
     });
   }
 

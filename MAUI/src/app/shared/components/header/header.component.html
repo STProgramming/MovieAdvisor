@@ -12,7 +12,7 @@
           <button class="nav-link" (click)="goMovies()">Film</button>
         </li>
         <li class="nav-item" *ngIf="(adminFlag | async) == true">
-          <button class="nav-link" (click)="goMovies()">Inserisci film</button>
+          <button class="nav-link" (click)="goNewMovie()">Inserisci film</button>
         </li>
         <li class="nav-item">
           <button class="nav-link" (click)="goReviews()">Recensioni</button>

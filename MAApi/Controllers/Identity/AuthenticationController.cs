@@ -68,9 +68,9 @@ namespace MAApi.Controllers.Identity
             {
                 return Unauthorized();
             }
-            catch (Exception)
+            catch (NullReferenceException)
             {
-                return BadRequest();
+                return NotFound();
             }
         }
 
