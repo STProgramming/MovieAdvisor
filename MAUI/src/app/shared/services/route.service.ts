@@ -52,4 +52,8 @@ export class RouteService {
   goNewUser(){
     this.router.navigateByUrl('identity/new-user');
   }
+
+  goRecommendations(){
+    this.router.navigateByUrl('ai/recommendations');
+  }
 }

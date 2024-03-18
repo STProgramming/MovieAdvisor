@@ -1,4 +1,6 @@
-<div class="container">
+<div class="container mt-5">
+    <h2 class="text-center">Movie Advisor ti consiglia i film</h2>
+    <hr>
     <div *ngIf="isLoading">
         <app-loader></app-loader>
     </div>
@@ -17,9 +19,9 @@
         <hr>
         <p>Per inviarci un feedback sul suggerimento, basterà recensire il film che ti abbiamo raccomandato.</p>
     </div>
-    <div *ngIf="RecommendationsData.length == 0">
+    <div *ngIf="RecommendationsData.length == 0 && response">
         <p>Se non hai visualizzato i consigli vuoldire che non ti conosciamo abbastanza, ti consigliamo di contianuare a recensire</p>
-        <button class="btn btn-primary" (click)="goNewReview()">Consigliami</button>
+        <button class="btn btn-primary" (click)="goNewReview()">Nuova recensione</button>
     </div>
     <div class="row" *ngIf="response == false">
         <div class="col-md-6">

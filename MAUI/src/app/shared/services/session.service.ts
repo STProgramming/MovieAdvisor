@@ -35,4 +35,7 @@ export class SessionService {
     return outcome;
   }
 
+  removeSession(){
+    sessionStorage.removeItem(environment.SessionMA);
+  }
 }

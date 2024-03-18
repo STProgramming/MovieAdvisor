@@ -1,7 +1,7 @@
 <div class="container mt-5">
     <div class="text-center mb-5">
-        <h4>Inserisci una nuova recensione di un film</h4>
-        <hr>
+        <h2 class="text-center">Recensisci un film</h2>
+        <hr>    
         <p>Se hai voglia di recensire lo stesso film il sistema terrà conto della recensione più attuale</p>
     </div>
     <hr>
@@ -14,7 +14,7 @@
             <div class="col-6">
                 <div class="form-group">
                     <label>Seleziona il film</label>
-                    <select class="form-select" formControlName="id">
+                    <select class="form-select" (change)="selectMovie($event)">
                         <option *ngFor="let movie of moviesData" [value]="movie.movieId">{{movie.movieTitle}}</option>
                     </select>
                 </div>

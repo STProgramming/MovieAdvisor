@@ -1,4 +1,9 @@
 import { Component } from '@angular/core';
+import { SessionService } from './shared/services/session.service';
+import { NavigationStart, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
+
+export let browserRefresh = false;
 
 @Component({
   selector: 'app-root',
@@ -7,8 +12,24 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {  
   title = 'MAUI';
+  subscription: Subscription;
 
-  constructor(){}
-
+  constructor(private sessionService: SessionService,
+    private router: Router){
+      this.subscription = router.events.subscribe((event) => {
+        if (event instanceof NavigationStart) {
+          browserRefresh = !router.navigated;
+          if(browserRefresh){
+            this.sessionService.removeSession();
+          }
+        }
+    });
+    }
+  
   ngOnInit(){}
+
+
+  ngOnDestroy(){
+    this.subscription.unsubscribe();
+  }
 }

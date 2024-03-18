@@ -52,4 +52,7 @@ constructor(private authService: AuthenticationService,
     this.routeService.goNewUser();
   }
 
+  goRecommendations(){
+    this.routeService.goRecommendations();
+  }
 }

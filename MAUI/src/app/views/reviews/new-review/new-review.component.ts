@@ -19,6 +19,7 @@ export class NewReviewComponent {
   NewReviewObservable: Observable<any>;
   MovieDataObservable: Observable<MovieDto[]>;
   isLoading: boolean = false;
+  movieIdSelected: number;
 
   constructor(
     private movieService: MoviesService,
@@ -30,11 +31,11 @@ export class NewReviewComponent {
 
   ngOnInit():void{
     this.initializeForm();
+    this.loadingMovieData();
   }
 
   initializeForm(){
     this.newReviewForm = this.formBuilder.group({
-      id: [0, Validators.required],
       description: ['', Validators.minLength(6)],
       vote:[0, Validators.required],
       when: ['', Validators.required],
@@ -47,31 +48,34 @@ export class NewReviewComponent {
       if(resp){
         this.moviesData = resp;
       }
-    })
+    });
+  }
+
+  selectMovie(event : any){
+    this.movieIdSelected = parseInt(event.target.value);
   }
 
   onSubmit(reviewForm: FormGroup){
     if(reviewForm.valid){
       this.isLoading = true;
       var newReviewDto : NewReviewDto = {
-        'movieId': parseInt(reviewForm.get('id').value),
+        'movieId': this.movieIdSelected,
         'descriptionVote': reviewForm.get('description').value,
         'vote': parseInt(reviewForm.get('vote').value),
         'when': new Date(reviewForm.get('when').value)
       };
       this.NewReviewObservable = this.reviewService.postReview(newReviewDto);
-      this.NewReviewObservable.subscribe((resp :any) => {
-        if(resp){
+      this.NewReviewObservable.subscribe({
+        next: (resp) =>{
           this.toastr.success('Hai recensito il film', 'Recensione inviata c');
           this.isLoading = false;
-          this.routeService.goReviews();
+          this.routeService.goReviews();      
+        },
+        error: (error) =>{
+          this.toastr.error('Qualcosa è andata storto', 'Invio fallito');
+          this.isLoading = false;
         }
-      },
-      error => {
-        this.toastr.error('Qualcosa è andata storto', 'Invio fallito');
-        this.isLoading = false;
-      }      
-      );
+      });
     }
   }
 }

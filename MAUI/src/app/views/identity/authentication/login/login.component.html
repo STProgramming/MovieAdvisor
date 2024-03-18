@@ -1,8 +1,8 @@
 <div class="container">
     <div class="row">
         <div class="d-flex flex-column align-items-center justify-content-center" *ngIf="(isAuth | async) == false">
-            <h3>Login</h3>
-            <hr />
+            <h2 class="text-center">Login</h2>
+            <hr>        
             <div *ngIf="loading == true">
                 <app-loader></app-loader>
             </div>
