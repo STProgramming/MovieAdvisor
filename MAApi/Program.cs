@@ -89,6 +89,8 @@ builder.Services.AddTransient<ITagServices, TagServices>();
 
 builder.Services.AddTransient<IFileServices, FileServices>();
 
+builder.Services.AddTransient<ISessionServices, SessionServices>();
+
 #region MAPPERS
 
 builder.Services.AddTransient<IObjectsMapperDtoServices, ObjectsMapperDtoServices>();

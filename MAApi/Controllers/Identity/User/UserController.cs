@@ -31,7 +31,7 @@ namespace MAApi.Controllers.identity.User
         {
             try
             {
-                return Ok(await _userServices.GetUserFromEmail(HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value));
+                return Ok(await _userServices.GetUserFromId(HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value));
             }
             catch (UnauthorizedAccessException)
             {

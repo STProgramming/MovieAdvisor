@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ReviewAccordionComponent } from './review-accordion.component';
+import { SessionsViewerComponent } from './sessions-viewer.component';
 
-describe('ReviewAccordionComponent', () => {
-  let component: ReviewAccordionComponent;
-  let fixture: ComponentFixture<ReviewAccordionComponent>;
+describe('SessionsViewerComponent', () => {
+  let component: SessionsViewerComponent;
+  let fixture: ComponentFixture<SessionsViewerComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ReviewAccordionComponent]
+      declarations: [SessionsViewerComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(ReviewAccordionComponent);
+    fixture = TestBed.createComponent(SessionsViewerComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

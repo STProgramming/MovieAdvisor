@@ -1,5 +1,6 @@
 ﻿using MAContracts.Contracts.Services.AI;
 using MADTOs.DTOs.EntityFrameworkDTOs.AI;
+using MADTOs.DTOs.ModelsDTOs;
 using MAModels.Exceptions.AI;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -25,7 +26,7 @@ namespace MAApi.Controllers.AI
         {
             try
             {
-                return Ok(await _recommendationServices.RecommendationsBasedOnReviews(HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value));
+                return Ok(await _recommendationServices.RecommendationsBasedOnReviews(HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value));
             }
             catch (NullReferenceException)
             {
@@ -38,7 +39,7 @@ namespace MAApi.Controllers.AI
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody]RequestsDTO requestUser)
+        public async Task<IActionResult> Post([FromBody]NewRequestDTO requestUser)
         {
             try
             {

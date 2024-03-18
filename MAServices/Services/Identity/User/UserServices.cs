@@ -37,19 +37,6 @@ namespace MAServices.Services.Identity.User
             _configuration = configuration;
         }
 
-
-        public async Task<UsersDTO?> GetUserFromEmail(string userId)
-        {
-            try
-            {
-                return _mapperService.UserMapperDtoService(await _userManager.FindByIdAsync(userId));
-            }
-            catch (Exception)
-            {
-                throw new NullReferenceException();
-            }
-        }
-
         public async Task<UsersDTO?> GetUserFromId(string userId)
         {
             return _mapperService.UserMapperDtoService(await _userManager.FindByIdAsync(userId));

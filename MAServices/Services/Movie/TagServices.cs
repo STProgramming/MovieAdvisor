@@ -34,7 +34,7 @@ namespace MAServices.Services.Movie
         {
             foreach (string name in Enum.GetNames(typeof(EMovieTags)))
             {
-                if (!_context.Tags.Any(t => string.Equals(t.TagName, name)))
+                if (!_context.Tags.Any(t => string.Equals(t.TagName, name, StringComparison.OrdinalIgnoreCase)))
                 {
                     Tags tag = new Tags
                     {

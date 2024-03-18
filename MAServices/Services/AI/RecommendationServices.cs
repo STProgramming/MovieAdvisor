@@ -3,6 +3,7 @@ using MAContracts.Contracts.Services.AI;
 using MADTOs.DTOs.EntityFrameworkDTOs;
 using MADTOs.DTOs.EntityFrameworkDTOs.AI;
 using MADTOs.DTOs.EntityFrameworkDTOs.Identity;
+using MADTOs.DTOs.ModelsDTOs;
 using MAModels.EntityFrameworkModels;
 using MAModels.EntityFrameworkModels.AI;
 using MAModels.EntityFrameworkModels.Identity;
@@ -64,12 +65,14 @@ namespace MAServices.Services.AI
             return _mapper.RecommendationMapperDtoListService(result);
         }
 
-        public async Task<List<RecommendationsDTO>> RecommendationsBasedOnRequest(string userEmail, RequestsDTO requestUser)
+        public async Task<List<RecommendationsDTO>> RecommendationsBasedOnRequest(string userId, NewRequestDTO requestUser)
         {
-            var user = await _userManager.FindByEmailAsync(userEmail);
+            var user = await _userManager.FindByIdAsync(userId);
             if (user == null) throw new NullReferenceException();
 
             await AISmartAvailability();
+
+            await AISmartUserKnowledge(user);
 
             var request = await RequestsManager(user, requestUser, null, null, null);
 
@@ -95,6 +98,12 @@ namespace MAServices.Services.AI
             var reviews = await _context.Reviews.ToListAsync();
 
             if (reviews.Count < Int32.Parse(_config["Ai:Recommendation:MinimumLength"])) throw new InsufficientReviewsException();
+        }
+
+        private async Task AISmartUserKnowledge(Users user)
+        {
+            var reviewsForUser = await _context.Reviews.Where(r => string.Equals(r.UserId, user.Id)).ToListAsync();
+            if (reviewsForUser == null || reviewsForUser.Count < Int32.Parse(_config["MinimumReviewsForUser"])) throw new InsufficientReviewsException();
         }
 
         private async Task<List<Recommendations>> BasedOnReviews(Users user, Requests request)
@@ -494,7 +503,7 @@ namespace MAServices.Services.AI
             return userSession;
         }
 
-        private async Task<Requests> RequestsManager(Users user, RequestsDTO? request, IList<Recommendations>? recommendations, Sessions? session, bool? sentiment)
+        private async Task<Requests> RequestsManager(Users user, NewRequestDTO? request, IList<Recommendations>? recommendations, Sessions? session, bool? sentiment)
         {
             var userRequest = new Requests();
             if(session != null && session.RequestList.Count > 0 && request != null && _context.Requests.Any(r => r.DateTimeRequest.TimeOfDay == DateTime.Now.TimeOfDay && string.Equals(request.WhatClientWants.Trim().ToLower(), r.WhatClientWants.Trim().ToLower()) && string.Equals(request.HowClientFeels.Trim().ToLower(), r.HowClientFeels.Trim().ToLower())))

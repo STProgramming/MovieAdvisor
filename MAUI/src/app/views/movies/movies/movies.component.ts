@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { MovieDto } from '../../../shared/models/movie-dto';
 import { MoviesService } from '../movies-services/movies.service';
 import { Observable } from 'rxjs';
-import { RecommendationsService } from '../recommendations-services/recommendations.service';
 
 @Component({
   selector: 'app-movies',
@@ -15,18 +14,20 @@ export class MoviesComponent {
   MoviesData: MovieDto[] = [];
   MoviesRecommendations: MovieDto[] = [];
   query: string | null;
+  isLoading: boolean = false;
 
-  constructor(private movieService: MoviesService,
-    private recommendationService: RecommendationsService){}
+  constructor(private movieService: MoviesService){}
 
   ngOnInit(): void{
     this.loadMoviesData();
   }
 
   loadMoviesData(){
+    this.isLoading = true;
     this.MoviesObservable = this.movieService.getMovies(this.query);
     this.MoviesObservable.subscribe((response: MovieDto[]) => {
       this.MoviesData = response;
+      this.isLoading = false;
     });
   }
 

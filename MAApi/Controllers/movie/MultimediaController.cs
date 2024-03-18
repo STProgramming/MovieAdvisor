@@ -42,7 +42,7 @@ namespace MAApi.Controllers.Movie
 
         [Authorize(Roles = nameof(ERoleUser.AppAdmin))]
         [HttpPost]
-        public async Task<IActionResult> Post([FromQuery] int MovieId, List<IFormFile> Files)
+        public async Task<IActionResult> Post([FromQuery] int MovieId, [FromForm] List<IFormFile> Files)
         {
             try
             {

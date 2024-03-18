@@ -1,4 +1,5 @@
 ﻿using MADTOs.DTOs.EntityFrameworkDTOs.AI;
+using MADTOs.DTOs.ModelsDTOs;
 
 namespace MAContracts.Contracts.Services.AI
 {
@@ -6,6 +7,6 @@ namespace MAContracts.Contracts.Services.AI
     {
         Task<List<RecommendationsDTO>> RecommendationsBasedOnReviews(string userId);
 
-        Task<List<RecommendationsDTO>> RecommendationsBasedOnRequest(string userId, RequestsDTO requestUser);
+        Task<List<RecommendationsDTO>> RecommendationsBasedOnRequest(string userId, NewRequestDTO requestUser);
     }
 }

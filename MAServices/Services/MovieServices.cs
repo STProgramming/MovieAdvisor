@@ -34,16 +34,16 @@ namespace MAServices.Services
                 {
                     results = await _database.Movies.Where(m => m.MovieId == int.Parse(Query)).ToListAsync();
                     if (results.Count == 0) results = await _database.Movies.Where(m => m.TagsList.Count > 0 && m.TagsList.Any(t => t.TagId == int.Parse(Query))).ToListAsync();
+                    if (results.Count == 0) results = await _database.Movies.Where(m => m.MovieLifeSpan == int.Parse(Query)).ToListAsync();
                 }
             }
             else
             {
-                results = await _database.Movies.Where(m => string.Equals(m.MovieTitle.Trim().ToLower(), Query.Trim().ToLower()) || m.MovieTitle.Contains(Query.Trim()) || m.MovieTitle.StartsWith(Query.Trim()) || m.MovieTitle.EndsWith(Query.Trim())).ToListAsync();
+                results = await _database.Movies.Where(m => string.Equals(m.MovieTitle.ToLower(), Query.Trim().ToLower()) || m.MovieTitle.ToLower().Contains(Query.Trim().ToLower()) || m.MovieTitle.ToLower().StartsWith(Query.Trim().ToLower()) || m.MovieTitle.ToLower().EndsWith(Query.Trim().ToLower())).ToListAsync();
                 if (results.Count == 0)
                 {
-                    results = await _database.Movies.Where(m => string.Equals(m.MovieMaker.Trim().ToLower(), Query.Trim().ToLower()) || m.MovieMaker.Contains(Query.Trim()) || m.MovieMaker.StartsWith(Query.Trim()) || m.MovieMaker.EndsWith(Query.Trim())).ToListAsync();
-                    if (results.Count == 0) results = await _database.Movies.Where(m => m.MovieDescription.Contains(Query.Trim()) || m.MovieDescription.StartsWith(Query.Trim()) || m.MovieDescription.EndsWith(Query.Trim())).ToListAsync();
-                    if (results.Count == 0) results = await _database.Movies.Where(m => m.TagsList.Count > 0 && m.TagsList.Any(t => string.Equals(t.TagName.Trim(), Query.Trim()) || t.TagName.Contains(Query.Trim()) || t.TagName.StartsWith(Query.Trim()) || t.TagName.EndsWith(Query.Trim()))).ToListAsync();
+                    results = await _database.Movies.Where(m => string.Equals(m.MovieMaker.ToLower(), Query.Trim().ToLower()) || m.MovieMaker.ToLower().Contains(Query.Trim().ToLower()) || m.MovieMaker.ToLower().StartsWith(Query.Trim().ToLower()) || m.MovieMaker.ToLower().EndsWith(Query.Trim().ToLower())).ToListAsync();
+                    if (results.Count == 0) results = await _database.Movies.Where(m => m.TagsList.Count > 0 && m.TagsList.Any(t => string.Equals(t.TagName.Trim().ToLower(), Query.Trim().ToLower()) || t.TagName.ToLower().Contains(Query.Trim().ToLower()) || t.TagName.ToLower().StartsWith(Query.Trim().ToLower()) || t.TagName.ToLower().EndsWith(Query.Trim().ToLower()))).ToListAsync();
                 }
             }
             if (string.IsNullOrEmpty(Query) || results.Count == 0)
@@ -67,9 +67,9 @@ namespace MAServices.Services
             if (moviesExist != null && moviesExist.Count > 0) throw new IOException();
             Movies newMovieObj = new Movies
             {
-                MovieTitle = newMovie.MovieTitle,
+                MovieTitle = newMovie.MovieTitle.Trim(),
                 MovieYearProduction = newMovie.MovieYearProduction,
-                MovieMaker = newMovie.MovieMaker,
+                MovieMaker = newMovie.MovieMaker.Trim(),
                 MovieDescription = newMovie.MovieDescription,
                 IsForAdult = newMovie.IsForAdult,
                 MovieLifeSpan = newMovie.MovieLifeSpan

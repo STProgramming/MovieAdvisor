@@ -24,7 +24,7 @@ export class IdentityService {
   }
 
   loginMovieAdvisor(formLogin: LoginDto): Observable<any>{
-    return this.apiService.post('Identity/Authentication/Login', formLogin)
+    return this.apiService.post('Identity/Authentication/MA', formLogin)
       .pipe(map((response: any) => {
         return response;
       }))

@@ -1,11 +1,13 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TagDto } from '../../../shared/models/tag-dto';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { MoviesService } from '../movies-services/movies.service';
 import { environment } from '../../../../environments/environment.development';
 import { MovieDto } from '../../../shared/models/movie-dto';
 import { ToastrService } from 'ngx-toastr';
+import { NewMovieDto } from '../../../shared/models/new-movie-dto';
+import { RouteService } from '../../../shared/services/route.service';
 
 @Component({
   selector: 'app-new-movie',
@@ -23,10 +25,14 @@ export class NewMovieComponent {
   yearList: number[] = [];
   genresSelected: string[] = [];
   filesSelected: File[] = [];
+  private moviePosted = new BehaviorSubject<boolean>(false);
+  private moviePostedObs: Observable<boolean> = this.moviePosted;
+  private newIdMovie: number =0;
 
   constructor(private moviesService : MoviesService,
     private formBuilder : FormBuilder,
-    private toastr: ToastrService){}
+    private toastr: ToastrService,
+    private routeService: RouteService){}
 
   ngOnInit(): void{
     this.loadTags();
@@ -96,38 +102,55 @@ export class NewMovieComponent {
 
   onSubmit(newMovieForm: FormGroup) {
     if (newMovieForm.valid) {
-      var tagsList: TagDto[] = [];
-      this.genresSelected.forEach(genre => {
-        var obj = this.TagsData.find(tag => {
-          return tag.tagName === genre;
-        });
-        tagsList.push(obj);
+      this.moviePosted.next(false);
+      this.postNewMovie(newMovieForm); 
+      this.moviePostedObs.subscribe(posted => {
+        if(posted){
+          //this.postNewImage();
+          this.routeService.goMovies();
+          this.toastr.success('il film '+ newMovieForm.get('title').value + ' è stato inserito correttamente', 'Film inserito');    
+        }
       });
-      var newMovie: MovieDto = { 
-        'movieId': 0,       
-        'movieTitle' : newMovieForm.get('title').value,
-        'movieYearProduction' : newMovieForm.get('year').value,
-        'movieMaker' : newMovieForm.get('maker').value,
-        'movieDescription' : newMovieForm.get('description').value,
-        'isForAdult' : newMovieForm.get('adult').value,
-        'movieLifeSpan': parseInt(newMovieForm.get('lifeSpan').value),
-        'tags': tagsList,
-        'images': null
-      };      
-      var newIdMovie = 0;
-      this.NewMovieObservable = this.moviesService.postMovie(newMovie);
-      this.NewMovieObservable.subscribe((resp: any) => {
-        newIdMovie = resp;
-      });
-      if(this.filesSelected.length > 0 && newIdMovie > 0){
-        var listFiles = new FormData();
-        this.filesSelected.forEach(e => {
-          listFiles.append('fileArray', e, e.name);
-        });
-        this.NewImageObservable = this.moviesService.postMovieImage(listFiles, newIdMovie);
-        this.toastr.success('il film '+ newMovie.movieTitle + ' è stato inserito correttamente', 'Film inserito')
-      }     
-    }     
+    }
   }
+
+  postNewMovie(newMovieForm: FormGroup){
+    var tagsList: number[] = [];
+    this.genresSelected.forEach(genre => {
+      var obj = this.TagsData.find(tag => {
+        return tag.tagName === genre;
+      });
+      tagsList.push(obj.tagId);
+    });
+    var newMovie: NewMovieDto = { 
+      'movieTitle' : newMovieForm.get('title').value,
+      'movieYearProduction' : newMovieForm.get('year').value,
+      'movieMaker' : newMovieForm.get('maker').value,
+      'movieDescription' : newMovieForm.get('description').value,
+      'isForAdult' : newMovieForm.get('adult').value,
+      'movieLifeSpan': parseInt(newMovieForm.get('lifeSpan').value),
+      'tagsId': tagsList,
+    };      
+    this.NewMovieObservable = this.moviesService.postMovie(newMovie);
+    this.NewMovieObservable.subscribe((resp: any) => {
+      this.newIdMovie = resp;
+      this.moviePosted.next(true);      
+    });
+  }
+
+  /*
+  postNewImage(){
+    if(this.filesSelected.length > 0 && this.newIdMovie > 0){
+      var listFiles = new FormData();
+      this.filesSelected.forEach(e => {
+        listFiles.append('fileArray', e, e.name);
+      });
+      this.NewImageObservable = this.moviesService.postMovieImage(listFiles, this.newIdMovie);
+      this.NewImageObservable.subscribe(resp =>{ 
+        return resp;       
+      });
+    } 
+  }
+  */
 
 }

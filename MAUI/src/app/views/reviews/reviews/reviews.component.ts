@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ReviewDto } from '../../../shared/models/review-dto';
 import { ReviewsService } from '../reviews-services/reviews.service';
+import { RouteService } from '../../../shared/services/route.service';
 
 @Component({
   selector: 'app-reviews',
@@ -11,24 +12,28 @@ import { ReviewsService } from '../reviews-services/reviews.service';
 export class ReviewsComponent {
   ReviewsObservable: Observable<ReviewDto[]>;
   ReviewsData: ReviewDto[] = [];
-  email: string | null;
+  movieSearch: string | null = "";
 
-  constructor(private reviewsServices: ReviewsService){}
+  constructor(private reviewsServices: ReviewsService,
+    private routeService: RouteService){}
 
   ngOnInit(): void{
+    this.loadReviewsData();
+  }
+
+  onChangeSearchParameter(event: any){
+    this.movieSearch = event.target.value;
+    this.loadReviewsData();
   }
 
   loadReviewsData(){
-    if(this.email != null){
-      this.ReviewsObservable = this.reviewsServices.getReviews(this.email);
-      this.ReviewsObservable.subscribe((response: ReviewDto[]) =>{
-        this.ReviewsData = response;
-      });
-    }
+    this.ReviewsObservable = this.reviewsServices.getReviews(this.movieSearch);
+    this.ReviewsObservable.subscribe((response: ReviewDto[]) =>{
+      this.ReviewsData = response;
+    });
   }
 
-  inputEmail(event: any){
-    this.email = event.target.value;
-    this.loadReviewsData();
+  goNewReview(){
+    this.routeService.goNewReview();
   }
 }

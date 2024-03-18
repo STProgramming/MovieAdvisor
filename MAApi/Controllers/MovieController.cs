@@ -4,6 +4,7 @@ using MADTOs.DTOs.ModelsDTOs;
 using MAModels.Enumerables.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 
 namespace MAApi.Controllers
 {
@@ -35,7 +36,7 @@ namespace MAApi.Controllers
             }
             catch (IOException)
             {
-                return StatusCode(409);
+                return StatusCode((int)HttpStatusCode.Conflict);
             }
         }
     }

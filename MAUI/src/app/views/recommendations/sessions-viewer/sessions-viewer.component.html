@@ -1,0 +1,29 @@
+<div *ngIf="isLoading == true">
+  <app-loader></app-loader>
+</div>
+<div *ngIf="isLoading == false">
+  <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+    <div class="offcanvas-header">
+      <h5 class="offcanvas-title" id="offcanvasExampleLabel">Offcanvas</h5>
+      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+      <div *ngFor="let session of sessions">
+        <h4>{{session.sessionId}}</h4>
+        <h4>{{session.dateTimeCreation}}</h4>        
+        <div *ngFor="let request of session.requests">
+          <p>{{request.requestId}}</p>
+          <p>{{request.dateTimeRequest}}</p>
+          <p>{{request.whatClientWant}}</p>
+          <p>{{request.howClientFeels}}</p>
+          <div *ngFor="let recommendation of request.recommendations">
+            <ul>
+              <li>{{recommendation.movieTitle}}</li>
+              <li>{{recommendation.aiScore}}</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

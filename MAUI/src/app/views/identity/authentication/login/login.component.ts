@@ -65,12 +65,14 @@ export class LoginComponent {
           this.roleService.isAppAdmin(true);
           this.toastr.success('Bentornat* '+userName, 'Login effettuata');
         }
-        else{
-          this.authService.authFail();
-          this.toastr.error('Email o password errati', 'Login fallita');
-        }
         this.loading = false;
-      });
+      },
+      error => {
+        this.authService.authFail();
+        this.toastr.error('Email o password errati', 'Login fallita');
+        this.loading = false;
+      },      
+      );
     }
   }
 }

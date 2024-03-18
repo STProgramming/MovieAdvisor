@@ -9,18 +9,15 @@
             </div>
         </div>
     </div>
-    <div class="row">
+    <div *ngIf="isLoading == true">
+        <app-loader></app-loader>
+    </div>
+    <div class="row" *ngIf="isLoading == false">
         <h3 class="text-center">Film trovati</h3>
         <hr>
         <div class="col-4 mb-3" *ngFor="let movie of MoviesData">
             <app-movie-card [movieData]="movie"></app-movie-card>
         </div>
     </div>
-    <hr>
-    <div class="row" *ngIf="MoviesRecommendations.length > 0">
-        <h5>I film raccomandati per te</h5>
-        <div class="col-4 mb-3" *ngFor="let movie of MoviesRecommendations">
-            <app-movie-card [movieData]="movie"></app-movie-card>
-        </div>
-    </div>
+    
 </div>

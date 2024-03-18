@@ -56,7 +56,7 @@ namespace MAApi.Controllers.Identity
 
         [AllowAnonymous]
         [HttpPost]
-        public async Task<IActionResult> Login([FromBody]LoginDTO login)
+        public async Task<IActionResult> MA([FromBody]LoginDTO login)
         {
             if (!ModelState.IsValid) return StatusCode((int)HttpStatusCode.NotAcceptable);
             try

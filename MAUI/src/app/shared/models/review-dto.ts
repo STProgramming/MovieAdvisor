@@ -3,5 +3,6 @@ export interface ReviewDto{
     vote: number;
     descriptionVote: string|null;
     dateTimeVote: Date;
+    userName: string;
     movieTitle: string;
 }

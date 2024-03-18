@@ -3,6 +3,7 @@ import { RestApiService } from '../../../shared/services/rest-api.service';
 import { Observable, map } from 'rxjs';
 import { TagDto } from '../../../shared/models/tag-dto';
 import { MovieDto } from '../../../shared/models/movie-dto';
+import { NewMovieDto } from '../../../shared/models/new-movie-dto';
 
 @Injectable({
   providedIn: 'root'
@@ -35,22 +36,24 @@ export class MoviesService {
       }));
   }
 
-  postMovie(newMovie: MovieDto): Observable<any>{
+  postMovie(newMovie: NewMovieDto): Observable<any>{
     return this.apiService.post('Movie', newMovie)
       .pipe(map((response : any) => {
         return response;    
       }));
   }
 
+  /*
   postMovieImage(Files: FormData, movieId: number): Observable<any>{
-    return this.apiService.post('movie/Multimedia?MovieId='+movieId, Files)
+    return this.apiService.postImage('Movie/Multimedia?MovieId='+movieId, Files)
       .pipe(map((response: any)=>{
         return response;
       }));
   }
-
+  */
+ 
   getMovieImage(movieId: number, counter: number): Observable<Blob>{
-    return this.apiService.getImage('movie/Multimedia?MovieId='+movieId+'&Counter='+counter)
+    return this.apiService.downlaod('Movie/Multimedia?MovieId='+movieId+'&Counter='+counter)
       .pipe(map((response: Blob)=>{
         if(response){
           return response;

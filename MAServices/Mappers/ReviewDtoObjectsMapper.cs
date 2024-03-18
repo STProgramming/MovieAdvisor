@@ -15,7 +15,7 @@ namespace MAServices.Mappers
                 Vote = review.Vote,
                 DescriptionVote = review.DescriptionVote,
                 DateTimeVote = review.DateTimeVote,
-                UserEmail = review.User.Email,
+                UserName = review.User.UserName,
                 MovieTitle = review.Movie.MovieTitle
             };
             

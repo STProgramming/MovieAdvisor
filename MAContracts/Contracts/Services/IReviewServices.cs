@@ -7,6 +7,6 @@ namespace MAContracts.Contracts.Services
     {
         Task PostNewReview(string userId, NewReviewDTO newReviewDto);
 
-        Task<List<ReviewsDTO>?> SearchEngineReviews(string? userId, int? movieId);
+        Task<List<ReviewsDTO>?> SearchEngineReviews(string? userId, string? movieTitle);
     }
 }

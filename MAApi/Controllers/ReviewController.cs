@@ -3,6 +3,7 @@ using MAContracts.Contracts.Services.Identity.User;
 using MADTOs.DTOs.ModelsDTOs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 using System.Security.Claims;
 
 namespace MAApi.Controllers
@@ -19,11 +20,25 @@ namespace MAApi.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get(int? MovieId)
+        public async Task<IActionResult> Get(string? Search)
         {
             try
             {
-                return Ok(await _reviewServices.SearchEngineReviews(HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value, MovieId));
+                return Ok(await _reviewServices.SearchEngineReviews(null, Search));
+            }
+            catch (NullReferenceException)
+            {
+                return NotFound();
+            }
+        }
+
+        [Authorize]
+        [HttpGet("GetUserReviews")]
+        public async Task<IActionResult> GetUserReviews(string? Search)
+        {
+            try
+            {
+                return Ok(await _reviewServices.SearchEngineReviews(HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value, Search));
             }
             catch (NullReferenceException)
             {
@@ -38,7 +53,7 @@ namespace MAApi.Controllers
             try
             {
                 await _reviewServices.PostNewReview(HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value, newReview);
-                return StatusCode(201);
+                return StatusCode((int)HttpStatusCode.Created);
             }
             catch (NullReferenceException)
             {
@@ -46,7 +61,7 @@ namespace MAApi.Controllers
             }
             catch (Exception)
             {
-                return StatusCode(406);
+                return StatusCode((int)HttpStatusCode.NotAcceptable);
             }
         }        
     }
