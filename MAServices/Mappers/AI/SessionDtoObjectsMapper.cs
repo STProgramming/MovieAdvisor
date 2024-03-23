@@ -20,7 +20,7 @@ namespace MAServices.Mappers.AI
                 requestDTO.RequestId = request.RequestId;
                 requestDTO.WhatClientWants = request.WhatClientWants;
                 requestDTO.HowClientFeels = request.HowClientFeels;
-                requestDTO.Sentiment = (bool)request.Sentiment;
+                requestDTO.Sentiment = request.Sentiment != null ? (bool)request.Sentiment : null;
                 var listRecomsFilterId = new List<Recommendations>();
                 foreach(var recomm in listRecommendations)
                 {

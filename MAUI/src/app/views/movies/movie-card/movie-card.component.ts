@@ -2,6 +2,8 @@ import { Component, EventEmitter, Input, Output, input } from '@angular/core';
 import { MovieDto } from '../../../shared/models/movie-dto';
 import { Observable } from 'rxjs';
 import { MoviesService } from '../movies-services/movies.service';
+import { Dialog } from '@angular/cdk/dialog';
+import { MovieDetailsModalComponent } from '../movie-details-modal/movie-details-modal.component';
 
 @Component({
   selector: 'app-movie-card',
@@ -12,9 +14,9 @@ export class MovieCardComponent {
   Image: any;
   ImageObservable: Observable<Blob>;
   @Input() movieData: MovieDto;
-  seeDetails: boolean = false;
   
-  constructor(private movieService: MoviesService){}
+  constructor(private movieService: MoviesService,
+    private dialog: Dialog){}
 
   ngOnInit(): void{
     this.loadImageMovie();
@@ -22,10 +24,6 @@ export class MovieCardComponent {
 
   loadImageMovie(){
     this.loadImage(this.movieData.movieId, 0);
-  }
-
-  clickSeeDetails(){
-    this.seeDetails = !this.seeDetails;
   }
 
   loadImage(movieId: number, index: number){
@@ -44,5 +42,22 @@ export class MovieCardComponent {
     if (image) {
       reader.readAsDataURL(image);
     }
+  }
+
+  openDialogDetail(movie: MovieDto){
+    this.dialog.open(MovieDetailsModalComponent, {
+      minWidth: '500px',
+      data: {
+        'movieId': movie.movieId,
+        'movieTitle': movie.movieTitle,
+        'movieYearProduction': movie.movieYearProduction,
+        'movieDescription': movie.movieDescription,
+        'movieMaker': movie.movieMaker,
+        'movieLifeSpan': movie.movieLifeSpan,
+        'isForAdult': movie.isForAdult,
+        'tags': movie.tags,
+        'images': movie.images
+      },
+    });
   }
 }

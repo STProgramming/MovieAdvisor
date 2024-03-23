@@ -54,13 +54,17 @@ namespace MAServices.Services.AI
 
             await AISmartAvailability();
 
-            var request = await RequestsManager(user, null, null, null, null);
+            await AISmartUserKnowledge(user);
 
-            var sessionInfo = await SessionsManager(user, request);
+            var sessionInfo = await SessionsManager(user, null);
+
+            var request = await CreateRequest(null, sessionInfo);            
 
             List<Recommendations> result = await BasedOnReviews(user, request);
 
-            await RequestsManager(user, null, result, sessionInfo, null);
+            var requestUpdate = await UpdateRequet(request, result);
+
+            await SessionsManager(user, requestUpdate);
 
             return _mapper.RecommendationMapperDtoListService(result);
         }
@@ -74,9 +78,9 @@ namespace MAServices.Services.AI
 
             await AISmartUserKnowledge(user);
 
-            var request = await RequestsManager(user, requestUser, null, null, null);
+            var sessionInfo = await SessionsManager(user, null);
 
-            var sessionInfo = await SessionsManager(user, request);
+            var request = await CreateRequest(requestUser, sessionInfo);
 
             List<Recommendations> result = await BasedOnReviews(user, request);
 
@@ -84,7 +88,9 @@ namespace MAServices.Services.AI
 
             List<Recommendations> defResult = await BasedOnRequest(user, sentimentUser, result, request);
 
-            await RequestsManager(user, null, result, sessionInfo, sentimentUser.Prediction);
+            var requestUpdate = await UpdateRequet(request, defResult);
+
+            await SessionsManager(user, requestUpdate);
 
             return _mapper.RecommendationMapperDtoListService(defResult);
         }
@@ -103,7 +109,7 @@ namespace MAServices.Services.AI
         private async Task AISmartUserKnowledge(Users user)
         {
             var reviewsForUser = await _context.Reviews.Where(r => string.Equals(r.UserId, user.Id)).ToListAsync();
-            if (reviewsForUser == null || reviewsForUser.Count < Int32.Parse(_config["MinimumReviewsForUser"])) throw new InsufficientReviewsException();
+            if (reviewsForUser == null || reviewsForUser.Count < Int32.Parse(_config["Ai:Recommendation:MinimumReviewsForUser"])) throw new InsufficientReviewsException();
         }
 
         private async Task<List<Recommendations>> BasedOnReviews(Users user, Requests request)
@@ -151,7 +157,7 @@ namespace MAServices.Services.AI
                     train.ReviewDate = review.DateTimeVote.ToString();
                     train.Gender = user.Gender;
                     train.Nationality = user.Nationality;
-                    train.MovieLifeSpan = movie.MovieLifeSpan;
+                    train.MovieLifeSpan = movie.MovieLifeSpan.ToString();
                     train.DescriptionVote = string.IsNullOrEmpty(review.DescriptionVote) ? "" : review.DescriptionVote;
                     modelTrain.Add(train);
                 }
@@ -265,8 +271,7 @@ namespace MAServices.Services.AI
                     });
                     inputCase.Gender = user.Gender;
                     inputCase.Nationality = user.Nationality;
-                    inputCase.MovieLifeSpan = movie.MovieLifeSpan;
-                    
+                    inputCase.MovieLifeSpan = movie.MovieLifeSpan.ToString();      
                     var movieRatingPrediction = predictionEngine.Predict(inputCase);
                     var userDTO = new UsersDTO();
                     var movieDTO = new MoviesDTO();
@@ -483,13 +488,11 @@ namespace MAServices.Services.AI
         private async Task<Sessions> SessionsManager(Users user, Requests? request)
         {
             var userSession = new Sessions();
-            if (_context.Sessions.Any(s => s.DateTimeCreation.Date == DateTime.UtcNow.Date))
+            if (_context.Sessions.Any(s => s.DateTimeCreation.Date == DateTime.UtcNow.Date && string.Equals(s.UserId, user.Id)))
             {
                 userSession = await _context.Sessions.Where(s => string.Equals(user.Id, s.UserId) && s.DateTimeCreation.Date == DateTime.UtcNow.Date).FirstOrDefaultAsync();
                 if (request != null)
                     userSession.RequestList.Add(request);
-                else
-                    throw new NullReferenceException(); 
                 _context.Sessions.Update(userSession);
             }
             else
@@ -498,35 +501,35 @@ namespace MAServices.Services.AI
                 userSession.User = user;
                 userSession.DateTimeCreation = DateTime.UtcNow;                
                 _context.Sessions.Add(userSession);
+                user.SessionsList.Add(userSession);
+                _context.Users.Update(user);
             }
             await _context.SaveChangesAsync();
             return userSession;
         }
 
-        private async Task<Requests> RequestsManager(Users user, NewRequestDTO? request, IList<Recommendations>? recommendations, Sessions? session, bool? sentiment)
+        private async Task<Requests> CreateRequest(NewRequestDTO? newRequestDto, Sessions sessionUser)
         {
-            var userRequest = new Requests();
-            if(session != null && session.RequestList.Count > 0 && request != null && _context.Requests.Any(r => r.DateTimeRequest.TimeOfDay == DateTime.Now.TimeOfDay && string.Equals(request.WhatClientWants.Trim().ToLower(), r.WhatClientWants.Trim().ToLower()) && string.Equals(request.HowClientFeels.Trim().ToLower(), r.HowClientFeels.Trim().ToLower())))
+            Requests newRequest = new Requests
             {
-                userRequest = await _context.Requests.Where(r => r.DateTimeRequest.TimeOfDay == DateTime.Now.TimeOfDay && string.Equals(request.WhatClientWants.Trim().ToLower(), r.WhatClientWants.Trim().ToLower()) && string.Equals(request.HowClientFeels.Trim().ToLower(), r.HowClientFeels.Trim().ToLower())).FirstOrDefaultAsync();
-                userRequest.RecommendationsList = recommendations != null || recommendations.Count > 0 ? recommendations.ToList() : new List<Recommendations>();
-                userRequest.Sentiment = sentiment != null ? sentiment : null;
-                if(session != null)
-                {
-                    userRequest.Session = session;
-                    userRequest.SessionId = session.SessionId;
-                }
-                _context.Requests.Update(userRequest);
-            }
-            else
-            {
-                userRequest.WhatClientWants = request == null || string.IsNullOrEmpty(request.WhatClientWants) ? string.Empty : request.WhatClientWants;
-                userRequest.HowClientFeels = request == null || string.IsNullOrEmpty(request.HowClientFeels) ? string.Empty : request.HowClientFeels;
-                userRequest.DateTimeRequest = DateTime.Now;
-                await _context.Requests.AddAsync(userRequest);
-            }
+                WhatClientWants = newRequestDto == null || string.IsNullOrEmpty(newRequestDto.WhatClientWants) ? string.Empty : newRequestDto.WhatClientWants,
+                HowClientFeels = newRequestDto == null || string.IsNullOrEmpty(newRequestDto.HowClientFeels) ? string.Empty : newRequestDto.HowClientFeels,
+                Sentiment = null,
+                SessionId = sessionUser.SessionId,
+                Session = sessionUser,
+                DateTimeRequest = DateTime.UtcNow
+            };
+            await _context.Requests.AddAsync(newRequest);
             await _context.SaveChangesAsync();
-            return userRequest;
+            return newRequest;
+        }
+
+        private async Task<Requests> UpdateRequet(Requests actualRequest, List<Recommendations> listRecommendations)
+        {
+            actualRequest.RecommendationsList = listRecommendations;
+            _context.Requests.Update(actualRequest);
+            await _context.SaveChangesAsync();
+            return actualRequest;
         }
 
         #endregion

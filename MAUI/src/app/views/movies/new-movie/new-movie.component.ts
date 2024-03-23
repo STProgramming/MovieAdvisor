@@ -25,9 +25,7 @@ export class NewMovieComponent {
   yearList: number[] = [];
   genresSelected: string[] = [];
   filesSelected: File[] = [];
-  private moviePosted = new BehaviorSubject<boolean>(false);
-  private moviePostedObs: Observable<boolean> = this.moviePosted;
-  private newIdMovie: number =0;
+  isLoading: boolean = false;
 
   constructor(private moviesService : MoviesService,
     private formBuilder : FormBuilder,
@@ -102,19 +100,13 @@ export class NewMovieComponent {
 
   onSubmit(newMovieForm: FormGroup) {
     if (newMovieForm.valid) {
-      this.moviePosted.next(false);
-      this.postNewMovie(newMovieForm); 
-      this.moviePostedObs.subscribe(posted => {
-        if(posted){
-          //this.postNewImage();
-          this.routeService.goMovies();
-          this.toastr.success('il film '+ newMovieForm.get('title').value + ' è stato inserito correttamente', 'Film inserito');    
-        }
-      });
+      this.isLoading = true;
+      var data = this.prepareMovieData(newMovieForm); 
+      this.postNewMovie(data);
     }
   }
 
-  postNewMovie(newMovieForm: FormGroup){
+  prepareMovieData(newMovieForm: FormGroup): NewMovieDto{
     var tagsList: number[] = [];
     this.genresSelected.forEach(genre => {
       var obj = this.TagsData.find(tag => {
@@ -130,27 +122,46 @@ export class NewMovieComponent {
       'isForAdult' : newMovieForm.get('adult').value,
       'movieLifeSpan': parseInt(newMovieForm.get('lifeSpan').value),
       'tagsId': tagsList,
-    };      
-    this.NewMovieObservable = this.moviesService.postMovie(newMovie);
-    this.NewMovieObservable.subscribe((resp: any) => {
-      this.newIdMovie = resp;
-      this.moviePosted.next(true);      
-    });
+    };    
+    return newMovie;  
   }
 
-  /*
-  postNewImage(){
-    if(this.filesSelected.length > 0 && this.newIdMovie > 0){
+  postNewMovie(newMovie: NewMovieDto){
+    this.NewMovieObservable = this.moviesService.postMovie(newMovie);
+    this.NewMovieObservable.subscribe({
+      next: (resp) =>{
+        this.toastr.info('Caricamento al 50%', 'Film caricato');
+        this.postNewImage(parseInt(resp), newMovie.movieTitle);
+      },
+      error: (error)=>{
+        this.toastr.error('Il film non è stato caricato correttamente. Riprovare più tardi', 'Ops qualcosa è andato storto');
+        console.log(JSON.stringify(error));
+      },
+      complete: () =>{
+        this.isLoading =false;
+      }
+    });
+  }
+  
+  postNewImage(newIdMovie: number, nameMovie: string){
+    if(this.filesSelected.length > 0 && newIdMovie > 0){
       var listFiles = new FormData();
       this.filesSelected.forEach(e => {
         listFiles.append('fileArray', e, e.name);
       });
-      this.NewImageObservable = this.moviesService.postMovieImage(listFiles, this.newIdMovie);
-      this.NewImageObservable.subscribe(resp =>{ 
-        return resp;       
+      this.NewImageObservable = this.moviesService.postMovieImage(listFiles, newIdMovie);
+      this.NewImageObservable.subscribe({
+        next: (resp)=>{
+          this.toastr.success('E\' stato caricato correttamente il film '+nameMovie, 'Film inserito con successo');
+          this.routeService.goMovies();
+        },
+        error: (error) => {
+          console.log(JSON.stringify(error));
+          this.toastr.error('Il film è stato caricato ma l\'immagine no...', 'Ops qualcosa è andato storto');
+        }
       });
     } 
   }
-  */
+  
 
 }

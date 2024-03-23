@@ -35,7 +35,7 @@ namespace MAModels.Models.RecommendationServices.RecommendationBasedOnReviews
         public string Nationality { get; set; } = string.Empty;
 
         [LoadColumn(10)]
-        public short MovieLifeSpan { get; set; }
+        public string MovieLifeSpan { get; set; }
 
         [LoadColumn(11)]
         public string DescriptionVote { get; set; } = string.Empty;

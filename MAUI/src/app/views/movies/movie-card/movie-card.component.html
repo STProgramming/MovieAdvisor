@@ -1,4 +1,4 @@
-<a (click)="clickSeeDetails()">
+<button (click)="openDialogDetail(movieData)">
   <div class="card" style="width: 18rem;">
       <img class="card-img-top" [src]="Image" alt="Card image cap">
       <div class="card-body">
@@ -9,6 +9,5 @@
         </div>  
       </div>
   </div>
-</a>
-<app-movie-details-modal [movieDetails]="movieData" *ngIf="seeDetails"></app-movie-details-modal>
+</button>
 

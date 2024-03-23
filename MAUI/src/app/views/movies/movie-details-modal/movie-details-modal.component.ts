@@ -1,7 +1,8 @@
-import { Component, Input } from '@angular/core';
+import { Component, Inject, Input } from '@angular/core';
 import { MovieDto } from '../../../shared/models/movie-dto';
 import { Observable } from 'rxjs';
 import { MoviesService } from '../movies-services/movies.service';
+import { DIALOG_DATA } from '@angular/cdk/dialog';
 
 @Component({
   selector: 'app-movie-details-modal',
@@ -11,17 +12,17 @@ import { MoviesService } from '../movies-services/movies.service';
 export class MovieDetailsModalComponent {
   Images: any[] = [];
   ImageObservable: Observable<Blob>;
-  @Input() movieDetails: MovieDto;
 
-  constructor(private movieService: MoviesService){}
+  constructor(private movieService: MoviesService,
+    @Inject(DIALOG_DATA) public data: MovieDto){}
 
   ngOnInit(): void{
     this.loadImagesMovie();
   }
 
   loadImagesMovie(){
-    this.movieDetails.images.forEach((image, index) => {
-      this.loadImage(this.movieDetails.movieId, index);
+    this.data.images.forEach((image, index) => {
+      this.loadImage(this.data.movieId, index);
     });
   }
 

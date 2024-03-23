@@ -8,7 +8,7 @@
         
         public string HowClientFeels { get; set; } = string.Empty;
 
-        public bool Sentiment {  get; set; }
+        public bool? Sentiment {  get; set; }
 
         public List<RecommendationsDTO> Recommendations { get; set; } = new List<RecommendationsDTO>();
 

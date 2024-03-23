@@ -5,7 +5,7 @@ using MAModels.EntityFrameworkModels;
 using MAModels.EntityFrameworkModels.AI;
 using MAModels.EntityFrameworkModels.Identity;
 using Microsoft.AspNetCore.Identity;
-using System.Data.Entity;
+using Microsoft.EntityFrameworkCore;
 
 namespace MAServices.Services.AI
 {

@@ -1,6 +1,7 @@
 ﻿using MAContracts.Contracts.Services;
 using MAContracts.Contracts.Services.Identity.User;
 using MADTOs.DTOs.ModelsDTOs;
+using MAModels.Exceptions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
@@ -59,10 +60,33 @@ namespace MAApi.Controllers
             {
                 return NotFound();
             }
+            catch (ConflictException)
+            {
+                return StatusCode((int)HttpStatusCode.Conflict);
+            }
+            catch (Exception)
+            {
+                return StatusCode((int)HttpStatusCode.NotAcceptable);
+            }            
+        }
+
+        [Authorize]
+        [HttpPut]
+        public async Task<IActionResult> Put([FromQuery]int reviewId, [FromBody] NewReviewDTO newReview)
+        {
+            try
+            {
+                await _reviewServices.EditReview(HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value, reviewId ,newReview);
+                return StatusCode((int)HttpStatusCode.Created);
+            }
+            catch (NullReferenceException)
+            {
+                return NotFound();
+            }
             catch (Exception)
             {
                 return StatusCode((int)HttpStatusCode.NotAcceptable);
             }
-        }        
+        }
     }
 }

@@ -4,6 +4,7 @@ using MADTOs.DTOs.EntityFrameworkDTOs;
 using MADTOs.DTOs.ModelsDTOs;
 using MAModels.EntityFrameworkModels;
 using MAModels.EntityFrameworkModels.Identity;
+using MAModels.Exceptions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -111,47 +112,53 @@ namespace MAServices.Services
             if (movie == null || user == null) throw new NullReferenceException();
             if (movie.MovieYearProduction > Convert.ToDateTime(newReviewDto.When).Year) throw new Exception();
             var movieReviewed = await GetYourRiviewOfMovie(user.Id, movie.MovieId);
-            if (movieReviewed != null)
+            if (movieReviewed != null) throw new ConflictException();
+            
+            Reviews newReview = new Reviews
             {
-                movieReviewed.UserId = user.Id;
-                movieReviewed.MovieId = movie.MovieId;
-                movieReviewed.Movie = movie;
-                movieReviewed.User = user;
-                movieReviewed.Vote = newReviewDto.Vote;
-                movieReviewed.DescriptionVote = newReviewDto.DescriptionVote;
-                movieReviewed.DateTimeVote = newReviewDto.When == null ? DateTime.Now : Convert.ToDateTime(newReviewDto.When);
-                _database.Reviews.Update(movieReviewed);
-                await _database.SaveChangesAsync();
-                user.ReviewsList.Add(movieReviewed);
-                user.MoviesList.Add(movie);
-            }
-            else
-            {
-                Reviews newReview = new Reviews
-                {
-                    UserId = user.Id,
-                    MovieId = movie.MovieId,
-                    Movie = movie,
-                    User = user,
-                    Vote = newReviewDto.Vote,
-                    DescriptionVote = newReviewDto.DescriptionVote,
-                    DateTimeVote = newReviewDto.When == null ? DateTime.Now : Convert.ToDateTime(newReviewDto.When)
-                };
-                await _database.Reviews.AddAsync(newReview);
-                await _database.SaveChangesAsync();
-                user.ReviewsList.Add(newReview);
-                user.MoviesList.Add(movie);
-            }
+                UserId = user.Id,
+                MovieId = movie.MovieId,
+                Movie = movie,
+                User = user,
+                Vote = newReviewDto.Vote,
+                DescriptionVote = newReviewDto.DescriptionVote,
+                DateTimeVote = newReviewDto.When == null ? DateTime.Now : Convert.ToDateTime(newReviewDto.When)
+            };
+            await _database.Reviews.AddAsync(newReview);
+            user.ReviewsList.Add(newReview);
+            user.MoviesList.Add(movie);
             _database.Users.Update(user);
             _database.Movies.Update(movie);
             await _database.SaveChangesAsync();
         }
 
-        #endregion
+        public async Task EditReview(string userId, int reviewId, NewReviewDTO reviewModified)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            var movie = await _database.Movies.FindAsync(reviewModified.MovieId);
+            if (movie == null || user == null) throw new NullReferenceException();
+            if (movie.MovieYearProduction > Convert.ToDateTime(reviewModified.When).Year) throw new Exception();
+            var movieReviewed = await GetYourRiviewOfMovie(user.Id, movie.MovieId);
+            if (movieReviewed == null) throw new NullReferenceException();
 
-        #region PRIVATE METHODS
+            movieReviewed.UserId = user.Id;
+            movieReviewed.MovieId = movie.MovieId;
+            movieReviewed.Movie = movie;
+            movieReviewed.User = user;
+            movieReviewed.Vote = reviewModified.Vote;
+            movieReviewed.DescriptionVote = reviewModified.DescriptionVote;
+            movieReviewed.DateTimeVote = reviewModified.When == null ? DateTime.Now : Convert.ToDateTime(reviewModified.When);
+            _database.Reviews.Update(movieReviewed);
+            user.ReviewsList.Add(movieReviewed);
+            user.MoviesList.Add(movie);
+            await _database.SaveChangesAsync();
+        }
 
-        private async Task<List<Reviews>> GetReviews()
+            #endregion
+
+            #region PRIVATE METHODS
+
+            private async Task<List<Reviews>> GetReviews()
         {
             return await _database.Reviews.ToListAsync();
         }

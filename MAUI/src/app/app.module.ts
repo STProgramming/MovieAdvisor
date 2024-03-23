@@ -26,6 +26,7 @@ import { RecommendationsComponent } from './views/recommendations/recommendation
 import { RecommendationsViewerComponent } from './views/recommendations/recommendations-viewer/recommendations-viewer.component';
 import { SessionsViewerComponent } from './views/recommendations/sessions-viewer/sessions-viewer.component';
 import { FooterComponent } from './shared/components/footer/footer.component';
+import { DialogModule } from '@angular/cdk/dialog';
 
 @NgModule({
   declarations: [
@@ -57,7 +58,8 @@ import { FooterComponent } from './shared/components/footer/footer.component';
     ReactiveFormsModule,
     HttpClientModule,
     NgbModule,
-    ToastrModule.forRoot()
+    ToastrModule.forRoot(),
+    DialogModule
   ],
   providers: [
     provideAnimationsAsync()

@@ -26,7 +26,7 @@ export class RestApiService {
         }
         else{
           this.httpOptions = {
-            headers: new HttpHeaders({
+            headers: new Headers({
               'Content-Type': 'application/json',
             }),
           }
@@ -57,9 +57,21 @@ export class RestApiService {
 
   downlaod(route: string): Observable<any>{
     let httpHeaders = new HttpHeaders()
-         .set('Accept', "image/jpg,*/*");
+      .set('Accept', "image/jpg,*/*");
     return this.http
       .get<any>(environment.apiUrl+route, { headers: httpHeaders, responseType: 'blob' as 'json'})
+      .pipe(retry(1), catchError(this.handleError));
+  }
+
+  upload(route: string, data: FormData): Observable<any>{
+    let httpHeaders: any = {
+      headers : new Headers({
+        'Content-Type': 'multipart/form-data',
+        'Authorization': 'Bearer '+this.tokenService.readIdentityToken()
+      })
+    };
+    return this.http
+      .post<any>(environment.apiUrl+route, data, httpHeaders)
       .pipe(retry(1), catchError(this.handleError));
   }
 

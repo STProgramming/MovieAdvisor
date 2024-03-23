@@ -12,6 +12,7 @@ namespace MAServices.Mappers
         {
             ReviewsDTO reviewDto = new ReviewsDTO
             {
+                ReviewId = review.ReviewId,
                 Vote = review.Vote,
                 DescriptionVote = review.DescriptionVote,
                 DateTimeVote = review.DateTimeVote,
