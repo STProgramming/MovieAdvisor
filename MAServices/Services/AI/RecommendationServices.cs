@@ -14,7 +14,6 @@ using MAModels.Models.RecommendationServices.RecommendationBasedOnReviews;
 using MAModels.Models.RecommendationServices.RecommendationBasedOnSentiments;
 using MAModels.Models.RecommendationServices.SentimentPrediction;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.ML;
@@ -297,7 +296,7 @@ namespace MAServices.Services.AI
                         inputCase.Nationality = user.Nationality;
                         inputCase.MovieLifeSpan = movie.MovieLifeSpan.ToString();      
                         var movieRatingPrediction = predictionEngine.Predict(inputCase);                    
-                        if(movieRatingPrediction.Score >= 1)
+                        if(movieRatingPrediction.Score >= Int32.Parse(_config["Ai:Recommendation:MinimumScoreAi"]))
                         {
                             var userDTO = new UsersDTO();
                             var movieDTO = new MoviesDTO();
@@ -388,7 +387,7 @@ namespace MAServices.Services.AI
 
             var resultSentiment = predEngine.Predict(sentimentIssue);
 
-            requestUser.Sentiment = resultSentiment.Score > float.Parse(_config["Ai:MinimumScoreAi"]) ? resultSentiment.Prediction : null;
+            requestUser.Sentiment = resultSentiment.Score > float.Parse(_config["Ai:SentimentPrediction:MinimumScoreAi"]) ? resultSentiment.Prediction : null;
             
             if(requestUser.Sentiment != null)
             {
@@ -520,20 +519,23 @@ namespace MAServices.Services.AI
                     Label2 = sentiment.Prediction
                 };
                 var movieRatingPrediction = predictionEngine.Predict(inputCase);
-                var userDTO = new UsersDTO();
-                var movieDTO = new MoviesDTO();
-                var recommendation = new Recommendations();
-                recommendation.MovieId = movie.MovieId;
-                recommendation.MovieTitle = movie.MovieTitle;
-                recommendation.Name = user.Name;
-                recommendation.LastName = user.LastName;
-                recommendation.Email = user.Email;
-                recommendation.AiScore = double.IsNaN(movieRatingPrediction.Score) ? 0 : movieRatingPrediction.Score;
-                recommendation.See = false;
-                recommendation.RequestId = requestUser.RequestId;
-                recommendation.Request = requestUser;
-                result.Add(recommendation);
-                await _context.Recommendations.AddAsync(recommendation);
+                if (movieRatingPrediction.Score >= Int32.Parse(_config["Ai:Recommendation:MinimumScoreAi"]))
+                {
+                    var userDTO = new UsersDTO();
+                    var movieDTO = new MoviesDTO();
+                    var recommendation = new Recommendations();
+                    recommendation.MovieId = movie.MovieId;
+                    recommendation.MovieTitle = movie.MovieTitle;
+                    recommendation.Name = user.Name;
+                    recommendation.LastName = user.LastName;
+                    recommendation.Email = user.Email;
+                    recommendation.AiScore = double.IsNaN(movieRatingPrediction.Score) ? 0 : movieRatingPrediction.Score;
+                    recommendation.See = false;
+                    recommendation.RequestId = requestUser.RequestId;
+                    recommendation.Request = requestUser;
+                    result.Add(recommendation);
+                    await _context.Recommendations.AddAsync(recommendation);
+                }
             }
             await _context.SaveChangesAsync();
             return result;

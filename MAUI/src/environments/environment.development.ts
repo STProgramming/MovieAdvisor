@@ -1,5 +1,10 @@
 export const environment = {
     apiUrl: 'https://localhost:7075/api/',
+    gitHubApiUrl: 'https://api.github.com/repos/',
+    gitOwnerRepo: 'STProgramming',
+    emailDeveloper: 'stcorp@outlook.it',
+    nameDeveloper: 'Stefano Troisi',
+    gitRepoName: 'MovieAdvisor',
     imageUploadPath: 'C:\\Users\\STCor\\Pictures\\Progetto\\',
     frontUrl: 'http://localhost:4200',
     nameIdentityToken: 'MAIdentityToken',

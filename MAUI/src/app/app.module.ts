@@ -27,6 +27,8 @@ import { RecommendationsViewerComponent } from './views/recommendations/recommen
 import { SessionsViewerComponent } from './views/recommendations/sessions-viewer/sessions-viewer.component';
 import { FooterComponent } from './shared/components/footer/footer.component';
 import { DialogModule } from '@angular/cdk/dialog';
+import { ArticleCardComponent } from './views/home/article-card/article-card.component';
+import { ReleaseNoteCardComponent } from './views/home/release-note-card/release-note-card.component';
 
 @NgModule({
   declarations: [
@@ -49,7 +51,9 @@ import { DialogModule } from '@angular/cdk/dialog';
     RecommendationsComponent,
     RecommendationsViewerComponent,
     SessionsViewerComponent,
-    FooterComponent
+    FooterComponent,
+    ArticleCardComponent,
+    ReleaseNoteCardComponent
   ],
   imports: [
     BrowserModule,

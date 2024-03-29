@@ -2,4 +2,21 @@
     <h1>Movie Advisor User Interface</h1>
     <hr>
     <h3>Ti do il benvenut* all'app sperimentale.</h3>
+    <hr>
+</div>
+<div class="text-center">
+    <h5>Note di rilascio</h5>
+    <hr>
+</div>
+<div class="bg-light">
+    <div class="container">
+        <div class="row text-center" style="overflow-y: scroll;">
+            <div *ngIf="isLoadingGit">
+                <app-loader></app-loader>
+            </div>
+            <div class="col-md-4 mb-3" *ngFor="let commit of GitCommits | slice:0:6; let i=index">
+                <app-release-note-card [commitData]="commit"></app-release-note-card>
+            </div>              
+        </div>
+    </div>
 </div>

@@ -4,6 +4,7 @@ import { Observable, catchError, retry, throwError } from 'rxjs';
 import { environment } from '../../../environments/environment.development';
 import { AuthenticationService } from './authentication.service';
 import { IdentityTokenService } from './identity-token.service';
+import { GitHubCommitDto } from '../models/git-commits.dto';
 
 @Injectable({
   providedIn: 'root'
@@ -33,6 +34,10 @@ export class RestApiService {
         }
       })
     }
+
+  gitHubListCommits(): Observable<GitHubCommitDto[]>{
+    return this.http.get<any[]>(environment.gitHubApiUrl+environment.gitOwnerRepo+"/"+environment.gitRepoName+"/commits");
+  }
 
   get(route: string): Observable<any>{    
     return this.http
