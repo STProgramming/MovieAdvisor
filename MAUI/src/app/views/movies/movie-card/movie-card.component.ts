@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { MoviesService } from '../movies-services/movies.service';
 import { Dialog } from '@angular/cdk/dialog';
 import { MovieDetailsModalComponent } from '../movie-details-modal/movie-details-modal.component';
+import { setThrowInvalidWriteToSignalError } from '@angular/core/primitives/signals';
 
 @Component({
   selector: 'app-movie-card',
@@ -11,6 +12,7 @@ import { MovieDetailsModalComponent } from '../movie-details-modal/movie-details
   styleUrl: './movie-card.component.scss'
 })
 export class MovieCardComponent {
+  isLoading: boolean = false;
   Image: any;
   ImageObservable: Observable<Blob>;
   @Input() movieData: MovieDto;
@@ -23,13 +25,23 @@ export class MovieCardComponent {
   }
 
   loadImageMovie(){
+    this.isLoading = true;
     this.loadImage(this.movieData.movieId, 0);
   }
 
   loadImage(movieId: number, index: number){
     this.ImageObservable = this.movieService.getMovieImage(movieId, index);
-    this.ImageObservable.subscribe((response: Blob) => {
-      this.convertFromBlobToImg(response);
+    this.ImageObservable.subscribe({
+      next: (resp) => {
+        this.convertFromBlobToImg(resp);
+      },
+      error: (error) =>{
+        console.log(error);
+        this.isLoading = false;
+      },
+      complete : () => {
+        this.isLoading = false;
+      }
     });
   }
 

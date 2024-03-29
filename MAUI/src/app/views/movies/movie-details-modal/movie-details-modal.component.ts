@@ -10,6 +10,7 @@ import { DIALOG_DATA } from '@angular/cdk/dialog';
   styleUrl: './movie-details-modal.component.scss'
 })
 export class MovieDetailsModalComponent {
+  isLoading: boolean = false;
   Images: any[] = [];
   ImageObservable: Observable<Blob>;
 
@@ -21,6 +22,8 @@ export class MovieDetailsModalComponent {
   }
 
   loadImagesMovie(){
+    this.isLoading = true;
+    if (this.data.images.length == 0) this.isLoading = false;
     this.data.images.forEach((image, index) => {
       this.loadImage(this.data.movieId, index);
     });
@@ -28,8 +31,17 @@ export class MovieDetailsModalComponent {
 
   loadImage(movieId: number, index: number){
     this.ImageObservable = this.movieService.getMovieImage(movieId, index);
-    this.ImageObservable.subscribe((response: Blob) => {
-      this.convertFromBlobToImg(response);
+    this.ImageObservable.subscribe({
+      next: (resp) => {
+        this.convertFromBlobToImg(resp);
+      },
+      error: (error) =>{
+        console.log(error);
+        this.isLoading = false;
+      },
+      complete : () => {
+        this.isLoading = false;
+      }
     });
   }
 

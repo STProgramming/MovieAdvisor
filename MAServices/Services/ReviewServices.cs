@@ -113,7 +113,13 @@ namespace MAServices.Services
             if (movie.MovieYearProduction > Convert.ToDateTime(newReviewDto.When).Year) throw new Exception();
             var movieReviewed = await GetYourRiviewOfMovie(user.Id, movie.MovieId);
             if (movieReviewed != null) throw new ConflictException();
-            
+            var recommendation = await _database.Recommendations.Where(r => string.Equals(user.Email, r.Email) && r.MovieId == movie.MovieId).FirstOrDefaultAsync();
+            if (recommendation != null)
+            {
+                recommendation.See = true;
+                _database.Recommendations.Update(recommendation);
+            }
+
             Reviews newReview = new Reviews
             {
                 UserId = user.Id,

@@ -16,15 +16,22 @@ export class SessionsViewerComponent {
   constructor(private recommendationService: RecommendationsService){}
 
   ngOnInit(): void{
-
+    this.loadingSessions();
   }
 
   loadingSessions(){
     this.isLoading = true;
     this.SessionsObservable = this.recommendationService.getSessionByUser();
-    this.SessionsObservable.subscribe(resp => {
-      this.sessions = resp;
-      this.isLoading = false;
+    this.SessionsObservable.subscribe({
+      next : (resp) => {
+        this.sessions = resp;
+      },
+      error : (error) => {
+        this.isLoading = false;
+      },
+      complete : () => {
+        this.isLoading = false;
+      }
     });
   }
 }

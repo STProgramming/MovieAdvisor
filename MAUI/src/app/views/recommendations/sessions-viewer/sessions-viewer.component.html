@@ -27,3 +27,6 @@
     </div>
   </div>
 </div>
+<div *ngIf="isLoading == false && sessions.length == 0">
+  <p>Nessuna sessione trovata</p>
+</div>

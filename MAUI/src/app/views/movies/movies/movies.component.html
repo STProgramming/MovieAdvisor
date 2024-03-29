@@ -17,7 +17,7 @@
     <div class="row" *ngIf="isLoading == false">
         <h3 class="text-center">Film trovati</h3>
         <hr>
-        <div class="col-4 mb-3" *ngFor="let movie of MoviesData">
+        <div class="col-md-4 mb-3" *ngFor="let movie of MoviesData">
             <app-movie-card [movieData]="movie"></app-movie-card>
         </div>
     </div>

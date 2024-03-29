@@ -69,7 +69,7 @@ export class NewUserComponent {
     this.NewAccountObservable = this.identityService.createNewUser(newUser);
     this.NewAccountObservable.subscribe({
       next: (resp)=>{
-        this.toastr.success('Benvenuto '+ newUser.name + ' ' + newUser.lastName, 'Registrazione avvenuta con successo');
+        this.toastr.success('Benvenut* '+ newUser.name + ' ' + newUser.lastName, 'Registrazione avvenuta con successo');
         this.routeService.goHome();
       },
       error: (error) => {

@@ -1,5 +1,8 @@
-<button (click)="openDialogDetail(movieData)">
+<button class="nav-link" (click)="openDialogDetail(movieData)">
   <div class="card" style="width: 18rem;">
+      <div *ngIf="isLoading">
+        <app-loader></app-loader>
+      </div>
       <img class="card-img-top" [src]="Image" alt="Card image cap">
       <div class="card-body">
         <h3 class="card-title">{{movieData.movieTitle}}</h3>

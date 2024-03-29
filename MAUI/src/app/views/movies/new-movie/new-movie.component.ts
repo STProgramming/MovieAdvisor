@@ -130,8 +130,14 @@ export class NewMovieComponent {
     this.NewMovieObservable = this.moviesService.postMovie(newMovie);
     this.NewMovieObservable.subscribe({
       next: (resp) =>{
-        this.toastr.info('Caricamento al 50%', 'Film caricato');
-        this.postNewImage(parseInt(resp), newMovie.movieTitle);
+        if(this.filesSelected.length > 0){
+          this.toastr.info('Caricamento al 50%', 'Film caricato');
+          this.postNewImage(parseInt(resp), newMovie.movieTitle);
+        }
+        else{
+          this.toastr.success('E\' stato caricato correttamente il film '+newMovie.movieTitle, 'Film inserito con successo');
+          this.routeService.goMovies();
+        }
       },
       error: (error)=>{
         this.toastr.error('Il film non è stato caricato correttamente. Riprovare più tardi', 'Ops qualcosa è andato storto');

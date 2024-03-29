@@ -32,7 +32,8 @@ namespace MAApi.Controllers.Movie
             }
             catch (NullReferenceException)
             {
-                return NotFound();
+                //image is a not necessary field right now
+                return Ok();
             }
             catch (Exception)
             {

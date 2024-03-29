@@ -42,6 +42,7 @@ constructor(private authService: AuthenticationService,
   logOutUser(){
     this.authService.logOutUser();
     this.toastr.info('Alla prossima!', 'Logout effettuata');
+    this.routeService.goHome();
   }
 
   goLogin(){

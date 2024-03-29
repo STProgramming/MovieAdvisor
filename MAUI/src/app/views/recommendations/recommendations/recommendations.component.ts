@@ -25,14 +25,16 @@ export class RecommendationsComponent {
 
   ngOnInit(): void{}
 
-  loadRecommendationsByUser(){    
+  loadRecommendationsByUser(){   
+    this.isLoading = true; 
     this.RecommendationsObservable = this.recommendationsService.getRecommendationsByUser();
     this.RecommendationsObservable.subscribe({
       next: (resp) =>{
         this.RecommendationsData = resp;
       },
       error: (error) =>{
-
+        this.isLoading= false;
+        this.response = true;
       },
       complete: () =>{
         this.isLoading= false;
@@ -42,13 +44,15 @@ export class RecommendationsComponent {
   }
 
   loadRecommendationsByRequest(){
+    this.isLoading = true; 
     this.RecommendationsRequestObservable = this.recommendationsService.getRecommendationsByRequest(this.request);
     this.RecommendationsRequestObservable.subscribe({
       next: (resp) => {
         this.RecommendationsData = resp;
       },
       error: (error) => {
-
+        this.isLoading= false;
+        this.response = true;
       },
       complete: () =>{
         this.isLoading = false
