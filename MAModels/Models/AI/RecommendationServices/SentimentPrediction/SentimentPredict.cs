@@ -1,6 +1,6 @@
 ﻿using Microsoft.ML.Data;
 
-namespace MAModels.Models.RecommendationServices.SentimentPrediction
+namespace MAModels.Models.AI.RecommendationServices.SentimentPrediction
 {
     public class SentimentPredict
     {

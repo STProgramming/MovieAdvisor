@@ -1,4 +1,4 @@
-﻿namespace MADTOs.DTOs.ModelsDTOs
+﻿namespace MADTOs.DTOs.ModelsDTOs.AI
 {
     public class NewRequestDTO
     {

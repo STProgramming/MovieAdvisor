@@ -13,6 +13,8 @@ namespace MAContracts.Contracts.Mappers
     {
         MoviesDTO MovieMapperDtoService(Movies movie, List<Images> images, List<Tags> tags);
 
+        List<MoviesDTO> MovieMapperDtoListService(List<Movies> movies, List<Images> images, List<Tags> tags);
+
         ImagesDTO ImageMapperDtoService(Images image, byte[] data);
 
         List<ImagesDTO> ImageMapperDtoListService(List<Images> imageList, List<byte[]> imagesData);

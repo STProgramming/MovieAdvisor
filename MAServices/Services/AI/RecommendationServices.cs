@@ -3,16 +3,15 @@ using MAContracts.Contracts.Services.AI;
 using MADTOs.DTOs.EntityFrameworkDTOs;
 using MADTOs.DTOs.EntityFrameworkDTOs.AI;
 using MADTOs.DTOs.EntityFrameworkDTOs.Identity;
-using MADTOs.DTOs.ModelsDTOs;
+using MADTOs.DTOs.ModelsDTOs.AI;
 using MAModels.EntityFrameworkModels;
 using MAModels.EntityFrameworkModels.AI;
 using MAModels.EntityFrameworkModels.Identity;
 using MAModels.EntityFrameworkModels.Movie;
 using MAModels.Exceptions.AI;
-using MAModels.Models.RecommendationServices.RecommendationBasedOnRequest;
-using MAModels.Models.RecommendationServices.RecommendationBasedOnReviews;
-using MAModels.Models.RecommendationServices.RecommendationBasedOnSentiments;
-using MAModels.Models.RecommendationServices.SentimentPrediction;
+using MAModels.Models.AI.RecommendationServices.RecommendationBasedOnRequest;
+using MAModels.Models.AI.RecommendationServices.RecommendationBasedOnReviews;
+using MAModels.Models.AI.RecommendationServices.SentimentPrediction;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -20,6 +19,7 @@ using Microsoft.ML;
 using Microsoft.ML.AutoML;
 using Microsoft.ML.Data;
 using Microsoft.ML.Trainers;
+using Tensorflow;
 using static Microsoft.ML.DataOperationsCatalog;
 
 namespace MAServices.Services.AI
@@ -67,9 +67,12 @@ namespace MAServices.Services.AI
 
                 result = await BasedOnReviews(user, request);
 
-                var requestUpdate = await UpdateRequet(request, result);
+                if(await RecommendationServiceCoerence(result, sessionInfo, request))
+                {
+                    var requestUpdate = await UpdateRequet(request, result);
 
-                await SessionsManager(user, requestUpdate);
+                    await SessionsManager(user, requestUpdate);
+                }
             }
 
             return _mapper.RecommendationMapperDtoListService(result);
@@ -98,9 +101,12 @@ namespace MAServices.Services.AI
 
                 List<Recommendations> defResult = await BasedOnRequest(user, sentimentUser, result, request);
 
-                var requestUpdate = await UpdateRequet(request, defResult);
+                if(await RecommendationServiceCoerence(defResult, sessionInfo, request))
+                {
+                    var requestUpdate = await UpdateRequet(request, defResult);
 
-                await SessionsManager(user, requestUpdate);
+                    await SessionsManager(user, requestUpdate);
+                }
 
                 return _mapper.RecommendationMapperDtoListService(defResult);
             }
@@ -275,9 +281,13 @@ namespace MAServices.Services.AI
 
                 //RESULTS CONTRUCTION
 
+                short counter = 0;
                 foreach (var movie in movieNotYetSeen)
                 {
-                    if (await AISmartRecommendationMovie(movie))
+                    //HO TOLTO QUESTO CONTROLLO PERCHE' DEVO TESTARE LA FUNZIONALITA' 
+                    //TODO DA RIAGGIUNGERE QUANDO SARA' PUBBLICATO
+                    //await AISmartRecommendationMovie(movie) && 
+                    if (counter < Convert.ToInt32(_config["Ai:Recommendation:MaxLentghRecommendationMovies"]))
                     {
                         var inputCase = new BasedOnReviewsInput();
 
@@ -295,7 +305,9 @@ namespace MAServices.Services.AI
                         inputCase.Gender = user.Gender;
                         inputCase.Nationality = user.Nationality;
                         inputCase.MovieLifeSpan = movie.MovieLifeSpan.ToString();      
-                        var movieRatingPrediction = predictionEngine.Predict(inputCase);                    
+                        var movieRatingPrediction = predictionEngine.Predict(inputCase); 
+                        //lo score minimum ora è 2 quando sarà in prod sarà più alto
+                        //todo
                         if(movieRatingPrediction.Score >= Int32.Parse(_config["Ai:Recommendation:MinimumScoreAi"]))
                         {
                             var userDTO = new UsersDTO();
@@ -312,6 +324,7 @@ namespace MAServices.Services.AI
                             recommendation.Request = request;
                             result.Add(recommendation);
                             await _context.Recommendations.AddAsync(recommendation);
+                            counter++;
                         }
                     }
                 }
@@ -555,7 +568,7 @@ namespace MAServices.Services.AI
             {
                 userSession.UserId = user.Id;
                 userSession.User = user;
-                userSession.DateTimeCreation = DateTime.UtcNow;                
+                userSession.DateTimeCreation = DateTime.Now;                
                 _context.Sessions.Add(userSession);
                 user.SessionsList.Add(userSession);
                 _context.Users.Update(user);
@@ -573,7 +586,7 @@ namespace MAServices.Services.AI
                 Sentiment = null,
                 SessionId = sessionUser.SessionId,
                 Session = sessionUser,
-                DateTimeRequest = DateTime.UtcNow
+                DateTimeRequest = DateTime.Now,
             };
             await _context.Requests.AddAsync(newRequest);
             await _context.SaveChangesAsync();
@@ -618,6 +631,51 @@ namespace MAServices.Services.AI
             int res = timeOut / 1440;
             if (res > 1) return resultRecoms;
             else return null;            
+        }
+
+        private async Task<bool> RecommendationServiceCoerence(List<Recommendations> recommendations, Sessions session, Requests requests)
+        {
+            var user = await this._userManager.FindByIdAsync(session.UserId);
+            if (user == null) throw new NullReferenceException();
+            var recomList = await _context.Recommendations.ToListAsync();
+            var recomInnerJoinList = from recommendation in recommendations
+                                     join recom in recomList on recommendation.MovieId equals recom.MovieId
+                                     where recom.Email == user.Email
+                                     select new
+                                     {
+                                         recom.RecommendationId,
+                                         recom.MovieId,
+                                         recom.MovieTitle,
+                                         recom.Name,
+                                         recom.LastName,
+                                         recom.Email,
+                                         recom.AiScore,
+                                         recom.See,
+                                         recom.RequestId,
+                                         recom.Request
+                                     };
+            if (recomInnerJoinList != null && recomInnerJoinList.Count() > 0)
+            {
+                recommendations.ForEach(recom =>
+                {
+                    _context.Recommendations.Attach(recom);
+                    _context.Recommendations.Remove(recom);
+                });
+                //Delete request
+                _context.Requests.Attach(requests);
+                _context.Requests.Remove(requests);
+
+                //Delete Session 
+                _context.Sessions.Attach(session);
+                _context.Sessions.Remove(session);
+
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         #endregion

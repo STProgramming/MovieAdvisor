@@ -1,6 +1,6 @@
 ﻿using MAContracts.Contracts.Services.Identity.User;
 using MADTOs.DTOs.EntityFrameworkDTOs;
-using MADTOs.DTOs.ModelsDTOs;
+using MADTOs.DTOs.ModelsDTOs.Identity.User;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;

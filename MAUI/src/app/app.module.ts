@@ -29,6 +29,7 @@ import { FooterComponent } from './shared/components/footer/footer.component';
 import { DialogModule } from '@angular/cdk/dialog';
 import { ArticleCardComponent } from './views/home/article-card/article-card.component';
 import { ReleaseNoteCardComponent } from './views/home/release-note-card/release-note-card.component';
+import { PaginatorComponent } from './shared/components/paginator/paginator.component';
 
 @NgModule({
   declarations: [
@@ -53,7 +54,8 @@ import { ReleaseNoteCardComponent } from './views/home/release-note-card/release
     SessionsViewerComponent,
     FooterComponent,
     ArticleCardComponent,
-    ReleaseNoteCardComponent
+    ReleaseNoteCardComponent,
+    PaginatorComponent
   ],
   imports: [
     BrowserModule,

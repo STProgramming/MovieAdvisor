@@ -4,6 +4,7 @@ import { Observable, map } from 'rxjs';
 import { TagDto } from '../../../shared/models/tag-dto';
 import { MovieDto } from '../../../shared/models/movie-dto';
 import { NewMovieDto } from '../../../shared/models/new-movie-dto';
+import { MovieSearchResultsDto } from '../../../shared/models/movie-search-results-dto';
 
 @Injectable({
   providedIn: 'root'
@@ -24,8 +25,8 @@ export class MoviesService {
       }));
   }
 
-  getMovies(query: string | null): Observable<MovieDto[]>{
-    return this.apiService.get('Movie?Search='+query)
+  getMovies(query: string | null, pageSelected: number, elementsViewed: number): Observable<MovieSearchResultsDto>{
+    return this.apiService.get('Movie?Search='+query+'&Page='+pageSelected+'&Elements='+elementsViewed)
       .pipe(map((response : any) => {
         if(response){
           return (response);

@@ -73,4 +73,8 @@ export class RecommendationsComponent {
   goNewReview(){
     this.routeService.goNewReview();
   }
+
+  resetComponent(){
+    this.routeService.goRecommendations();
+  }
 }

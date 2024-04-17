@@ -46,5 +46,17 @@ namespace MADTOs.Mappers
             };
             return movieDTO;
         }
+
+        public List<MoviesDTO> MovieMappingDtoList(List<Movies> movies, List<Images> images, List<Tags> tags)
+        {
+            List<MoviesDTO> resultsDtos = new List<MoviesDTO>();            
+            foreach (var movie in movies)
+            {
+                var imagesList = images.Where(i => i.MovieId == movie.MovieId).ToList();
+                var tagsList = tags.Where(t => t.MoviesList.Any(m => m.MovieId == movie.MovieId)).ToList();
+                resultsDtos.Add(MovieMappingDto(movie, imagesList, tagsList));
+            }
+            return resultsDtos;
+        }
     }
 }

@@ -30,6 +30,7 @@
   <ItemGroup>
     <Folder Include="Migrations\" />
     <Folder Include="ModelsTrain\" />
+    <Folder Include="Models\Identity\" />
   </ItemGroup>
 
 </Project>

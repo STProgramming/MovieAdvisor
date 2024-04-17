@@ -1,6 +1,6 @@
 ﻿using Microsoft.ML.Data;
 
-namespace MAModels.Models.RecommendationServices.RecommendationBasedOnReviews
+namespace MAModels.Models.AI.RecommendationServices.RecommendationBasedOnReviews
 {
     public class BasedOnReviewsInput
     {

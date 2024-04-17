@@ -1,4 +1,4 @@
-﻿namespace MAModels.Models.RecommendationServices.RecommendationBasedOnRequest
+﻿namespace MAModels.Models.AI.RecommendationServices.RecommendationBasedOnRequest
 {
     public class CombinedLabels
     {

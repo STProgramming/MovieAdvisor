@@ -1,5 +1,5 @@
 ﻿using MADTOs.DTOs.EntityFrameworkDTOs.Identity;
-using MADTOs.DTOs.ModelsDTOs;
+using MADTOs.DTOs.ModelsDTOs.Identity.User;
 
 namespace MAContracts.Contracts.Services.Identity.User
 {

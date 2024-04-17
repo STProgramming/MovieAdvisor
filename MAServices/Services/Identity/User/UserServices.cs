@@ -1,7 +1,7 @@
 ﻿using MAContracts.Contracts.Mappers;
 using MAContracts.Contracts.Services.Identity.User;
 using MADTOs.DTOs.EntityFrameworkDTOs.Identity;
-using MADTOs.DTOs.ModelsDTOs;
+using MADTOs.DTOs.ModelsDTOs.Identity.User;
 using MAModels.EntityFrameworkModels;
 using MAModels.EntityFrameworkModels.Identity;
 using MAModels.Enumerables.Identity;

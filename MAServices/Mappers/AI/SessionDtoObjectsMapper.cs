@@ -21,6 +21,7 @@ namespace MAServices.Mappers.AI
                 requestDTO.WhatClientWants = request.WhatClientWants;
                 requestDTO.HowClientFeels = request.HowClientFeels;
                 requestDTO.Sentiment = request.Sentiment != null ? (bool)request.Sentiment : null;
+                requestDTO.DateTimeRequest = request.DateTimeRequest;
                 var listRecomsFilterId = new List<Recommendations>();
                 foreach(var recomm in listRecommendations)
                 {
@@ -41,6 +42,7 @@ namespace MAServices.Mappers.AI
                         AiScore = recomFilter.AiScore,
                         See = recomFilter.See
                     };
+                    recommsDtos.Add(recomDTO);
                 });
                 requestDTO.Recommendations = recommsDtos;
                 requestsDTOs.Add(requestDTO);

@@ -1,12 +1,20 @@
-<div class="container mt-5">
+<div class="container mt-5 ">
     <h2 class="text-center">I film</h2>
     <hr>
-    <div class="row">
-        <div class="d-flex flex-column align-items-center justify-content-center">
+    <div class="row m-4">
+        <div class="d-flex align-items-center justify-content-center">
             <div class="col-md-6">
-                <div class="form-group mb-5">
+                <div class="form-group" style="margin-right: 10px;">
                     <label>Ricerca il film</label>
                     <input class="form-control" placeholder="per titolo, genere, trama, ecc..." type="text" (change)="inputSearch($event)">
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label>Film da visualizzare</label>
+                    <select class="form-select" (change)="inputElements($event)">
+                        <option *ngFor="let element of elementsViewedList" value="{{element}}">{{element}}</option>
+                    </select>  
                 </div>
             </div>
         </div>
@@ -14,12 +22,66 @@
     <div *ngIf="isLoading == true">
         <app-loader></app-loader>
     </div>
-    <div class="row" *ngIf="isLoading == false">
-        <h3 class="text-center">Film trovati</h3>
-        <hr>
-        <div class="col-md-4 mb-3" *ngFor="let movie of MoviesData">
-            <app-movie-card [movieData]="movie"></app-movie-card>
-        </div>
+    <div class="row m-4" *ngIf="MoviesData != undefined">      
+        <ng-container *ngIf="MoviesData.movies != null && MoviesData.movies.length > 0">
+            <div class="col-md-4 mb-3" *ngFor="let movie of MoviesData.movies">
+                <app-movie-card [movieData]="movie"></app-movie-card>
+            </div>
+        </ng-container>   
+        <ng-container *ngIf="MoviesData.resultsForDescription != null && MoviesData.resultsForDescription.length > 0">
+            <hr />
+            <h4 class="text-center">Risultati dalla ricerca per trama del film</h4>
+            <div class="col-md-4 mb-3" *ngFor="let movie of MoviesData.resultsForDescription">
+                <app-movie-card [movieData]="movie"></app-movie-card>
+            </div>
+            <hr />
+        </ng-container>
+        <ng-container *ngIf="MoviesData.resultsForLifeSpan != null && MoviesData.resultsForLifeSpan.length > 0">
+            <hr />
+            <h4 class="text-center">Risultati dalla ricerca per la durata del film</h4>
+            <div class="col-md-4 mb-3" *ngFor="let movie of MoviesData.resultsForLifeSpan">
+                <app-movie-card [movieData]="movie"></app-movie-card>
+            </div>
+            <hr />
+        </ng-container>
+        <ng-container *ngIf="MoviesData.resultsForMaker != null && MoviesData.resultsForMaker.length > 0">
+            <hr />
+            <h4 class="text-center">Risultati dalla ricerca per regista del film</h4>
+            <div class="col-md-4 mb-3" *ngFor="let movie of MoviesData.resultsForMaker">
+                <app-movie-card [movieData]="movie"></app-movie-card>
+            </div>
+            <hr />
+        </ng-container>
+        <ng-container *ngIf="MoviesData.resultsForTag != null && MoviesData.resultsForTag.length > 0">
+            <hr />
+            <h4 class="text-center">Risultati dalla ricerca per genere del film</h4>
+            <div class="col-md-4 mb-3" *ngFor="let movie of MoviesData.resultsForTag">
+                <app-movie-card [movieData]="movie"></app-movie-card>
+            </div>
+            <hr />
+        </ng-container>
+        <ng-container *ngIf="MoviesData.resultsForTitle != null && MoviesData.resultsForTitle.length > 0">
+            <hr />
+            <h4 class="text-center">Risultati dalla ricerca per titolo del film</h4>
+            <div class="col-md-4 mb-3" *ngFor="let movie of MoviesData.resultsForTitle">
+                <app-movie-card [movieData]="movie"></app-movie-card>
+            </div>
+            <hr />
+        </ng-container>
+        <ng-container *ngIf="MoviesData.resultsForYear != null && MoviesData.resultsForYear.length > 0">
+            <hr />
+            <h4 class="text-center">Risultati dalla ricerca per anno di pubblicazione del film</h4>
+            <div class="col-md-4 mb-3" *ngFor="let movie of MoviesData.resultsForYear">
+                <app-movie-card [movieData]="movie"></app-movie-card>
+            </div>
+            <hr />
+        </ng-container>
     </div>
-    
+    <div class="row m-2" >
+        <app-paginator 
+        [currentPage]="this.pageSelected" 
+        [totalPages]="this.totalPages" 
+        (pageChange)="inputPages($event)">
+      </app-paginator>      
+    </div>
 </div>

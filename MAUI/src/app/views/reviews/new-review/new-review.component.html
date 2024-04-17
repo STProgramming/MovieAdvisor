@@ -15,7 +15,7 @@
                 <div class="form-group">
                     <label>Seleziona il film</label>
                     <select class="form-select" (change)="selectMovie($event)">
-                        <option *ngFor="let movie of moviesData" [value]="movie.movieId">{{movie.movieTitle}}</option>
+                        <option *ngFor="let movie of moviesData.movies" [value]="movie.movieId">{{movie.movieTitle}}</option>
                     </select>
                 </div>
                 <div class="form-group">

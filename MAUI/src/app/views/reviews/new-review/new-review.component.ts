@@ -7,6 +7,7 @@ import { NewReviewDto } from '../../../shared/models/new-review-dto';
 import { ToastrService } from 'ngx-toastr';
 import { RouteService } from '../../../shared/services/route.service';
 import { ReviewsService } from '../reviews-services/reviews.service';
+import { MovieSearchResultsDto } from '../../../shared/models/movie-search-results-dto';
 
 @Component({
   selector: 'app-new-review',
@@ -15,9 +16,9 @@ import { ReviewsService } from '../reviews-services/reviews.service';
 })
 export class NewReviewComponent {
   newReviewForm: FormGroup;
-  moviesData: MovieDto[] = [];
+  moviesData: MovieSearchResultsDto;
   NewReviewObservable: Observable<any>;
-  MovieDataObservable: Observable<MovieDto[]>;
+  MovieDataObservable: Observable<MovieSearchResultsDto>;
   isLoading: boolean = false;
   movieIdSelected: number;
 
@@ -43,7 +44,7 @@ export class NewReviewComponent {
   }
 
   loadingMovieData(){
-    this.MovieDataObservable = this.movieService.getMovies("");
+    this.MovieDataObservable = this.movieService.getMovies("", 1, 10000);
     this.MovieDataObservable.subscribe((resp : any)=>{
       if(resp){
         this.moviesData = resp;

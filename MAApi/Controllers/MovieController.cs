@@ -21,9 +21,9 @@ namespace MAApi.Controllers
 
         [AllowAnonymous]
         [HttpGet]
-        public async Task<IActionResult> Get(string Search = "")
+        public async Task<IActionResult> Get(string Search = "", short Page = 1, short Elements = 9)
         {
-            return Ok(await _movieServices.SearchEngine(Search));
+            return Ok(await _movieServices.SearchEngine(Search, Page, Elements));
         }
 
         [Authorize(Roles = nameof(ERoleUser.AppAdmin))]

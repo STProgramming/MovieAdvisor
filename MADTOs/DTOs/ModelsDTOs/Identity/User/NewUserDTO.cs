@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
 
-namespace MADTOs.DTOs.ModelsDTOs
+namespace MADTOs.DTOs.ModelsDTOs.Identity.User
 {
     public class NewUserDTO
     {

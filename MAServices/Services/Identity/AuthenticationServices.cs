@@ -1,5 +1,5 @@
 ﻿using MAContracts.Contracts.Services.Identity;
-using MADTOs.DTOs.ModelsDTOs;
+using MADTOs.DTOs.ModelsDTOs.Identity;
 using MAModels.EntityFrameworkModels.Identity;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;

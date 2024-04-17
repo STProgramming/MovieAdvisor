@@ -1,6 +1,6 @@
 ﻿using Microsoft.ML.Data;
 
-namespace MAModels.Models.RecommendationServices.RecommendationBasedOnSentiments
+namespace MAModels.Models.AI.RecommendationServices.RecommendationBasedOnRequest
 {
     public class BasedOnRequestInput
     {

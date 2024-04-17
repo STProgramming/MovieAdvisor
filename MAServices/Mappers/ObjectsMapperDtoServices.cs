@@ -57,6 +57,11 @@ namespace MAServices.Mappers
             return _movieMapper.MovieMappingDto(movie, images, tags);
         }
 
+        public List<MoviesDTO> MovieMapperDtoListService(List<Movies> movies, List<Images> images, List<Tags> tags)
+        {
+            return _movieMapper.MovieMappingDtoList(movies, images, tags);
+        }
+
         #endregion
 
         #region IMAGES

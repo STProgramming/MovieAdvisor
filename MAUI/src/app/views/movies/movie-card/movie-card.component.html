@@ -3,13 +3,10 @@
       <div *ngIf="isLoading">
         <app-loader></app-loader>
       </div>
-      <img class="card-img-top" [src]="Image" alt="Card image cap">
+      <img class="card-img-top" [src]="Image" alt="Movie image">
       <div class="card-body">
         <h3 class="card-title">{{movieData.movieTitle}}</h3>
-        <h3 class="card-title">{{movieData.movieYearProduction}}</h3>  
-        <div>
-          <p *ngFor="let tag of movieData.tags">{{tag.tagName}}</p>
-        </div>  
+        <h3 class="card-title">{{movieData.movieYearProduction}}</h3>   
       </div>
   </div>
 </button>

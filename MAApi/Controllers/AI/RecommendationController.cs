@@ -1,5 +1,5 @@
 ﻿using MAContracts.Contracts.Services.AI;
-using MADTOs.DTOs.ModelsDTOs;
+using MADTOs.DTOs.ModelsDTOs.AI;
 using MAModels.Exceptions.AI;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

@@ -9,33 +9,42 @@
         I nostri suggerimenti sono generati in base alle tue recensioni.
         Puoi chiederci cosa vorresti vedere anche in base alla descrizione del film,
         oppure al tuo stato d'animo.
-        Sapremo consigliarti il miglior film.
+        Sapremo consigliarti i miglior film.
     </p>
     <hr>
-    <div *ngIf="response && RecommendationsData.length > 0">
-        <div *ngFor="let recom of RecommendationsData">
-            <app-recommendations-viewew [recommendation]="recom"></app-recommendations-viewew>
+    <div *ngIf="RecommendationsData !== null || RecommendationsData.length > 0">
+        <div *ngIf="byRequest || byUser">
+            <div *ngFor="let recom of RecommendationsData">
+                <app-recommendations-viewew [recommendation]="recom"></app-recommendations-viewew>
+            </div>
+            <hr>
+            <p>Per inviarci un feedback sul suggerimento, basterà recensire il film che ti abbiamo raccomandato.</p>
+            <button class="btn btn-primary" (click)="resetComponent()">Nuova richiesta</button>
         </div>
-        <hr>
-        <p>Per inviarci un feedback sul suggerimento, basterà recensire il film che ti abbiamo raccomandato.</p>
     </div>
-    <div *ngIf="RecommendationsData.length == 0 && response">
-        <p>Se non hai visualizzato i consigli vuoldire che non ti conosciamo abbastanza, ti consigliamo di contianuare a recensire</p>
-        <button class="btn btn-primary" (click)="goNewReview()">Nuova recensione</button>
+    <div *ngIf="RecommendationsData == null || RecommendationsData.length == 0">
+        <div *ngIf="byRequest || byUser">            
+            <p>Se non hai visualizzato i consigli vuoldire che non ti conosciamo abbastanza, ti consigliamo di contianuare a recensire</p>
+            <button class="btn btn-primary" (click)="goNewReview()">Nuova recensione</button>
+        </div>
     </div>
-    <div class="row" *ngIf="response == false">
-        <div class="col-md-6">
-            <div class="d-grid gap-2">
-                <button class="btn btn-primary" (click)="onByUser()">Consigliami</button>
+    <div class="row" *ngIf="byRequest == false && byUser == false">
+        <div *ngIf="RecommendationsData == null || RecommendationsData.length == 0">
+            <div class="col-md-6">
+                <div class="d-grid gap-2">
+                    <button class="btn btn-primary" (click)="onByUser()">Consigliami</button>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="d-grid gap-2">
+                    <button class="btn btn-primary" (click)="onByRequest()">Ti faccio una richiesta</button>
+                </div>
             </div>
         </div>
-        <div class="col-md-6">
-            <div class="d-grid gap-2">
-                <button class="btn btn-primary" (click)="onByRequest()">Ti faccio una richiesta</button>
-            </div>
-        </div>
     </div>
-    <div *ngIf="byRequest && response == false">
-        <app-new-request></app-new-request>
+    <div *ngIf="byRequest">
+        <div *ngIf="RecommendationsData == null || RecommendationsData.length == 0">
+            <app-new-request></app-new-request>
+        </div>
     </div>
 </div>

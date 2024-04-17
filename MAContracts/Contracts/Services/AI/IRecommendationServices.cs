@@ -1,5 +1,5 @@
 ﻿using MADTOs.DTOs.EntityFrameworkDTOs.AI;
-using MADTOs.DTOs.ModelsDTOs;
+using MADTOs.DTOs.ModelsDTOs.AI;
 
 namespace MAContracts.Contracts.Services.AI
 {

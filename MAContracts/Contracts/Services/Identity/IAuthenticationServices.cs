@@ -1,4 +1,4 @@
-﻿using MADTOs.DTOs.ModelsDTOs;
+﻿using MADTOs.DTOs.ModelsDTOs.Identity;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 

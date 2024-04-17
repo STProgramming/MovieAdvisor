@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace MADTOs.DTOs.ModelsDTOs
+namespace MADTOs.DTOs.ModelsDTOs.Identity
 {
     public class LoginDTO
     {

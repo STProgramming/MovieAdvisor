@@ -1,8 +1,8 @@
 ﻿using Microsoft.ML.Data;
 
-namespace MAModels.Models.RecommendationServices.RecommendationBasedOnReviews
+namespace MAModels.Models.AI.RecommendationServices.RecommendationBasedOnRequest
 {
-    public class BasedOnReviewsOutput
+    public class BasedOnRequestOutput
     {
         public float Label { get; set; }
 
