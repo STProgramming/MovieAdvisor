@@ -44,6 +44,7 @@ export class MoviesComponent {
     this.MoviesObservable.subscribe((response: MovieSearchResultsDto) => {
       this.MoviesData = response;
       this.isLoading = false;
+      this.calculatePages();
     });
   }
 
@@ -55,11 +56,10 @@ export class MoviesComponent {
   inputElements(event: any){
     this.elementsViewedSelection = parseInt(event.target.value);
     this.loadMoviesData();
-    this.calculatePages();
   }
 
-  inputPages(event: any){
-    this.pageSelected = parseInt(event.target.value);
+  inputPages(page: number){
+    this.pageSelected = page;
     this.loadMoviesData();
   }
 

@@ -77,10 +77,10 @@
             <hr />
         </ng-container>
     </div>
-    <div class="row m-2" >
+    <div class="row m-2" *ngIf="!isLoading && this.totalPages != undefined">
         <app-paginator 
         [currentPage]="this.pageSelected" 
-        [totalPages]="this.totalPages" 
+        [totPages]="this.totalPages" 
         (pageChange)="inputPages($event)">
       </app-paginator>      
     </div>
