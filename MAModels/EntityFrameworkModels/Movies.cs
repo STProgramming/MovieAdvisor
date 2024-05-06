@@ -33,8 +33,6 @@ namespace MAModels.EntityFrameworkModels
         [Required, NotNull]
         public bool IsForAdult { get; set; }
 
-        public List<Users> UsersList {  get; set; } = new List<Users>();
-
         public List<Images> ImagesList { get; set; } = new List<Images>();
 
         public List<Tags> TagsList { get; set; } = new List<Tags>();

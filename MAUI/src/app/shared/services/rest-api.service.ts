@@ -68,15 +68,14 @@ export class RestApiService {
       .pipe(retry(1), catchError(this.handleError));
   }
 
-  upload(route: string, data: FormData): Observable<any>{
+  upload(route: string, Files: FormData): Observable<any>{
     let httpHeaders: any = {
       headers : new Headers({
-        'Content-Type': 'multipart/form-data',
         'Authorization': 'Bearer '+this.tokenService.readIdentityToken()
       })
     };
     return this.http
-      .post<any>(environment.apiUrl+route, data, httpHeaders)
+      .post<any>(environment.apiUrl+route, Files, httpHeaders)
       .pipe(retry(1), catchError(this.handleError));
   }
 

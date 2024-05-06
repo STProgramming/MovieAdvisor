@@ -1,7 +1,4 @@
-<div *ngIf="isLoading == true">
-  <app-loader></app-loader>
-</div>
-<div *ngIf="isLoading == false">
+<div>
   <ul *ngFor="let session of sessions">
     Sessione data: {{session.dateTimeCreation}}
     <ul *ngFor="let request of session.requests">
@@ -19,6 +16,6 @@
       </ul>
     </ul>
   </ul>
-<div *ngIf="isLoading == false && sessions.length == 0">
+<div *ngIf="sessions.length == 0">
   <p>Nessuna sessione trovata</p>
 </div>

@@ -153,7 +153,7 @@ export class NewMovieComponent {
     if(this.filesSelected.length > 0 && newIdMovie > 0){
       var listFiles = new FormData();
       this.filesSelected.forEach(e => {
-        listFiles.append('fileArray', e, e.name);
+        listFiles.append('files', e, e.name);
       });
       this.NewImageObservable = this.moviesService.postMovieImage(listFiles, newIdMovie);
       this.NewImageObservable.subscribe({

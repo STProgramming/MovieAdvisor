@@ -11,7 +11,7 @@ export let browserRefresh = false;
   styleUrl: './app.component.scss'
 })
 export class AppComponent {  
-  title = 'MAUI';
+  title = 'CMFE';
   subscription: Subscription;
 
   constructor(private sessionService: SessionService,

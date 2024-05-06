@@ -6,6 +6,7 @@ using MAModels.EntityFrameworkModels;
 using MAModels.EntityFrameworkModels.Identity;
 using MAModels.Enumerables.Identity;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System.Data;
 
@@ -13,7 +14,7 @@ namespace MAServices.Services.Identity.User
 {
     public class UserServices : IUserServices
     {
-        private readonly ApplicationDbContext _database;
+        private readonly IDbContextFactory<ApplicationDbContext> _database;
 
         private readonly IObjectsMapperDtoServices _mapperService;
 
@@ -24,7 +25,7 @@ namespace MAServices.Services.Identity.User
         private readonly IConfiguration _configuration;
 
         public UserServices(
-            ApplicationDbContext database,
+            IDbContextFactory<ApplicationDbContext> database,
             IObjectsMapperDtoServices mapperService,
             UserManager<Users> userManager,
             RoleManager<IdentityRole> roleManager,
@@ -64,7 +65,10 @@ namespace MAServices.Services.Identity.User
             if (await _roleManager.FindByNameAsync(role) == null) await _roleManager.CreateAsync(new IdentityRole(role));
             await _userManager.CreateAsync(newUser, newUserModel.Password);
             await _userManager.AddToRoleAsync(newUser, role);
-            await _database.SaveChangesAsync();
+            using (var ctx = await _database.CreateDbContextAsync())
+            {
+                await ctx.SaveChangesAsync();
+            }
         }
 
         //TODO

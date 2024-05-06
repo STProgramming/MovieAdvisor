@@ -4,6 +4,7 @@ import { RecommendationDto } from '../../../shared/models/recommendation-dto';
 import { Observable } from 'rxjs';
 import { NewRequestDto } from '../../../shared/models/new-request-dto';
 import { RouteService } from '../../../shared/services/route.service';
+import { SessionDto } from '../../../shared/models/session-dto';
 
 @Component({
   selector: 'app-recommendations',
@@ -14,16 +15,37 @@ export class RecommendationsComponent {
   response: boolean = false
   byUser: boolean = false;
   byRequest: boolean = false;
+  isLoadingSession: boolean = false;
   isLoading: boolean = false;
   RecommendationsData: RecommendationDto[] = [];
   RecommendationsObservable: Observable<RecommendationDto[]>;
+  SessionsObservable: Observable<SessionDto[]>;
+  SessionsData: SessionDto[] = [];
   RecommendationsRequestObservable: Observable<RecommendationDto[]>;
   request: NewRequestDto;
 
   constructor(private recommendationsService: RecommendationsService,
     private routeService: RouteService){}
 
-  ngOnInit(): void{}
+  ngOnInit(): void{
+    this.loadingSessions();
+  }
+
+  loadingSessions(){
+    this.isLoadingSession = true;
+    this.SessionsObservable = this.recommendationsService.getSessionByUser();
+    this.SessionsObservable.subscribe({
+      next : (resp) => {
+        this.SessionsData = resp;        
+      },
+      error : (error) => {
+        this.isLoadingSession = false;
+      },
+      complete : () => {
+        this.isLoadingSession = false;
+      }
+    });
+  }
 
   loadRecommendationsByUser(){   
     this.isLoading = true; 
@@ -76,5 +98,10 @@ export class RecommendationsComponent {
 
   resetComponent(){
     this.routeService.goRecommendations();
+  }
+
+  handleEventRequest(data: NewRequestDto){
+    this.request = data;
+    this.loadRecommendationsByRequest();
   }
 }

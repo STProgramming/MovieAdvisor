@@ -8,7 +8,6 @@ using MAModels.EntityFrameworkModels;
 using MAModels.EntityFrameworkModels.AI;
 using MAModels.EntityFrameworkModels.Identity;
 using MAModels.EntityFrameworkModels.Movie;
-using MAModels.Exceptions.AI;
 using MAModels.Models.AI.RecommendationServices.RecommendationBasedOnRequest;
 using MAModels.Models.AI.RecommendationServices.RecommendationBasedOnReviews;
 using MAModels.Models.AI.RecommendationServices.SentimentPrediction;
@@ -19,14 +18,13 @@ using Microsoft.ML;
 using Microsoft.ML.AutoML;
 using Microsoft.ML.Data;
 using Microsoft.ML.Trainers;
-using Tensorflow;
 using static Microsoft.ML.DataOperationsCatalog;
 
 namespace MAServices.Services.AI
 {
     public class RecommendationServices : IRecommendationServices
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IDbContextFactory<ApplicationDbContext> _context;
 
         private readonly UserManager<Users> _userManager;
 
@@ -35,7 +33,7 @@ namespace MAServices.Services.AI
         private readonly IObjectsMapperDtoServices _mapper;
 
         public RecommendationServices(
-            ApplicationDbContext context,
+            IDbContextFactory<ApplicationDbContext> context,
             UserManager<Users> userManager,
             IConfiguration config,
             IObjectsMapperDtoServices objectsMapperDtoServices)
@@ -53,101 +51,120 @@ namespace MAServices.Services.AI
             var user = await _userManager.FindByIdAsync(userId);
             if (user == null) throw new NullReferenceException();
 
-            await AISmartAvailability();
+            Task<bool> result1 = AISmartAvailability();
 
-            await AISmartUserKnowledge(user);
+            Task<bool> result2 = AISmartUserKnowledge(user);
 
-            List<Recommendations> result = await UserCoerenceOnTrigger(user, null);
+            bool[] controls = await Task.WhenAll(result1, result2);
 
-            if(result == null)
+            if (controls[0] == true || controls[1] == true)
             {
-                var sessionInfo = await SessionsManager(user, null);
+                List<Recommendations> result = new List<Recommendations>();
 
-                var request = await CreateRequest(null, sessionInfo);            
+                result = await BasedOnReviews(user);
 
-                result = await BasedOnReviews(user, request);
+                result = await RecommendationServiceCoerence(result, user, new NewRequestDTO());
 
-                if(await RecommendationServiceCoerence(result, sessionInfo, request))
-                {
-                    var requestUpdate = await UpdateRequet(request, result);
-
-                    await SessionsManager(user, requestUpdate);
-                }
+                return _mapper.RecommendationMapperDtoListService(result);
             }
-
-            return _mapper.RecommendationMapperDtoListService(result);
+            throw new InsufficientExecutionStackException();
         }
 
-        public async Task<List<RecommendationsDTO>> RecommendationsBasedOnRequest(string userId, NewRequestDTO requestUser)
-        {
-            var user = await _userManager.FindByIdAsync(userId);
-            if (user == null) throw new NullReferenceException();
+        //public async Task<List<RecommendationsDTO>> RecommendationsBasedOnRequest(string userId, NewRequestDTO requestUser)
+        //{
+        //    var user = await _userManager.FindByIdAsync(userId);
+        //    if (user == null) throw new NullReferenceException();
 
-            await AISmartAvailability();
+        //    await AISmartAvailability();
 
-            await AISmartUserKnowledge(user);
+        //    await AISmartUserKnowledge(user);
 
-            List<Recommendations> result = await UserCoerenceOnTrigger(user, requestUser);
+        //    List<Recommendations> result = await UserCoerenceOnTrigger(user, requestUser);
 
-            if(result == null)
-            {
-                var sessionInfo = await SessionsManager(user, null);
+        //    if(result == null)
+        //    {
+        //        var sessionInfo = await SessionsManager(user, null);
 
-                var request = await CreateRequest(requestUser, sessionInfo);
+        //        var request = await CreateRequest(requestUser, sessionInfo);
 
-                result = await BasedOnReviews(user, request);
+        //        result = await BasedOnReviews(user);
 
-                SentimentPredict sentimentUser = await PredictSentimentUser(request);
+        //        SentimentPredict sentimentUser = await PredictSentimentUser(request);
 
-                List<Recommendations> defResult = await BasedOnRequest(user, sentimentUser, result, request);
+        //        List<Recommendations> defResult = await BasedOnRequest(user, sentimentUser, result, request);
 
-                if(await RecommendationServiceCoerence(defResult, sessionInfo, request))
-                {
-                    var requestUpdate = await UpdateRequet(request, defResult);
+        //        if(await RecommendationServiceCoerence(defResult, sessionInfo, request))
+        //        {
+        //            var requestUpdate = await UpdateRequet(request, defResult);
 
-                    await SessionsManager(user, requestUpdate);
-                }
+        //            await SessionsManager(user, requestUpdate);
+        //        }
 
-                return _mapper.RecommendationMapperDtoListService(defResult);
-            }
+        //        return _mapper.RecommendationMapperDtoListService(defResult);
+        //    }
 
-            return _mapper.RecommendationMapperDtoListService(result);
-        }
+        //    return _mapper.RecommendationMapperDtoListService(result);
+        //}
 
         #endregion
 
         #region PRIVATE METHODS
 
-        private async Task AISmartAvailability()
+        private async Task<bool> AISmartAvailability()
         {
-            var reviews = await _context.Reviews.ToListAsync();
-
-            if (reviews.Count < Int32.Parse(_config["Ai:Recommendation:MinimumLength"])) throw new InsufficientReviewsException();
+            using (var ctx = await _context.CreateDbContextAsync())
+            {
+                var reviews = await ctx.Reviews.ToListAsync();
+                if (reviews.Count < Int32.Parse(_config["Ai:Recommendation:MinimumLength"])) return false;
+                else return true;
+            }
         }
 
-        private async Task AISmartUserKnowledge(Users user)
+        private async Task<bool> AISmartUserKnowledge(Users user)
         {
-            var reviewsForUser = await _context.Reviews.Where(r => string.Equals(r.UserId, user.Id)).ToListAsync();
-            if (reviewsForUser == null || reviewsForUser.Count < Int32.Parse(_config["Ai:Recommendation:MinimumReviewsForUser"])) throw new InsufficientReviewsException();
+            using (var ctx = await _context.CreateDbContextAsync())
+            {
+                var reviewsForUser = await ctx.Reviews.Where(r => string.Equals(r.UserId, user.Id)).ToListAsync();
+                if (reviewsForUser == null || reviewsForUser.Count < Int32.Parse(_config["Ai:Recommendation:MinimumReviewsForUser"])) return false;
+                else return true;
+            }
         }
 
         private async Task<bool> AISmartRecommendationMovie(Movies movies)
         {
-            var reviews = await _context.Reviews.Where(r => r.MovieId == movies.MovieId).ToListAsync();
-            return reviews.Count > Int32.Parse(_config["Ai:Recommendation:MinimumReviewsForMovie"]);
+            using (var ctx = await _context.CreateDbContextAsync())
+            {
+                var reviews = await ctx.Reviews.Where(r => r.MovieId == movies.MovieId).ToListAsync();
+                return reviews.Count > Int32.Parse(_config["Ai:Recommendation:MinimumReviewsForMovie"]);
+            }
         }
 
-        private async Task<List<Recommendations>> BasedOnReviews(Users user, Requests request)
+        private async Task<List<Recommendations>> BasedOnReviews(Users user)
         {
             //MODEL TRAIN CONSTRUCTION
-            List<Reviews> reviews = await _context.Reviews.ToListAsync();
+            List<Reviews> reviews = new List<Reviews>();
+            using (var ctx = await _context.CreateDbContextAsync())
+            {
+                reviews = await ctx.Reviews.ToListAsync();
+            }
             List<BasedOnReviewsInput> modelTrain = new List<BasedOnReviewsInput>();
             MLContext mlContext = new MLContext();
             var result = new List<Recommendations>();
             List<BasedOnReviewsOutput> movieSuggesteds = new List<BasedOnReviewsOutput>();
 
             //Caricamento dei film non visti dagl' utenti
-            List<Movies> movieNotYetSeen = await _context.Movies.Where(m => m.UsersList.Count == 0 || !m.UsersList.Any(u => u.Id == user.Id)).ToListAsync();
+
+            List<Movies> movieNotYetSeen = new List<Movies>();
+            using (var ctx = await _context.CreateDbContextAsync())
+            {
+                var reviewsList = await ctx.Reviews.Where(r => !(string.Equals(r.UserId, user.Id))).ToListAsync();
+                reviewsList.ForEach(async review =>
+                {
+                    var movie = await ctx.Movies.Where(m => m.MovieId == review.MovieId).FirstOrDefaultAsync();                    
+                    movieNotYetSeen.Add(movie);
+                });
+            }
+
             short yearOfUser = Convert.ToInt16(DateTime.Now.Year - user.BirthDate.Year);
             foreach (Movies movie in movieNotYetSeen)
             {
@@ -161,30 +178,33 @@ namespace MAServices.Services.AI
 
             if (reviews != null && reviews.Count > 0)
             {
-                foreach (var review in reviews)
+                using( var ctx = await _context.CreateDbContextAsync())
                 {
-                    BasedOnReviewsInput train = new BasedOnReviewsInput();
-                    Movies movie = new Movies();
-                    if (review.Movie == null) movie = await _context.Movies.Where(m => m.MovieId == review.MovieId).FirstOrDefaultAsync();
-                    else movie = review.Movie;
-                    List<Tags> tags = _context.Tags.Where(t => t.MoviesList.Any(m => m.MovieId == movie.MovieId)).ToList();
-                    tags.ForEach(tag =>
+                    foreach (var review in reviews)
                     {
-                        train.MovieGenres += string.Join(", ", tag.TagName);
-                    });
-                    train.UserId = user.Id;
-                    train.MovieId = review.MovieId;
-                    train.MovieTitle = movie.MovieTitle;
-                    train.MovieDescription = movie.MovieDescription;
-                    train.MovieMaker = movie.MovieMaker;
-                    train.UserName = user.UserName;
-                    train.Label = review.Vote;
-                    train.ReviewDate = review.DateTimeVote.ToString();
-                    train.Gender = user.Gender;
-                    train.Nationality = user.Nationality;
-                    train.MovieLifeSpan = movie.MovieLifeSpan.ToString();
-                    train.DescriptionVote = string.IsNullOrEmpty(review.DescriptionVote) ? "" : review.DescriptionVote;
-                    modelTrain.Add(train);
+                        BasedOnReviewsInput train = new BasedOnReviewsInput();
+                        Movies movie = new Movies();
+                        if (review.Movie == null) movie = await ctx.Movies.Where(m => m.MovieId == review.MovieId).FirstOrDefaultAsync();
+                        else movie = review.Movie;
+                        List<Tags> tags = ctx.Tags.Where(t => t.MoviesList.Any(m => m.MovieId == movie.MovieId)).ToList();
+                        tags.ForEach(tag =>
+                        {
+                            train.MovieGenres += string.Join(", ", tag.TagName);
+                        });
+                        train.UserId = user.Id;
+                        train.MovieId = review.MovieId;
+                        train.MovieTitle = movie.MovieTitle;
+                        train.MovieDescription = movie.MovieDescription;
+                        train.MovieMaker = movie.MovieMaker;
+                        train.UserName = user.UserName;
+                        train.Label = review.Vote;
+                        train.ReviewDate = review.DateTimeVote.ToString();
+                        train.Gender = user.Gender;
+                        train.Nationality = user.Nationality;
+                        train.MovieLifeSpan = movie.MovieLifeSpan.ToString();
+                        train.DescriptionVote = string.IsNullOrEmpty(review.DescriptionVote) ? "" : review.DescriptionVote;
+                        modelTrain.Add(train);
+                    }
                 }
 
                 //SET MODEL INPUT DATA
@@ -297,7 +317,14 @@ namespace MAServices.Services.AI
                         inputCase.MovieDescription = movie.MovieDescription;
                         inputCase.MovieMaker = movie.MovieMaker;
                         inputCase.UserName = user.UserName;
-                        List<Tags> tags = _context.Tags.Where(t => t.MoviesList.Any(m => m.MovieId == movie.MovieId)).ToList();
+
+                        List<Tags> tags = new List<Tags>();
+
+                        using (var ctx = await _context.CreateDbContextAsync())
+                        {
+                            tags = ctx.Tags.Where(t => t.MoviesList.Any(m => m.MovieId == movie.MovieId)).ToList();
+                        }
+
                         tags.ForEach(tag =>
                         {
                             inputCase.MovieGenres += string.Join(", ", tag.TagName);
@@ -320,15 +347,13 @@ namespace MAServices.Services.AI
                             recommendation.Email = user.Email;
                             recommendation.AiScore = double.IsNaN(movieRatingPrediction.Score) ? 0 : movieRatingPrediction.Score;
                             recommendation.See = false;
-                            recommendation.RequestId = request.RequestId;
-                            recommendation.Request = request;
+                            recommendation.RequestId = 0;
+                            recommendation.Request = new Requests();
                             result.Add(recommendation);
-                            await _context.Recommendations.AddAsync(recommendation);
                             counter++;
                         }
                     }
                 }
-                await _context.SaveChangesAsync();
             }
             return result;
         }
@@ -346,7 +371,11 @@ namespace MAServices.Services.AI
 
             MLContext mlContext = new MLContext(seed: 1);
 
-            var requests = await _context.Requests.ToListAsync();
+            List<Requests> requests = new List<Requests>();
+            using (var ctx = await _context.CreateDbContextAsync())
+            {
+                requests = await ctx.Requests.ToListAsync();
+            }
 
             IDataView dataView = null;
 
@@ -404,8 +433,11 @@ namespace MAServices.Services.AI
             
             if(requestUser.Sentiment != null)
             {
-                _context.Requests.Update(requestUser);
-                await _context.SaveChangesAsync();
+                using (var ctx = await _context.CreateDbContextAsync())
+                {
+                    ctx.Requests.Update(requestUser);
+                    await ctx.SaveChangesAsync();
+                }
             }
             return resultSentiment;
         }
@@ -415,44 +447,49 @@ namespace MAServices.Services.AI
             //MODEL TRAIN CONSTRUCTION
             List<Recommendations> result = new List<Recommendations>();
             List<BasedOnRequestInput> modelTrain = new List<BasedOnRequestInput>();
-            List<Movies> movies = await _context.Movies.ToListAsync();
+            List<Movies> movies = new List<Movies>();
 
-            foreach (var movie in movies)
+            using (var ctx = await _context.CreateDbContextAsync())
             {
-                List<Reviews> reviews = await _context.Reviews.Where(r => r.MovieId == movie.MovieId).ToListAsync();
-                reviews.ForEach(review =>
+                movies = await ctx.Movies.ToListAsync();
+
+                foreach (var movie in movies)
                 {
-                    bool? sentiment = null;
-                    List<Recommendations> recommendations = _context.Recommendations.Where(r => r.MovieId == movie.MovieId).ToList();
-                    string WhatClientWantsVar = string.Empty;
-                    string HowClientFeelsVar = string.Empty;
-                    recommedations.ForEach(recommendation =>
+                    List<Reviews> reviews = await ctx.Reviews.Where(r => r.MovieId == movie.MovieId).ToListAsync();
+                    reviews.ForEach(review =>
                     {
-                        var request = _context.Requests.Where(r => r.RequestId == recommendation.RequestId).FirstOrDefault();
-                        var session = _context.Sessions.Where(s => s.SessionId == request.SessionId).FirstOrDefault();
-                        if(request != null && session != null)
+                        bool? sentiment = null;
+                        List<Recommendations> recommendations = ctx.Recommendations.Where(r => r.MovieId == movie.MovieId).ToList();
+                        string WhatClientWantsVar = string.Empty;
+                        string HowClientFeelsVar = string.Empty;
+                        recommedations.ForEach(recommendation =>
                         {
-                            if (string.Equals(session.UserId, review.UserId))
+                            var request = ctx.Requests.Where(r => r.RequestId == recommendation.RequestId).FirstOrDefault();
+                            var session = ctx.Sessions.Where(s => s.SessionId == request.SessionId).FirstOrDefault();
+                            if (request != null && session != null)
                             {
-                                WhatClientWantsVar = request.WhatClientWants;
-                                HowClientFeelsVar = request.HowClientFeels;
-                                sentiment = request.Sentiment;
+                                if (string.Equals(session.UserId, review.UserId))
+                                {
+                                    WhatClientWantsVar = request.WhatClientWants;
+                                    HowClientFeelsVar = request.HowClientFeels;
+                                    sentiment = request.Sentiment;
+                                }
                             }
+                        });
+                        if (sentiment != null)
+                        {
+                            BasedOnRequestInput model = new BasedOnRequestInput();
+                            model.UserId = review.UserId;
+                            model.MovieId = movie.MovieId;
+                            model.MovieTitle = movie.MovieTitle;
+                            model.WhatClientWants = WhatClientWantsVar;
+                            model.HowClientFeels = HowClientFeelsVar;
+                            model.Label1 = review.Vote;
+                            model.Label2 = (bool)sentiment;
+                            modelTrain.Add(model);
                         }
                     });
-                    if (sentiment != null)
-                    {
-                        BasedOnRequestInput model = new BasedOnRequestInput();
-                        model.UserId = review.UserId;
-                        model.MovieId = movie.MovieId;
-                        model.MovieTitle = movie.MovieTitle;
-                        model.WhatClientWants = WhatClientWantsVar;
-                        model.HowClientFeels = HowClientFeelsVar;
-                        model.Label1 = review.Vote;
-                        model.Label2 = (bool)sentiment;
-                        modelTrain.Add(model);
-                    }
-                });
+                }
             }
 
             MLContext mlContext = new MLContext();
@@ -518,62 +555,66 @@ namespace MAServices.Services.AI
 
             var predictionEngine = mlContext.Model.CreatePredictionEngine<BasedOnRequestInput, BasedOnRequestOutput>(model);
 
-                //RESULTS CONTRUCTION
+            //RESULTS CONTRUCTION
 
-            foreach (var movie in recommedations)
+            using (var ctx = await _context.CreateDbContextAsync())
             {
-                var inputCase = new BasedOnRequestInput 
-                { 
-                    UserId = user.Id, 
-                    MovieId = movie.MovieId, 
-                    MovieTitle = movie.MovieTitle,
-                    WhatClientWants = requestUser.WhatClientWants,
-                    HowClientFeels = requestUser.HowClientFeels,
-                    Label2 = sentiment.Prediction
-                };
-                var movieRatingPrediction = predictionEngine.Predict(inputCase);
-                if (movieRatingPrediction.Score >= Int32.Parse(_config["Ai:Recommendation:MinimumScoreAi"]))
+                foreach (var movie in recommedations)
                 {
-                    var userDTO = new UsersDTO();
-                    var movieDTO = new MoviesDTO();
-                    var recommendation = new Recommendations();
-                    recommendation.MovieId = movie.MovieId;
-                    recommendation.MovieTitle = movie.MovieTitle;
-                    recommendation.Name = user.Name;
-                    recommendation.LastName = user.LastName;
-                    recommendation.Email = user.Email;
-                    recommendation.AiScore = double.IsNaN(movieRatingPrediction.Score) ? 0 : movieRatingPrediction.Score;
-                    recommendation.See = false;
-                    recommendation.RequestId = requestUser.RequestId;
-                    recommendation.Request = requestUser;
-                    result.Add(recommendation);
-                    await _context.Recommendations.AddAsync(recommendation);
+                    var inputCase = new BasedOnRequestInput
+                    {
+                        UserId = user.Id,
+                        MovieId = movie.MovieId,
+                        MovieTitle = movie.MovieTitle,
+                        WhatClientWants = requestUser.WhatClientWants,
+                        HowClientFeels = requestUser.HowClientFeels,
+                        Label2 = sentiment.Prediction
+                    };
+                    var movieRatingPrediction = predictionEngine.Predict(inputCase);
+                    if (movieRatingPrediction.Score >= Int32.Parse(_config["Ai:Recommendation:MinimumScoreAi"]))
+                    {
+                        var userDTO = new UsersDTO();
+                        var movieDTO = new MoviesDTO();
+                        var recommendation = new Recommendations();
+                        recommendation.MovieId = movie.MovieId;
+                        recommendation.MovieTitle = movie.MovieTitle;
+                        recommendation.Name = user.Name;
+                        recommendation.LastName = user.LastName;
+                        recommendation.Email = user.Email;
+                        recommendation.AiScore = double.IsNaN(movieRatingPrediction.Score) ? 0 : movieRatingPrediction.Score;
+                        recommendation.See = false;
+                        recommendation.RequestId = requestUser.RequestId;
+                        recommendation.Request = requestUser;
+                        result.Add(recommendation);
+                        await ctx.Recommendations.AddAsync(recommendation);
+                    }
                 }
+                await ctx.SaveChangesAsync();
             }
-            await _context.SaveChangesAsync();
+
             return result;
         }
         
         private async Task<Sessions> SessionsManager(Users user, Requests? request)
         {
             var userSession = new Sessions();
-            if (_context.Sessions.Any(s => s.DateTimeCreation.Date == DateTime.UtcNow.Date && string.Equals(s.UserId, user.Id)))
+            using (var ctx = await _context.CreateDbContextAsync())
             {
-                userSession = await _context.Sessions.Where(s => string.Equals(user.Id, s.UserId) && s.DateTimeCreation.Date == DateTime.UtcNow.Date).FirstOrDefaultAsync();
-                if (request != null)
-                    userSession.RequestList.Add(request);
-                _context.Sessions.Update(userSession);
+                if (ctx.Sessions.Any(s => s.DateTimeCreation.Date == DateTime.UtcNow.Date && string.Equals(s.UserId, user.Id)))
+                {
+                    userSession = await ctx.Sessions.Where(s => string.Equals(user.Id, s.UserId) && s.DateTimeCreation.Date == DateTime.UtcNow.Date).FirstOrDefaultAsync();
+                    if (request != null)
+                        userSession.RequestList.Add(request);
+                    ctx.Sessions.Update(userSession);
+                }
+                else
+                {
+                    userSession.UserId = user.Id;
+                    userSession.DateTimeCreation = DateTime.Now;
+                    ctx.Sessions.Add(userSession);
+                }
+            await ctx.SaveChangesAsync();
             }
-            else
-            {
-                userSession.UserId = user.Id;
-                userSession.User = user;
-                userSession.DateTimeCreation = DateTime.Now;                
-                _context.Sessions.Add(userSession);
-                user.SessionsList.Add(userSession);
-                _context.Users.Update(user);
-            }
-            await _context.SaveChangesAsync();
             return userSession;
         }
 
@@ -588,93 +629,74 @@ namespace MAServices.Services.AI
                 Session = sessionUser,
                 DateTimeRequest = DateTime.Now,
             };
-            await _context.Requests.AddAsync(newRequest);
-            await _context.SaveChangesAsync();
+
+            using (var ctx = await _context.CreateDbContextAsync())
+            {
+                await ctx.Requests.AddAsync(newRequest);
+                await ctx.SaveChangesAsync();
+            }
+
             return newRequest;
         }
 
         private async Task<Requests> UpdateRequet(Requests actualRequest, List<Recommendations> listRecommendations)
         {
-            actualRequest.RecommendationsList = listRecommendations;
-            _context.Requests.Update(actualRequest);
-            await _context.SaveChangesAsync();
+            using (var ctx = await _context.CreateDbContextAsync())
+            {
+                actualRequest.RecommendationsList = listRecommendations;
+                ctx.Requests.Update(actualRequest);
+                await ctx.SaveChangesAsync();
+            }
             return actualRequest;
         }
 
-        private async Task<List<Recommendations>?> UserCoerenceOnTrigger(Users user, NewRequestDTO? request)
+        private async Task SaveRecommendations(List<Recommendations> recommendations, Requests request)
         {
-            var sessions = await _context.Sessions.Where(s => string.Equals(user.Id, s.UserId)).ToListAsync();
-            int timeOut = 0;
-            List<Recommendations> resultRecoms = new List<Recommendations>();
-            if (sessions == null || sessions.Count == 0) return null;
-            foreach(var session in sessions)
+            using (var ctx = await _context.CreateDbContextAsync())
             {
-                var requestList = await _context.Requests.Where(r => r.SessionId == session.SessionId).ToListAsync();
-                foreach (var requestSession in requestList)
+                recommendations.ForEach(async recommendation =>
                 {
-                    var recomList = await _context.Recommendations.Where(r => r.RequestId == requestSession.RequestId).ToListAsync();
-                    if (request == null || (!string.Equals(requestSession.HowClientFeels, request.HowClientFeels) && !string.Equals(requestSession.WhatClientWants, request.WhatClientWants) && session.DateTimeCreation == DateTime.Now))
-                    {
-                        foreach (var rec in recomList)
-                        {
-                            if (rec.See != true)
-                            {
-                                if (resultRecoms.Count == 0 || resultRecoms.Any(r => r.MovieId != rec.MovieId)) resultRecoms.Add(rec);                                
-                                var movie = await _context.Movies.Where(m => m.MovieId == rec.MovieId).FirstOrDefaultAsync();
-                                if (movie == null) break;
-                                if(timeOut < Int32.MaxValue) timeOut =+ timeOut + movie.MovieLifeSpan;
-                            }                            
-                        }
-                    }
-                }
+                    recommendation.RequestId = request.RequestId;
+                    recommendation.Request = request;
+                    await ctx.Recommendations.AddAsync(recommendation);
+                });
+                await ctx.SaveChangesAsync();
             }
-            int res = timeOut / 1440;
-            if (res > 1) return resultRecoms;
-            else return null;            
         }
 
-        private async Task<bool> RecommendationServiceCoerence(List<Recommendations> recommendations, Sessions session, Requests requests)
+        private async Task<List<Recommendations>> RecommendationServiceCoerence(List<Recommendations> recommendations, Users user, NewRequestDTO requestUser)
         {
-            var user = await this._userManager.FindByIdAsync(session.UserId);
-            if (user == null) throw new NullReferenceException();
-            var recomList = await _context.Recommendations.ToListAsync();
-            var recomInnerJoinList = from recommendation in recommendations
-                                     join recom in recomList on recommendation.MovieId equals recom.MovieId
-                                     where recom.Email == user.Email
-                                     select new
-                                     {
-                                         recom.RecommendationId,
-                                         recom.MovieId,
-                                         recom.MovieTitle,
-                                         recom.Name,
-                                         recom.LastName,
-                                         recom.Email,
-                                         recom.AiScore,
-                                         recom.See,
-                                         recom.RequestId,
-                                         recom.Request
-                                     };
-            if (recomInnerJoinList != null && recomInnerJoinList.Count() > 0)
+            using (var ctx = await _context.CreateDbContextAsync())
             {
-                recommendations.ForEach(recom =>
+                List<Recommendations> results = new List<Recommendations>();
+                var recoms = await ctx.Recommendations
+                                     .Where(r => string.Equals(r.Email, user.Email)).ToListAsync();
+                if (recoms.Count == 0 || !(recoms.Any(r => recommendations.Any(x => x.MovieId == r.MovieId))))
                 {
-                    _context.Recommendations.Attach(recom);
-                    _context.Recommendations.Remove(recom);
-                });
-                //Delete request
-                _context.Requests.Attach(requests);
-                _context.Requests.Remove(requests);
-
-                //Delete Session 
-                _context.Sessions.Attach(session);
-                _context.Sessions.Remove(session);
-
-                await _context.SaveChangesAsync();
-                return true;
-            }
-            else
-            {
-                return false;
+                    Sessions session = await SessionsManager(user, null);
+                    Requests request = await CreateRequest(requestUser, session);
+                    await SaveRecommendations(recommendations, request);
+                    request = await UpdateRequet(request, recommendations);
+                    await SessionsManager(user, request);
+                    results = recommendations;
+                }
+                else
+                {
+                    var recomListNotSeen = await ctx.Recommendations
+                                           .Where(r => string.Equals(r.Email, user.Email) &&
+                                           r.See == false).ToListAsync();
+                    if(recomListNotSeen.Count > 0)
+                    {
+                        for (int i = 0; i < Convert.ToInt32(_config["Ai:Recommendation:MaxLentghRecommendationMovies"]); i++)
+                        {
+                            if(recomListNotSeen.Count() >= i)
+                            {
+                                results.Add(recomListNotSeen[i]);
+                            }
+                        }                
+                    }
+                }
+                return results;
             }
         }
 

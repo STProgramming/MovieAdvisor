@@ -50,7 +50,7 @@ export class MoviesComponent {
 
   calculatePages(){
     var result = this.MoviesData.moviesCount / this.elementsViewedSelection;
-    this.totalPages = Math.floor(result);
+    this.totalPages = Math.ceil(result);
   }
 
   inputElements(event: any){

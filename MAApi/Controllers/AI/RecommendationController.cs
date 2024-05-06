@@ -40,14 +40,15 @@ namespace MAApi.Controllers.AI
         [HttpPost]
         public async Task<IActionResult> Post([FromBody]NewRequestDTO requestUser)
         {
-            try
-            {
-                return Ok(await _recommendationServices.RecommendationsBasedOnRequest(HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value, requestUser));
-            }
-            catch (NullReferenceException)
-            {
-                return NotFound();
-            }
+            //try
+            //{
+            //    return Ok(await _recommendationServices.RecommendationsBasedOnRequest(HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value, requestUser));
+            //}
+            //catch (NullReferenceException)
+            //{
+            //    return NotFound();
+            //}
+            throw new NotImplementedException();
         }
     }
 }

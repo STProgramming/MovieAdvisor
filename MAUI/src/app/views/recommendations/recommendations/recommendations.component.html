@@ -1,10 +1,12 @@
 <div class="container mt-5">
     <h2 class="text-center">Movie Advisor ti consiglia i film</h2>
     <hr>
-    <div *ngIf="isLoading">
+    <ng-container *ngIf="isLoadingSession">
         <app-loader></app-loader>
-    </div>
-    <app-sessions-viewer></app-sessions-viewer>
+    </ng-container>
+    <ng-container>
+        <app-sessions-viewer [sessions]="SessionsData"></app-sessions-viewer>
+    </ng-container>   
     <p>
         I nostri suggerimenti sono generati in base alle tue recensioni.
         Puoi chiederci cosa vorresti vedere anche in base alla descrizione del film,
@@ -12,8 +14,11 @@
         Sapremo consigliarti i miglior film.
     </p>
     <hr>
-    <div *ngIf="RecommendationsData !== null || RecommendationsData.length > 0">
-        <div *ngIf="byRequest || byUser">
+    <ng-container *ngIf="isLoading">
+        <app-loader></app-loader>
+    </ng-container>
+    <div *ngIf="response">
+        <div *ngIf="RecommendationsData !== null || RecommendationsData.length > 0">
             <div *ngFor="let recom of RecommendationsData">
                 <app-recommendations-viewew [recommendation]="recom"></app-recommendations-viewew>
             </div>
@@ -22,25 +27,21 @@
             <button class="btn btn-primary" (click)="resetComponent()">Nuova richiesta</button>
         </div>
     </div>
-    <div *ngIf="RecommendationsData == null || RecommendationsData.length == 0">
-        <div *ngIf="byRequest || byUser">            
+    <div *ngIf="response">
+        <div *ngIf="RecommendationsData == null || RecommendationsData.length == 0">            
             <p>Se non hai visualizzato i consigli vuoldire che non ti conosciamo abbastanza, ti consigliamo di contianuare a recensire</p>
             <button class="btn btn-primary" (click)="goNewReview()">Nuova recensione</button>
         </div>
     </div>
     <div class="row" *ngIf="byRequest == false && byUser == false">
-        <div *ngIf="RecommendationsData == null || RecommendationsData.length == 0">
-            <div class="col-md-6">
-                <div class="d-grid gap-2">
-                    <button class="btn btn-primary" (click)="onByUser()">Consigliami</button>
-                </div>
+        <ng-container *ngIf="RecommendationsData == null || RecommendationsData.length == 0">
+            <div class="col-md-4">
+                <button class="btn btn-primary" (click)="onByUser()">Consigliami</button>
             </div>
-            <div class="col-md-6">
-                <div class="d-grid gap-2">
-                    <button class="btn btn-primary" (click)="onByRequest()">Ti faccio una richiesta</button>
-                </div>
+            <div class="col-md-4">
+                <button class="btn btn-primary" (click)="onByRequest()">Ti faccio una richiesta</button>
             </div>
-        </div>
+        </ng-container>
     </div>
     <div *ngIf="byRequest">
         <div *ngIf="RecommendationsData == null || RecommendationsData.length == 0">

@@ -74,6 +74,7 @@ export class NewUserComponent {
       },
       error: (error) => {
         this.toastr.error('Sembra ci sia stato un problema, ti invitiamo a riprovare più tardi', 'Ops.. qualcosa è andato storto');
+        this.isLoading = false;
       },
       complete : () => {
         this.isLoading = false;

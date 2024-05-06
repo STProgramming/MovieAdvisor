@@ -67,7 +67,7 @@ builder.Services.AddSwaggerGen(c =>
 
 #region CONNECTION TO DATABASE
 
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
+builder.Services.AddDbContextFactory<ApplicationDbContext>(options =>
     options.UseSqlServer(
         builder.Configuration.GetConnectionString("MainDbConnection")
         )

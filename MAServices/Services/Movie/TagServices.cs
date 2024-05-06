@@ -10,11 +10,11 @@ namespace MAServices.Services.Movie
 {
     public class TagServices : ITagServices
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IDbContextFactory<ApplicationDbContext> _context;
 
         private readonly IObjectsMapperDtoServices _mapperService;
 
-        public TagServices(ApplicationDbContext context,
+        public TagServices(IDbContextFactory<ApplicationDbContext> context,
             IObjectsMapperDtoServices mapperDtoService)
         {
             _context = context;
@@ -22,27 +22,36 @@ namespace MAServices.Services.Movie
         }
         public async Task<TagsDTO> GetTag(int tagId)
         {
-            return _mapperService.TagMapperDtoService(await _context.Tags.FindAsync(tagId));
+            using (var ctx = await _context.CreateDbContextAsync())
+            {
+                return _mapperService.TagMapperDtoService(await ctx.Tags.FindAsync(tagId));
+            }
         }
 
         public async Task<List<TagsDTO>> GetAllTags()
         {
-            return _mapperService.TagMapperDtoListService(await _context.Tags.OrderBy(x => x).ToListAsync());
+            using (var ctx = await _context.CreateDbContextAsync())
+            {
+                return _mapperService.TagMapperDtoListService(await ctx.Tags.OrderBy(x => x).ToListAsync());
+            }
         }
 
         public async Task CreateAllTags()
         {
-            foreach (string name in Enum.GetNames(typeof(EMovieTags)))
+            using (var ctx = await _context.CreateDbContextAsync())
             {
-                if (!_context.Tags.Any(t => string.Equals(t.TagName, name, StringComparison.OrdinalIgnoreCase)))
+                foreach (string name in Enum.GetNames(typeof(EMovieTags)))
                 {
-                    Tags tag = new Tags
+                    if (!ctx.Tags.Any(t => string.Equals(t.TagName, name)))
                     {
-                        TagName = name,
-                    };
+                        Tags tag = new Tags
+                        {
+                            TagName = name,
+                        };
 
-                    await _context.Tags.AddAsync(tag);
-                    await _context.SaveChangesAsync();
+                        await ctx.Tags.AddAsync(tag);
+                        await ctx.SaveChangesAsync();
+                    }
                 }
             }
         }

@@ -7,6 +7,6 @@ namespace MAContracts.Contracts.Services.AI
     {
         Task<List<RecommendationsDTO>> RecommendationsBasedOnReviews(string userId);
 
-        Task<List<RecommendationsDTO>> RecommendationsBasedOnRequest(string userId, NewRequestDTO requestUser);
+        //Task<List<RecommendationsDTO>> RecommendationsBasedOnRequest(string userId, NewRequestDTO requestUser);
     }
 }

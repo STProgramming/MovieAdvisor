@@ -11,14 +11,14 @@ namespace MAServices.Services.AI
 {
     public class SessionServices : ISessionServices
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IDbContextFactory<ApplicationDbContext> _context;
 
         private readonly UserManager<Users> _userManager;
 
         private readonly IObjectsMapperDtoServices _dtoService;
 
         public SessionServices(
-            ApplicationDbContext context,
+            IDbContextFactory<ApplicationDbContext> context,
             UserManager<Users> userManager,
             IObjectsMapperDtoServices objectsMapperDtoServices
             )
@@ -30,27 +30,30 @@ namespace MAServices.Services.AI
 
         public async Task<IList<SessionsDTO>> GetSessionsByUser(string userId)
         {
-            var user = await _userManager.FindByIdAsync(userId);
-            if (user == null) throw new UnauthorizedAccessException();
-            List<Sessions> sessions = await _context.Sessions.Where(s => string.Equals(s.User.Id, userId)).ToListAsync();
-            List<SessionsDTO> resultDto = new List<SessionsDTO>();
-            foreach (var session in sessions)
+            using (var ctx = await _context.CreateDbContextAsync())
             {
-                List<Requests> reqOfSession = new List<Requests>();
-                reqOfSession = await _context.Requests.Where(r => r.SessionId == session.SessionId).ToListAsync();
-                if (reqOfSession.Count > 0) 
+                var user = await _userManager.FindByIdAsync(userId);
+                if (user == null) throw new UnauthorizedAccessException();
+                List<Sessions> sessions = await ctx.Sessions.Where(s => string.Equals(s.UserId, userId)).ToListAsync();
+                List<SessionsDTO> resultDto = new List<SessionsDTO>();
+                foreach (var session in sessions)
                 {
-                    foreach(var request in reqOfSession)
+                    List<Requests> reqOfSession = new List<Requests>();
+                    reqOfSession = await ctx.Requests.Where(r => r.SessionId == session.SessionId).ToListAsync();
+                    if (reqOfSession.Count > 0)
                     {
-                        var recomForRequest = await _context.Recommendations.Where(r => r.RequestId == request.RequestId).ToListAsync();
-                        if(recomForRequest != null && recomForRequest.Count > 0)
+                        foreach (var request in reqOfSession)
                         {
-                            resultDto.Add(_dtoService.SessionMapperDtoService(session, reqOfSession, recomForRequest));
+                            var recomForRequest = await ctx.Recommendations.Where(r => r.RequestId == request.RequestId).ToListAsync();
+                            if (recomForRequest != null && recomForRequest.Count > 0)
+                            {
+                                resultDto.Add(_dtoService.SessionMapperDtoService(session, reqOfSession, recomForRequest));
+                            }
                         }
                     }
                 }
-            }    
-            return resultDto;
+                return resultDto;
+            }
         }
     }
 }

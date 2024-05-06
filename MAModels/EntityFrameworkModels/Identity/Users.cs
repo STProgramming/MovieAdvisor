@@ -24,11 +24,7 @@ namespace MAModels.EntityFrameworkModels.Identity
         [Required, NotNull]
         public string Gender {  get; set; } = string.Empty;
 
-        public List<Movies> MoviesList { get; set; } = new List<Movies>();
-
         public List<Reviews> ReviewsList { get; set; } = new List<Reviews>();
-
-        public List<Sessions> SessionsList { get; set; } = new List<Sessions>();
 
         public Users() { }
     }

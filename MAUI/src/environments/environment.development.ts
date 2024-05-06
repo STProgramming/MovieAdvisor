@@ -1,5 +1,5 @@
 export const environment = {
-    apiUrl: 'https://localhost:7075/api/',
+    apiUrl: 'https://localhost:44395/api/',
     gitHubApiUrl: 'https://api.github.com/repos/',
     gitOwnerRepo: 'STProgramming',
     emailDeveloper: 'stcorp@outlook.it',

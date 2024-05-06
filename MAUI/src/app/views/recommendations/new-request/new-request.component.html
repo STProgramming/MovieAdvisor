@@ -1,1 +1,37 @@
-<
+<div class="row">
+    <div class="col-md-12">
+        <ng-container *ngIf="counter == 0">
+            <p>
+                <b>{{questions[counter]}}</b>
+                <ng-container *ngIf="dataAnswers !== null">
+                    {{dataAnswers.whatClientWant}}
+                </ng-container>
+            </p>
+            <hr />
+        </ng-container>
+        <ng-container *ngIf="this.counter == 1">
+            <p>
+                <b>{{questions[counter]}}</b>
+                {{dataAnswers.howClientFeels}}
+            </p>
+            <hr />
+        </ng-container>
+    </div>
+</div>
+<div class="row">    
+    <form [formGroup]="answers" (ngSubmit)="submitAnswer(answers)">
+        <ng-container *ngIf="this.counter == 0">
+            <div class="form-group col-md-8">
+                <input class="form-control" type="text" formControlName="whatWant"/>
+            </div>
+        </ng-container>
+        <ng-container *ngIf="this.counter == 1">
+            <div class="form-group col-md-8">
+                <input class="form-control" type="text" formControlName="howFeel"/>
+            </div>
+        </ng-container>
+        <div class="col-md-2">
+            <button class="btn btn-primary btn-lg" type="submit" [disabled]="answers.invalid">Invia</button>
+        </div>
+    </form>
+</div>
