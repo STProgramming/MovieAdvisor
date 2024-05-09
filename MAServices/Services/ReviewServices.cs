@@ -139,20 +139,17 @@ namespace MAServices.Services
                     recommendation.See = true;
                     ctx.Recommendations.Update(recommendation);
                 }
-
                 Reviews newReview = new Reviews
                 {
                     UserId = user.Id,
+                    User = user,
                     MovieId = movie.MovieId,
                     Movie = movie,
-                    User = user,
                     Vote = newReviewDto.Vote,
                     DescriptionVote = newReviewDto.DescriptionVote,
                     DateTimeVote = newReviewDto.When == null ? DateTime.Now : Convert.ToDateTime(newReviewDto.When)
                 };
                 await ctx.Reviews.AddAsync(newReview);
-                user.ReviewsList.Add(newReview);
-                ctx.Movies.Update(movie);
                 await ctx.SaveChangesAsync();
             }
         }

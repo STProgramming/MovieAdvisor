@@ -17,8 +17,9 @@ namespace MAModels.EntityFrameworkModels.Movie
         public string ImageExtension { get; set; } = null!;
 
         [Required]
-        public byte[] ImageData { get; set; }
+        public byte[] ImageData { get; set; } = null!;
 
+        [Required]
         public int MovieId { get; set; }
 
         public Movies Movie { get; set; } = null!;

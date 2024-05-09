@@ -21,16 +21,14 @@ namespace MAModels.EntityFrameworkModels
         public DateTime DateTimeVote { get; set; }
 
         [Required]
-        [ForeignKey(nameof(Users))]
-        public string UserId { get; set; }
+        public string UserId { get; set; } = null!;
 
         public Users User { get; set; } = null!;
 
         [Required]
-        [ForeignKey(nameof(Movies))]
         public int MovieId { get; set; }
 
-        public Movies Movie { get; set; } = null!;
+        public Movies Movie {  get; set; } = null!;
 
         public Reviews() { }
     }

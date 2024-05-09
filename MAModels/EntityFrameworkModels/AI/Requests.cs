@@ -15,12 +15,15 @@ namespace MAModels.EntityFrameworkModels.AI
 
         public bool? Sentiment { get; set; }
 
+        public DateTime DateTimeRequest { get; set; }
+
+        [Required]
         public int SessionId { get; set; }
 
         public Sessions Session { get; set; } = new Sessions();
 
-        public List<Recommendations> RecommendationsList { get; set; } = new List<Recommendations>();
+        public virtual List<Recommendations> RecommendationsList { get; set; } = new List<Recommendations>();
 
-        public DateTime DateTimeRequest { get; set; }
+        public Requests() { }
     }
 }

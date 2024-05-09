@@ -33,7 +33,8 @@ namespace MAModels.EntityFrameworkModels.AI
         [Required]
         public int RequestId { get; set; }
 
-        public Requests Request { get; set; }
+        public Requests Request { get; set; } = null!;
 
+        public Recommendations() { }
     }
 }

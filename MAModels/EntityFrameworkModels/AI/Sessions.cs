@@ -15,6 +15,8 @@ namespace MAModels.EntityFrameworkModels.AI
         [Required]
         public string UserId { get; set; } = string.Empty;
 
+        public Users User { get; set; } = null!;
+
         public DateTime DateTimeCreation { get; set; }
     }
 }

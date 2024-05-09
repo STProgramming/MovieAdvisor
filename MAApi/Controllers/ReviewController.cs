@@ -60,7 +60,7 @@ namespace MAApi.Controllers
             {
                 return NotFound();
             }
-            catch (ConflictException)
+            catch (ConflictException ex)
             {
                 return StatusCode((int)HttpStatusCode.Conflict);
             }

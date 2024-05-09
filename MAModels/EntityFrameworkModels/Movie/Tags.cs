@@ -13,7 +13,7 @@ namespace MAModels.EntityFrameworkModels.Movie
         [Required]
         public string TagName { get; set; } = null!;
 
-        public List<Movies> MoviesList { get; set; } = new List<Movies>();
+        public virtual List<Movies> MoviesList { get; set; } = new List<Movies>();
 
         public Tags() { }
     }
